@@ -50,7 +50,7 @@ public:
 	ID3D11Device* getDevice();
 	ID3D11DeviceContext* getDeviceContext();
 
-	void fillCBuffers(DirectX::XMMATRIX modelWorldMatrix, const Camera &gameCamera);
+	void fillCBuffers(const DirectX::XMMATRIX &modelWorldMatrix, const Camera &gameCamera);
 	void drawObject(Model &toDraw);
 };
 

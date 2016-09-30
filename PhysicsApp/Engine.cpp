@@ -326,7 +326,7 @@ ID3D11DeviceContext* Engine::getDeviceContext()
 	return this->gDeviceContext;
 }
 
-void Engine::fillCBuffers(DirectX::XMMATRIX modelWorldMatrix, const Camera &gameCamera)
+void Engine::fillCBuffers(const DirectX::XMMATRIX &modelWorldMatrix, const Camera &gameCamera)
 {
 	HRESULT result;
 
