@@ -31,7 +31,7 @@ RawBlameHistory     253 lines (206 sloc)  4.1 KB
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
-x64/
+x64/*
 x86/
 bld/
 [Bb]in/
