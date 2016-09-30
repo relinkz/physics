@@ -1,6 +1,7 @@
 #pragma once
 #include "GlobalData.h"
 #include <vector>
+#include "Parser.h"
 
 /*
 The model class has everything in local space
@@ -20,6 +21,8 @@ private:
 
 	ID3D11Buffer* vertexBuffer;
 	
+	int nrOfVertex;
+
 	float passiveSpinning;
 	bool isSpinning;
 	
@@ -33,6 +36,8 @@ public:
 	virtual ~Model();
 
 	void generateTriangle();
+	void initialize(ID3D11Device* gDevice, ID3D11DeviceContext* gDeviceContext, const DirectX::XMFLOAT3& pos);
+
 	void initializeTriangle(ID3D11Device* gDevice, ID3D11DeviceContext* gDeviceContext, const DirectX::XMFLOAT3& pos);
 
 	ID3D11Buffer* getVertexBuffer() const;
@@ -40,6 +45,8 @@ public:
 
 	void setUniformScale(const float& scalar);
 
+	int getNrOfVertex() const;
+	
 	//rotation functions
 	void rotateModelY(const float& degree);
 	void spinnY(const float& degree);

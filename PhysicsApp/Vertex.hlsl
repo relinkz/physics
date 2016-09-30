@@ -17,6 +17,7 @@ struct VS_OUT
 	float4 Pos		: SV_POSITION;
 	float3 Normal	: NORMAL;
 	float2 UV		: TEXCOORD;
+	float4 WorldPos : POSITION;
 };
 //-----------------------------------------------------------------------------------------
 // VertexShader: VSScene
@@ -31,6 +32,10 @@ VS_OUT VS_main(VS_IN input)
 
 	//transform to world
 	output.Pos = mul(output.Pos, worldMatrix);
+	output.WorldPos = output.Pos;
+
+	//transform the normal according to the world
+	output.Normal = mul(output.Normal, worldMatrix);
 	//relative to camera
 	output.Pos = mul(output.Pos, viewMatrix);
 	//add perspective

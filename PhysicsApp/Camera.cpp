@@ -2,7 +2,7 @@
 
 Camera::Camera()
 {
-	this->position	= DirectX::XMLoadFloat3(&(DirectX::XMFLOAT3(0.0f, 0.0f, -2.0f)));
+	this->position	= DirectX::XMLoadFloat3(&(DirectX::XMFLOAT3(0.0f, 2.0f, -2.0f)));
 	this->target	= DirectX::XMLoadFloat3(&(DirectX::XMFLOAT3(0.0f, 0.0f, 1.0f)));
 	this->upVector	= DirectX::XMLoadFloat3(&(DirectX::XMFLOAT3(0.0f, 1.0f, 0.0f)));
 }

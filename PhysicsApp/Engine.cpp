@@ -387,6 +387,6 @@ void Engine::drawObject(Model &toDraw)
 
 	this->gDeviceContext->IASetVertexBuffers(0, 1, &vBuffer, &stride, &offset);
 
-	this->gDeviceContext->Draw(3, 0);
+	this->gDeviceContext->Draw(toDraw.getNrOfVertex(), 0);
 	HRESULT result = this->gSwapChain->Present(0, 0);
 }
