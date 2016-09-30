@@ -16,7 +16,6 @@ DirectX::XMMATRIX Camera::getViewMatrix() const
 	DirectX::XMMATRIX toReturn;
 	toReturn = DirectX::XMMatrixLookAtLH(this->position, this->target, this->upVector);
 	return DirectX::XMMatrixTranspose(toReturn);
-	//return toReturn;
 }
 
 DirectX::XMMATRIX Camera::getProjectionMatrix() const
@@ -24,7 +23,6 @@ DirectX::XMMATRIX Camera::getProjectionMatrix() const
 	DirectX::XMMATRIX toReturn;
 	toReturn = DirectX::XMMatrixPerspectiveFovLH(3.14f*0.45f, float(CLIENT_WIDTH) / float(CLIENT_HEIGHT), 0.5f, 20.0f);
 	return DirectX::XMMatrixTranspose(toReturn);
-	//return toReturn;
 }
 
 DirectX::XMMATRIX Camera::getOrthogMatrix() const
@@ -32,5 +30,4 @@ DirectX::XMMATRIX Camera::getOrthogMatrix() const
 	DirectX::XMMATRIX toReturn;
 	toReturn = DirectX::XMMatrixOrthographicLH(CLIENT_WIDTH, CLIENT_HEIGHT, 0.5f, 20.0f);
 	return DirectX::XMMatrixTranspose(toReturn);
-	//return toReturn;
 }

@@ -221,10 +221,11 @@ bool Engine::initialize(HWND* window)
 	D3D11_INPUT_ELEMENT_DESC desc1[] =
 	{
 		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		{ "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 }
+		{ "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0 }
 	};
 
-	result = gDevice->CreateInputLayout(desc1, 2, pVS->GetBufferPointer(), pVS->GetBufferSize(), &this->inputLayout);
+	result = gDevice->CreateInputLayout(desc1, 3, pVS->GetBufferPointer(), pVS->GetBufferSize(), &this->inputLayout);
 	pVS->Release();
 
 	ID3DBlob* pPS = nullptr;
@@ -378,7 +379,7 @@ void Engine::drawObject(Model &toDraw)
 	this->gDeviceContext->PSSetShader(this->pixelShader, nullptr, 0);
 
 
-	UINT stride = sizeof(Vertex1);
+	UINT stride = sizeof(Vertex2);
 	UINT offset = 0;
 
 	ID3D11Buffer* vBuffer= nullptr;

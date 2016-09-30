@@ -27,19 +27,22 @@ Model::~Model()
 
 void Model::generateTriangle()
 {
-	Vertex1 v0;
-	Vertex1 v1;
-	Vertex1 v2;
+	Vertex2 v0;
+	Vertex2 v1;
+	Vertex2 v2;
 
 	//Vertex data
 	v0.Pos = DirectX::XMFLOAT3(0, 1, 0);
-	v0.Color = DirectX::XMFLOAT4(0, 1, 0, 1); //green
+	v0.Normal = DirectX::XMFLOAT3(0, 0, -1);
+	v0.UVs = DirectX::XMFLOAT2(0, 0);
 
 	v1.Pos = DirectX::XMFLOAT3(1, 0, 0);
-	v1.Color = DirectX::XMFLOAT4(1, 0, 0, 1); //red
+	v1.Normal = DirectX::XMFLOAT3(0, 0, -1);
+	v1.UVs = DirectX::XMFLOAT2(0, 0);
 
 	v2.Pos = DirectX::XMFLOAT3(-1, 0, 0);
-	v2.Color = DirectX::XMFLOAT4(0, 0, 1, 1); //blue
+	v2.Normal = DirectX::XMFLOAT3(0, 0, -1);
+	v2.UVs = DirectX::XMFLOAT2(0, 0);
 	
 	this->vertexData.push_back(v0);
 	this->vertexData.push_back(v1);
@@ -58,7 +61,7 @@ void Model::initializeTriangle(ID3D11Device * gDevice, ID3D11DeviceContext * gDe
 	DirectX::XMFLOAT3X3 worldCoord;
 	for (int i = 0; i < 3; i++)
 	{
-		Vertex1 temp;
+		Vertex2 temp;
 		temp = this->vertexData.at(i);
 
 		float x = 0.0f;
@@ -77,14 +80,14 @@ void Model::initializeTriangle(ID3D11Device * gDevice, ID3D11DeviceContext * gDe
 	this->translationMatrix = DirectX::XMMatrixTranslation(pos.x, pos.y, pos.z);
 
 	this->rotateModelY(0);
-	this->setUniformScale(1);
+	this->setUniformScale(0);
 
 	//this->spinnY(0.001);
-	this->uniformScaleIndication(0.0001);
+	//this->uniformScaleIndication(0.0001);
 
 	D3D11_BUFFER_DESC desc;
 	desc.Usage = D3D11_USAGE_DYNAMIC;
-	desc.ByteWidth = sizeof(Vertex1) * this->vertexData.size();
+	desc.ByteWidth = sizeof(Vertex2) * this->vertexData.size();
 	desc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 	desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 	desc.MiscFlags = false;
@@ -98,7 +101,7 @@ void Model::initializeTriangle(ID3D11Device * gDevice, ID3D11DeviceContext * gDe
 	//map the memory, so that it cant be used in gpu while we change it
 	result = gDeviceContext->Map(this->vertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedData);
 	//read the data and save them in a variable
-	Vertex1* v = reinterpret_cast<Vertex1*>(mappedData.pData);
+	Vertex2* v = reinterpret_cast<Vertex2*>(mappedData.pData);
 	UINT size = this->vertexData.size();
 
 	//finally write the data into the vertex buffer
@@ -147,6 +150,7 @@ void Model::uniformScaleIndication(const float & speed)
 
 void Model::update()
 {
+	scaleMatrix = DirectX::XMMatrixIdentity();
 	if (this->isSpinning == true)
 	{
 		this->rotationMatrix *= DirectX::XMMatrixRotationY(this->passiveSpinning);

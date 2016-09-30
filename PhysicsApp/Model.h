@@ -16,7 +16,7 @@ private:
 	DirectX::XMMATRIX rotationMatrix;
 	DirectX::XMMATRIX translationMatrix;
 
-	std::vector<Vertex1>vertexData;
+	std::vector<Vertex2>vertexData;
 
 	ID3D11Buffer* vertexBuffer;
 	
