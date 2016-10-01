@@ -26,7 +26,7 @@ float4 PS_main(VS_OUT input) : SV_Target
 	float angle = dot(input.Normal, lightVector);
 	angle = saturate(angle);
 
-	color = color * angle;
+	color = (color * angle) + color * 0.2f;
 
 
 	return float4(color, 0);

@@ -6,6 +6,12 @@
 #pragma comment (lib, "d3d11.lib")
 #pragma comment (lib, "d3dcompiler.lib")
 
+#define VK_W 0x57
+#define VK_A 0x41
+#define VK_S 0x53
+#define VK_D 0x44
+#define VK_R 0x52
+
 UINT const CLIENT_WIDTH = 640;
 UINT const CLIENT_HEIGHT = 480;
 
