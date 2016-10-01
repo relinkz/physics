@@ -6,6 +6,7 @@ Camera::Camera()
 	this->target	= DirectX::XMLoadFloat3(&(DirectX::XMFLOAT3(0.0f, 0.0f, 1.0f)));
 	this->upVector	= DirectX::XMLoadFloat3(&(DirectX::XMFLOAT3(0.0f, 1.0f, 0.0f)));
 	this->right		= DirectX::XMLoadFloat3(&(DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f)));
+	this->translation = DirectX::XMMatrixTranslationFromVector(this->position);
 }
 
 Camera::~Camera()
