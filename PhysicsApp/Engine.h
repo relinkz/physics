@@ -39,6 +39,8 @@ private:
 	ID3D11Buffer* matrixBuffer;
 
 	ID3D11InputLayout* inputLayout;
+
+	ID3D11ShaderResourceView *SRVtest;
 	
 public:
 	Engine();

@@ -1,3 +1,6 @@
+Texture2D txDiffuse : register(t0);
+SamplerState sampAni;
+
 struct VS_OUT
 {
 	float4 Pos		: SV_POSITION;
@@ -16,10 +19,10 @@ float4 PS_main(VS_OUT input) : SV_Target
 {
 	pointLight light;
 
-	light.Pos = float3(0.0f, 4.0f, 0.0f);
+	light.Pos = float3(0.0f, 0.0f, 0.0f);
 	light.Color = float3(1.0f, 1.0f, 1.0f);
 
-	float3 color = float3(1, 0, 0);
+	float4 color = float4(txDiffuse.Sample(sampAni, input.UV).xyz, 0.0f);
 
 
 	float4 lightVector = normalize(float4(light.Pos, 1)- input.worldPos);
@@ -29,5 +32,5 @@ float4 PS_main(VS_OUT input) : SV_Target
 	color = (color * angle) + color * 0.2f;
 
 
-	return float4(color, 0);
+	return color;
 };

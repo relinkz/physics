@@ -15,6 +15,15 @@
 UINT const CLIENT_WIDTH = 640;
 UINT const CLIENT_HEIGHT = 480;
 
+
+struct TargaHeader
+{
+	unsigned char data1[12];
+	unsigned short width;
+	unsigned short height;
+	unsigned char bpp;
+	unsigned char data2;
+};
 struct Vertex1
 {
 	DirectX::XMFLOAT3 Pos;

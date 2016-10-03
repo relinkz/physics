@@ -71,7 +71,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 				//engine.fillCBuffers(triangle.getWorldModelWithRotation(0.0001), gameCamera);
 				
 				//update camera with delta time
-				//gameCamera.Update(0.01f);
+				gameCamera.Update(0.01f);
 
 				//without rotation
 				triangle.update();

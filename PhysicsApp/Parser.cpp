@@ -2,12 +2,17 @@
 
 Parser::Parser()
 {
+	this->targaData = nullptr;
 	this->readFile();
 }
 
 Parser::~Parser()
 {
-
+	if (this->targaData != nullptr)
+	{
+		delete this->targaData;
+		this->targaData = nullptr;
+	}
 }
 
 void Parser::readFile()
@@ -160,4 +165,134 @@ int3 Parser::stringToInt3(string src)
 std::vector<Vertex2>& Parser::getRawData()
 {
 	return this->finalData;
+}
+
+ID3D11ShaderResourceView * Parser::LoadTarga(ID3D11Device* device, ID3D11DeviceContext* deviceContext, const char* filename)
+{
+
+	HRESULT hresult;
+
+	ID3D11Texture2D *texture = nullptr;
+	int error, bpp, imageSize, index, i, j, k;
+	FILE* filePtr;
+	unsigned int count;
+	TargaHeader targaFileHeader;
+	unsigned char* targaImage;
+	int height = 0;
+	int width= 0;
+
+	//Open the targa file for reading in binary
+	error = fopen_s(&filePtr, filename, "rb");
+	if (error != 0) {
+		//return false;
+	}
+
+	//Read in the file header
+	count = (unsigned int)fread(&targaFileHeader, sizeof(TargaHeader), 1, filePtr);
+	if (count != 1) {
+		//return false;
+	}
+
+	//Get the important information from the header
+	height = (int)targaFileHeader.height;
+	width = (int)targaFileHeader.width;
+	bpp = (int)targaFileHeader.bpp;
+
+	//Check that it is 32bit and not 24bit
+	if (bpp != 32) {
+		//return false;
+	}
+
+	//Calculate the size of the 32 bit image data
+	imageSize = width * height * 4;
+
+	//Allocate memory for the targa image data
+	targaImage = new unsigned char[imageSize];
+	if (!targaImage) {
+		//return false;
+	}
+
+	//Read in the targa image data
+	count = (unsigned int)fread(targaImage, 1, imageSize, filePtr);
+	if (count != imageSize) {
+		//return false;
+	}
+
+	//Close the file
+	error = fclose(filePtr);
+	if (error != 0) {
+		//return false;
+	}
+
+	//Allocate memory for the targa destination data
+	this->targaData = new unsigned char[imageSize];
+	if (!this->targaData) {
+		//return false;
+	}
+
+	//Initialize the index into the targa destination data
+	index = 0;
+
+	//Initialize the index into the targa image data
+	k = (width * height * 4) - (width * 4);
+
+	//Now copy the targa imaga data into the targa destionation array int he correct order since the targa format is stored upside down
+	for (j = 0; j < height; j++) {
+
+		for (i = 0; i < width; i++) {
+			this->targaData[index + 0] = targaImage[k + 2];	//Red
+			this->targaData[index + 1] = targaImage[k + 1];	//Green
+			this->targaData[index + 2] = targaImage[k + 0];	//Blue
+			this->targaData[index + 3] = targaImage[k + 3];	//Alpha
+
+															//Increment the indexes into the targa data
+			k += 4;
+			index += 4;
+		}
+
+		//Set the targa image index back to the preceding row at the begining of the coulum sinceits reding it in upside down
+		k -= (width * 8);
+	}
+
+	//Release the targa image data now that it was copied into the destination array
+	delete[] targaImage;
+	targaImage = nullptr;
+
+	D3D11_TEXTURE2D_DESC textureDesc;
+	D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
+
+	textureDesc.Width = width;
+	textureDesc.Height = height;
+	textureDesc.MipLevels = 1;
+	textureDesc.ArraySize = 1; 
+	textureDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM; //DXGI_FORMAT_R32G32B32A32_FLOAT
+	textureDesc.SampleDesc.Count = 1;
+	textureDesc.SampleDesc.Quality = 0;
+	textureDesc.Usage = D3D11_USAGE_DEFAULT;
+	textureDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+	textureDesc.CPUAccessFlags = 0;
+	textureDesc.MiscFlags = 0;
+
+	//Setup the shader resource view description
+	srvDesc.Format = textureDesc.Format;
+	srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+	srvDesc.Texture2D.MostDetailedMip = 0;
+	srvDesc.Texture2D.MipLevels = -1;
+
+	//D3D11_SUBRESOURCE_DATA data;
+	//memset(&data, 0, sizeof(data));
+	//data.SysMemPitch = NULL;
+	//data.SysMemPitch = (width * 4) * sizeof(unsigned char);
+
+	hresult = device->CreateTexture2D(&textureDesc, NULL, &texture);
+
+	int rowPitch = (width * 4) * sizeof(unsigned char);
+
+	deviceContext->UpdateSubresource(texture, 0, NULL, this->targaData, rowPitch, 0);
+
+	ID3D11ShaderResourceView *tempTextureView = nullptr;
+
+	hresult = device->CreateShaderResourceView(texture, &srvDesc, &tempTextureView);
+
+	return tempTextureView;
 }

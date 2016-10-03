@@ -245,6 +245,11 @@ bool Engine::initialize(HWND* window)
 
 	result = gDevice->CreatePixelShader(pPS->GetBufferPointer(), pPS->GetBufferSize(), nullptr, &this->pixelShader);
 
+	Parser parser = Parser();
+
+	this->SRVtest = parser.LoadTarga(this->gDevice, this->gDeviceContext, "PathfinderMap.tga");
+
+
 	return true;
 }
 
@@ -315,6 +320,11 @@ void Engine::shutdown()
 		this->gDevice->Release();
 		this->gDevice = nullptr;
 	}
+	if (this->SRVtest != nullptr)
+	{
+		this->SRVtest->Release();
+		this->SRVtest = nullptr;
+	}
 }
 
 ID3D11Device* Engine::getDevice()
@@ -369,6 +379,9 @@ void Engine::drawObject(Model &toDraw)
 	this->gDeviceContext->IASetInputLayout(this->inputLayout);
 	this->gDeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
+	//send ShaderResources to PixelShader
+	this->gDeviceContext->PSSetShaderResources(0, 1, &this->SRVtest);
+
 	//set vertex shader and data
 	this->gDeviceContext->VSSetShader(this->vertexShader, nullptr, 0);
 	this->gDeviceContext->VSSetConstantBuffers(0, 1, &this->matrixBuffer);
@@ -385,6 +398,7 @@ void Engine::drawObject(Model &toDraw)
 	ID3D11Buffer* vBuffer= nullptr;
 	vBuffer = toDraw.getVertexBuffer();
 
+	gDeviceContext->PSSetSamplers(0, 0, NULL);
 	this->gDeviceContext->IASetVertexBuffers(0, 1, &vBuffer, &stride, &offset);
 
 	this->gDeviceContext->Draw(toDraw.getNrOfVertex(), 0);
