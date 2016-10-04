@@ -119,7 +119,7 @@ HWND InitWindow(HINSTANCE hInstance)
 	
 	HWND handle = CreateWindow(
 		L"BasicWindow",			// CLASS, if does not exists fails!
-		L"Sebbe tries hard",		// Window name (title)
+		L"Group fab physics",		// Window name (title)
 		WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT,
 		CW_USEDEFAULT,
