@@ -75,7 +75,7 @@ void Model::initialize(ID3D11Device * gDevice, ID3D11DeviceContext * gDeviceCont
 
 	this->translationMatrix = DirectX::XMMatrixTranslation(pos.x, pos.y, pos.z);
 
-	this->spinnY(0.0005);
+	this->spinnY(0.0001);
 }
 
 void Model::initializeTriangle(ID3D11Device * gDevice, ID3D11DeviceContext * gDeviceContext, const DirectX::XMFLOAT3& pos)
