@@ -2,7 +2,7 @@
 #include <d3d11.h>
 #include <d3dcompiler.h>
 #include <DirectXMath.h>
-#include "Physics.h"
+#include <string>
 
 #pragma comment (lib, "d3d11.lib")
 #pragma comment (lib, "d3dcompiler.lib")
@@ -56,6 +56,12 @@ struct Vector3
 	float y;
 	float z;
 
+	Vector3()
+	{
+		this->x = 0;
+		this->y = 0;
+		this->z = 0;
+	}
 	Vector3(float x, float y, float z)
 	{
 		this->x = x;
