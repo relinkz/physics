@@ -29,8 +29,8 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 	//create camera
 	Camera gameCamera;
 
-	//create triangle
-	Model triangle;
+	//create model
+	Model earth;
 	
 	//timeClock
 	//GameTimer gameTime;
@@ -47,7 +47,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 		//initialize triangle
 		DirectX::XMFLOAT3 worldpos(0, 0, 2);
 		//triangle.initializeTriangle(engine.getDevice(), engine.getDeviceContext(), worldpos);	
-		triangle.initialize(engine.getDevice(), engine.getDeviceContext(), worldpos);
+		earth.initialize(engine.getDevice(), engine.getDeviceContext(), worldpos);
 		//gameTime.Reset();
 
 		// enter message loop, loop until the message WM_QUIT is received.
@@ -74,9 +74,9 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 				gameCamera.Update(0.01f);
 
 				//without rotation
-				triangle.update();
-				engine.fillCBuffers(triangle.getWorldModel(), gameCamera);
-				engine.drawObject(triangle);
+				earth.update();
+				engine.fillCBuffers(earth.getWorldModel(), gameCamera);
+				engine.drawObject(earth);
 			}
 		}
 
@@ -86,7 +86,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 		//release resourses
 		engine.shutdown();
 
-		triangle.shutdown();
+		earth.shutdown();
 
 
 	}
