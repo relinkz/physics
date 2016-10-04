@@ -153,6 +153,11 @@ DirectX::XMMATRIX Model::getWorldModel() const
 	return DirectX::XMMatrixTranspose(this->worldMatrix);
 }
 
+void Model::setTranslationMatrix(const Vector3 & pos)
+{
+	this->translationMatrix = DirectX::XMMatrixTranslation(pos.x, pos.y, pos.z);
+}
+
 void Model::setUniformScale(const float & scalar)
 {
 	this->scaleMatrix = DirectX::XMMatrixScaling(scalar, scalar, scalar);

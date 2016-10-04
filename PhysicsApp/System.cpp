@@ -3,7 +3,9 @@
 // Added some comments (Francisco)
 //--------------------------------------------------------------------------------------
 #include "Engine.h" //model, camera, globaldata included here
+#include "Body.h"
 #include <crtdbg.h.>
+#include <vector>
 
 HWND InitWindow(HINSTANCE hInstance);
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
@@ -26,12 +28,12 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 	//create engine
 	Engine engine;
 
-	//create camera
+	//create camera, no initialization needed
 	Camera gameCamera;
 
 	//create model
-	Model earth;
-	
+	Model planet;
+
 	//timeClock
 	//GameTimer gameTime;
 
@@ -44,10 +46,17 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 		//initialize engine
 		engine.initialize(&wndHandle);
 		
-		//initialize triangle
-		DirectX::XMFLOAT3 worldpos(0, 0, 2);
-		//triangle.initializeTriangle(engine.getDevice(), engine.getDeviceContext(), worldpos);	
-		earth.initialize(engine.getDevice(), engine.getDeviceContext(), worldpos);
+		//initialize model
+		planet.initialize(engine.getDevice(), engine.getDeviceContext(), DirectX::XMFLOAT3(0.0f ,0.0f , 2.0f));
+
+		//create bodies
+		std::vector<Body>bodies;
+
+		bodies.push_back(Body(&planet, Vector3(0, 0, 2)));
+		bodies.push_back(Body(&planet, Vector3(0, 0, 4)));
+
+
+
 		//gameTime.Reset();
 
 		// enter message loop, loop until the message WM_QUIT is received.
@@ -63,20 +72,26 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 			else
 			{
 				//gameTime.Tick();
-				
-				//update scene(mTimer.DeltaTime)
-				//float fps = gameTime.DeltaTime();
-				// update/render goes here
-				//with rotation
-				//engine.fillCBuffers(triangle.getWorldModelWithRotation(0.0001), gameCamera);
-				
+
 				//update camera with delta time
 				gameCamera.Update(0.01f);
 
 				//without rotation
-				earth.update();
-				engine.fillCBuffers(earth.getWorldModel(), gameCamera);
-				engine.drawObject(earth);
+				//for each body
+				//engine.clearFrame();
+
+				for (int i = 0; i < 2; i++)
+				{
+					//set wordpos
+					planet.setTranslationMatrix(bodies.at(i).getPosition());
+					planet.update();
+					engine.fillCBuffers(planet.getWorldModel(), gameCamera);
+					engine.drawObject(planet);
+					
+				}
+
+				engine.present();
+				engine.clearFrame();
 			}
 		}
 
@@ -86,7 +101,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 		//release resourses
 		engine.shutdown();
 
-		earth.shutdown();
+		planet.shutdown();
 
 
 	}

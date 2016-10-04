@@ -54,5 +54,8 @@ public:
 
 	void fillCBuffers(const DirectX::XMMATRIX &modelWorldMatrix, const Camera &gameCamera);
 	void drawObject(Model &toDraw);
+
+	void clearFrame();
+	void present();
 };
 

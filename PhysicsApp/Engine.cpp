@@ -371,11 +371,7 @@ void Engine::fillCBuffers(const DirectX::XMMATRIX &modelWorldMatrix, const Camer
 }
 
 void Engine::drawObject(Model &toDraw)
-{
-	float black[4] = { 0.0f,0.0f,0.0f, 1.0f };
-	this->gDeviceContext->ClearRenderTargetView(this->gRenderTargetView, black);
-	this->gDeviceContext->ClearDepthStencilView(this->mDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
-	
+{	
 	this->gDeviceContext->IASetInputLayout(this->inputLayout);
 	this->gDeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
@@ -402,5 +398,18 @@ void Engine::drawObject(Model &toDraw)
 	this->gDeviceContext->IASetVertexBuffers(0, 1, &vBuffer, &stride, &offset);
 
 	this->gDeviceContext->Draw(toDraw.getNrOfVertex(), 0);
+	//HRESULT result = this->gSwapChain->Present(0, 0);
+}
+
+void Engine::clearFrame()
+{
+	float black[4] = { 0.0f,0.0f,0.0f, 1.0f };
+
+	this->gDeviceContext->ClearRenderTargetView(this->gRenderTargetView, black);
+	this->gDeviceContext->ClearDepthStencilView(this->mDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+}
+
+void Engine::present()
+{
 	HRESULT result = this->gSwapChain->Present(0, 0);
 }

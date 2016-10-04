@@ -43,6 +43,8 @@ public:
 	ID3D11Buffer* getVertexBuffer() const;
 	DirectX::XMMATRIX getWorldModel() const;
 
+	void setTranslationMatrix(const Vector3& pos);
+
 	void setUniformScale(const float& scalar);
 
 	int getNrOfVertex() const;

@@ -7,8 +7,6 @@ namespace Physics
 {
 	void doPhysics(/*Body body1, Body body2 */);
 	float calcSpeed(/*Body body*/);
-
-
 }
 
 #endif
