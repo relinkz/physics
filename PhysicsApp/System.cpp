@@ -54,6 +54,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 
 		bodies.push_back(Body(&planet, Vector3(0, 0, 2)));
 		bodies.push_back(Body(&planet, Vector3(0, 0, 4)));
+		bodies.at(1).setVelocity(Vector3(0.001, 0.0, 0.0));
 
 
 
@@ -83,6 +84,8 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 				for (int i = 0; i < 2; i++)
 				{
 					//set wordpos
+					bodies.at(i).update();
+
 					planet.setTranslationMatrix(bodies.at(i).getPosition());
 					planet.update();
 					engine.fillCBuffers(planet.getWorldModel(), gameCamera);

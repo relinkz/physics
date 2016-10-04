@@ -32,8 +32,7 @@ public:
 	void setSize(const float& newSize);
 	void setModelAdress(Model* newAdress);
 
-
-
+	void update();
 };
 
 #endif

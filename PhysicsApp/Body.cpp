@@ -87,4 +87,9 @@ void Body::setModelAdress(Model * newAdress)
 	this->bodyModel = newAdress;
 }
 
+void Body::update()
+{
+	this->position = this->position + this->velocity;
+}
+
 
