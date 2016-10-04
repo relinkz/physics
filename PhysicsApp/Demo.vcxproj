@@ -146,6 +146,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Parser.cpp" />
+    <ClCompile Include="Physics.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
@@ -154,6 +155,7 @@
     <ClInclude Include="GlobalData.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="Parser.h" />
+    <ClInclude Include="Physics.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Fragment.hlsl">
