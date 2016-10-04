@@ -3,7 +3,7 @@
 // Added some comments (Francisco)
 //--------------------------------------------------------------------------------------
 #include "Engine.h" //model, camera, globaldata included here
-#include "Body.h"
+#include "Physics.h"
 #include <crtdbg.h.>
 #include <vector>
 
@@ -54,7 +54,10 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 
 		bodies.push_back(Body(&planet, Vector3(0, 0, 2)));
 		bodies.push_back(Body(&planet, Vector3(0, 0, 4)));
-		bodies.at(1).setVelocity(Vector3(0.001, 0.0, 0.0));
+		bodies.at(1).setVelocity(Vector3(1622, 0.0, 0.0)); // m/s
+
+		bodies.at(0).setMass(5.973 * pow(10, 24));
+		bodies.at(1).setMass(7.342 * pow(10, 22));
 
 
 
@@ -81,6 +84,8 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 				//for each body
 				//engine.clearFrame();
 
+				Physics::doPhysics(bodies.at(0), bodies.at(1));
+
 				for (int i = 0; i < 2; i++)
 				{
 					//set wordpos
@@ -88,9 +93,10 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 
 					planet.setTranslationMatrix(bodies.at(i).getPosition());
 					planet.update();
+
 					engine.fillCBuffers(planet.getWorldModel(), gameCamera);
 					engine.drawObject(planet);
-					
+
 				}
 
 				engine.present();

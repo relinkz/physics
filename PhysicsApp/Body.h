@@ -10,7 +10,7 @@ private:
 	std::string name;
 	Vector3 velocity;
 	Vector3 position;
-	float mass;
+	long float mass;
 	float size;
 	Model* bodyModel;
 public:

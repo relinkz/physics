@@ -77,6 +77,15 @@ struct Vector3
 
 		return *this;
 	}
+
+	Vector3 operator -(const Vector3 &src)
+	{
+		this->x -= src.x;
+		this->y -= src.y;
+		this->z -= src.z;
+
+		return *this;
+	}
 };
 
 struct int3
