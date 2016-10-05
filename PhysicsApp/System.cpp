@@ -52,13 +52,22 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 		//create bodies
 		std::vector<Body>bodies;
 
-		bodies.push_back(Body(&planet, Vector3(0, 0, 2)));
-		bodies.push_back(Body(&planet, Vector3(0, 0, 4)));
-		bodies.at(1).setVelocity(Vector3(1622, 0.0, 0.0)); // m/s
+		//bodies.push_back(Body(&planet, Vector3(0, 0, 0)));
+		//bodies.push_back(Body(&planet, Vector3(0, 4, 0)));
+		////1022 m/s 1.022 km/s (0.029 works)
+		//bodies.at(1).setVelocity(Vector3(1022.0f * SCALE, 0.0, 0.0)); // m/s
 
-		bodies.at(0).setMass(5.973 * pow(10, 24));
-		bodies.at(1).setMass(7.342 * pow(10, 22));
+		//bodies.at(0).setMass(5.973 * pow(10, 24));
+		//bodies.at(1).setMass(7.342 * pow(10, 22));
 
+
+		bodies.push_back(Body(&planet, Vector3(0, 0, 0))); // sun
+		bodies.at(0).setMass(1.98892f * pow(10.0f,30.0f));
+
+		bodies.push_back(Body(&planet, Vector3(0, 0, 0))); // earth
+		bodies.at(1).setMass(5.9742 * pow(10, 24));
+		bodies.at(1).setPosition(Vector3(-1 * AU, 0, 0));
+		bodies.at(1).setVelocity(Vector3(0, 29.783 * 1000, 0));
 
 
 		//gameTime.Reset();
@@ -84,20 +93,56 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 				//for each body
 				//engine.clearFrame();
 
-				Physics::doPhysics(bodies.at(0), bodies.at(1));
+				int nrOfTicks = 1;
+				//Physics::doPhysics(bodies.at(0), bodies.at(1));
+				for (int i = 0; i < nrOfTicks; i++)
+				{
+					Physics::atracttion(bodies.at(0), bodies.at(1));
+					//gameCamera.SetPosition(bodies.at(1).getPosition() * SCALE);
 
+					bodies.at(1).update();
+					bodies.at(0).update();
+					//Vector3 pos = bodies.at(1).getPosition() * SCALE * 0.01f;
+					//planet.setTranslationMatrix(pos);
+					//planet.update();
+
+					//engine.fillCBuffers(planet.getWorldModel(), gameCamera);
+					//engine.drawObject(planet);
+
+
+
+
+					//pos = bodies.at(0).getPosition() * SCALE * 0.01f;
+					//planet.setTranslationMatrix(pos);
+					//planet.update();
+
+					//engine.fillCBuffers(planet.getWorldModel(), gameCamera);
+					//engine.drawObject(planet);
+				}
 				for (int i = 0; i < 2; i++)
 				{
+					Vector3 pos = bodies.at(i).getPosition() * SCALE * 0.01f;
+					planet.setTranslationMatrix(pos);
+					planet.update();
+
+					engine.fillCBuffers(planet.getWorldModel(), gameCamera);
+					engine.drawObject(planet);
+				}
+				/*for (int i = 0; i < 2; i++)
+				{
+
+
 					//set wordpos
 					bodies.at(i).update();
-
-					planet.setTranslationMatrix(bodies.at(i).getPosition());
+					Vector3 pos = bodies.at(i).getPosition() * SCALE * 0.01f;
+					planet.setTranslationMatrix(pos);
 					planet.update();
 
 					engine.fillCBuffers(planet.getWorldModel(), gameCamera);
 					engine.drawObject(planet);
 
-				}
+				}*/
+
 
 				engine.present();
 				engine.clearFrame();

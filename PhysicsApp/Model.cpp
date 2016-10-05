@@ -155,6 +155,7 @@ DirectX::XMMATRIX Model::getWorldModel() const
 
 void Model::setTranslationMatrix(const Vector3 & pos)
 {
+	Vector3 pos2 = pos;
 	this->translationMatrix = DirectX::XMMatrixTranslation(pos.x, pos.y, pos.z);
 }
 

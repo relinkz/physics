@@ -2,7 +2,7 @@
 
 Camera::Camera()
 {
-	this->position	= DirectX::XMLoadFloat3(&(DirectX::XMFLOAT3(0.0f, 0.0f, -2.0f)));
+	this->position	= DirectX::XMLoadFloat3(&(DirectX::XMFLOAT3(0.0f, 0.0f, -4.0f)));
 	this->target	= DirectX::XMLoadFloat3(&(DirectX::XMFLOAT3(0.0f, 0.0f, 1.0f)));
 	this->upVector	= DirectX::XMLoadFloat3(&(DirectX::XMFLOAT3(0.0f, 1.0f, 0.0f)));
 	this->right		= DirectX::XMLoadFloat3(&(DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f)));
@@ -112,4 +112,9 @@ void Camera::ResetCamera()
 	this->target = DirectX::XMLoadFloat3(&(DirectX::XMFLOAT3(0.0f, 0.0f, 1.0f)));
 	this->upVector = DirectX::XMLoadFloat3(&(DirectX::XMFLOAT3(0.0f, 1.0f, 0.0f)));
 	this->right = DirectX::XMLoadFloat3(&(DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f)));
+}
+
+void Camera::SetPosition(Vector3 newPos)
+{
+	this->position = DirectX::XMLoadFloat3(&DirectX::XMFLOAT3(newPos.x, newPos.y, -4));
 }

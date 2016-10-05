@@ -18,6 +18,9 @@ public:
 	Body(Model* src, const Vector3 &pos);
 	virtual ~Body();
 
+	void update();
+	void applyForce(Vector3 &force);
+
 	std::string getName() const;
 	Vector3 getVelocity() const;
 	Vector3 getPosition() const;
@@ -32,7 +35,6 @@ public:
 	void setSize(const float& newSize);
 	void setModelAdress(Model* newAdress);
 
-	void update();
 };
 
 #endif

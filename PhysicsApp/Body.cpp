@@ -27,6 +27,16 @@ Body::~Body()
 {
 }
 
+void Body::update()
+{
+	this->position = this->position + this->velocity;
+	//this->velocity = Vector3(0, 0, 0);
+}
+void Body::applyForce(Vector3 & force)
+{
+	this->velocity = this->velocity + (force / this->mass);
+}
+#pragma region get functions
 std::string Body::getName() const
 {
 	return this->name;
@@ -56,7 +66,9 @@ Model * Body::getModelAdress()
 {
 	return this->bodyModel;
 }
+#pragma endregion
 
+#pragma region set functions
 void Body::setName(const std::string & newName)
 {
 	this->name = newName;
@@ -86,10 +98,7 @@ void Body::setModelAdress(Model * newAdress)
 {
 	this->bodyModel = newAdress;
 }
+#pragma endregion
 
-void Body::update()
-{
-	this->position = this->position + this->velocity;
-}
 
 

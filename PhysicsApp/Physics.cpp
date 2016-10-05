@@ -1,31 +1,69 @@
 #include "Physics.h"
 
 
+
+//body1 attracts body2
+void Physics::atracttion(Body & body1, Body & body2)
+{
+	//				   0.000000000000000000000001f;
+	double tempScale = 0.00000000000001f;
+	tempScale = 1.0f;
+
+
+	Vector3 dir = (body1.getPosition() - body2.getPosition());
+	float d = calcRadius(dir);
+	if (d == 0)
+	{
+		//that shit is not acceptable
+	}
+	long double m1m2 = (body1.getMass() * tempScale) * (body2.getMass() * tempScale);
+	double d2 = pow(d, 2)  * tempScale;
+
+	long double f = (G * (m1m2 / d2)) / tempScale;
+
+	float theta = atan2(dir.y, dir.x);
+
+	Vector3 force = Vector3(0, 0, 0);
+	force.x = cos(theta) * f;
+	force.y = sin(theta) * f;
+
+	body2.applyForce(force);
+
+}
+
+//body1 acts on body2
 void Physics::doPhysics(Body &body1, Body &body2)
 {
-	const float G = 6.674 * pow(10,-11);
-	long float distance = 0;
+	////float SCALE = 0.0000001f;
 
-	//G
+	////const float G = 6.674 * pow(10,-11) * SCALE;
+	//long float distance = 0;
 
-	//const Vector3 diffVector = body1.getPosition() - body2.getPosition();
-	//distance = calcRadius(diffVector);
-	distance = 384400000; //m
+	////G
+
+	//Vector3 diffVector = body1.getPosition() - body2.getPosition();
+	//diffVector = normalizeVector(diffVector);
+	////distance = calcRadius(diffVector);
+	//distance = 384400000.0f * SCALE; //m
 
 
 
-	//do c00l stuff
-	//F = G* ((m.b1 * mb2) / distance^2)
+	////do c00l stuff
+	////F = G* ((m.b1 * mb2) / distance^2)
 
-	double force;
-	long float result;
+	//double force;
+	//long float result;
 
-	float m1m2 = body1.getMass() * body2.getMass();
-	
-	result = m1m2 / pow(distance, 2);
-	result *= G;
+	//float m1m2 = (body1.getMass() * SCALE) * (body2.getMass() * SCALE);
+	//
+	//result = m1m2 / pow(distance, 2);
+	//result *= G;
 
-	force = result;
+	//force = result;
+
+	//diffVector = diffVector * force;
+
+	//body2.applyForce(diffVector);
 }
 
 float Physics::calcSpeed(/*Body body*/)
@@ -43,6 +81,14 @@ float Physics::calcRadius(const Vector3 & v1)
 {
 	float result = 0;
 	result = abs(v1.x) + abs(v1.y) + abs(v1.z);
+
+	return result;
+}
+Vector3 Physics::normalizeVector(Vector3 vec)
+{
+	float length = calcRadius(vec);
+
+	Vector3 result = vec / length;
 
 	return result;
 }

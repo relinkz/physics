@@ -16,6 +16,12 @@
 UINT const CLIENT_WIDTH = 640;
 UINT const CLIENT_HEIGHT = 480;
 
+const float AU = (149.6e6 * 1000);
+const float SCALE = 250 / AU;
+
+const float SCALE2 = 0.000000000000000000000001f;
+
+const float G = 6.674 * pow(10, -11);
 
 struct TargaHeader
 {
@@ -83,6 +89,38 @@ struct Vector3
 		this->x -= src.x;
 		this->y -= src.y;
 		this->z -= src.z;
+
+		return *this;
+	}
+	Vector3 operator /(const Vector3 &src)
+	{
+		this->x /= src.x;
+		this->y /= src.y;
+		this->z /= src.z;
+
+		return *this;
+	}
+	Vector3 operator *(const Vector3 &src)
+	{
+		this->x *= src.x;
+		this->y *= src.y;
+		this->z *= src.z;
+
+		return *this;
+	}
+	Vector3 operator /(const float &flt)
+	{
+		this->x /= flt;
+		this->y /= flt;
+		this->z /= flt;
+
+		return *this;
+	}
+	Vector3 operator *(const float &flt)
+	{
+		this->x *= flt;
+		this->y *= flt;
+		this->z *= flt;
 
 		return *this;
 	}

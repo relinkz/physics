@@ -14,6 +14,7 @@ public:
 	DirectX::XMMATRIX getOrthogMatrix() const;
 
 	void ResetCamera();
+	void SetPosition(Vector3 newPos);
 private:
 	DirectX::XMVECTOR position;
 	DirectX::XMVECTOR target;
