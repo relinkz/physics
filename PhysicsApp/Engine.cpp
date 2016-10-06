@@ -248,7 +248,7 @@ bool Engine::initialize(HWND* window)
 	Parser parser = Parser();
 
 	this->SRVtest = parser.LoadTarga(this->gDevice, this->gDeviceContext, "PathfinderMap.tga");
-
+	
 
 	return true;
 }

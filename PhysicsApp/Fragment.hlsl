@@ -35,7 +35,7 @@ float4 PS_main(VS_OUT input) : SV_Target
 		angle = 1;
 	}
 
-	color = (color * angle) + color * 0.5f;
+	color = (color * angle) + color * 0.8f;
 
 
 	return color;

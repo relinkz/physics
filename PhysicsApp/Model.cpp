@@ -74,6 +74,7 @@ void Model::initialize(ID3D11Device * gDevice, ID3D11DeviceContext * gDeviceCont
 	result = gDevice->CreateBuffer(&desc, &data, &this->vertexBuffer);
 
 	this->translationMatrix = DirectX::XMMatrixTranslation(pos.x, pos.y, pos.z);
+	scaleMatrix = DirectX::XMMatrixIdentity();
 
 	this->spinnY(0.0001);
 }
@@ -190,7 +191,7 @@ void Model::uniformScaleIndication(const float & speed)
 
 void Model::update()
 {
-	scaleMatrix = DirectX::XMMatrixIdentity();
+	//scaleMatrix = DirectX::XMMatrixIdentity();
 	//rotationMatrix = DirectX::XMMatrixIdentity();
 
 	if (this->isSpinning == true)

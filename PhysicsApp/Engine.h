@@ -15,6 +15,7 @@ private:
 		DirectX::XMMATRIX projectionMatrix;
 	};
 private:
+
 	//This interface sets renderstates, bind resourses to the graphics pipeline, and issues rendering commands
 	ID3D11DeviceContext* gDeviceContext;
 	//Checks feature support and allocating resources

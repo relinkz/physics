@@ -58,9 +58,9 @@ struct Vector2
 
 struct Vector3
 {
-	float x;
-	float y;
-	float z;
+	long float x;
+	long float y;
+	long float z;
 
 	Vector3()
 	{

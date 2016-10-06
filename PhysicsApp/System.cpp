@@ -48,7 +48,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 		
 		//initialize model
 		planet.initialize(engine.getDevice(), engine.getDeviceContext(), DirectX::XMFLOAT3(0.0f ,0.0f , 2.0f));
-
+		planet.setUniformScale(0.09f);
 		//create bodies
 		std::vector<Body>bodies;
 
@@ -68,6 +68,16 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 		bodies.at(1).setMass(5.9742 * pow(10, 24));
 		bodies.at(1).setPosition(Vector3(-1 * AU, 0, 0));
 		bodies.at(1).setVelocity(Vector3(0, 29.783 * 1000, 0));
+
+		bodies.push_back(Body(&planet, Vector3(0, 0, 0))); // Venus
+		bodies.at(2).setMass(5.9742 * pow(10, 24) * 0.815);
+		bodies.at(2).setPosition(Vector3(0.7 * AU, 0, 0));
+		bodies.at(2).setVelocity(Vector3(0, 10.36 * 1000, 0));
+
+		//bodies.push_back(Body(&planet, Vector3(0, 0, 0))); // Mercury
+		//bodies.at(1).setMass(5.9742 * pow(10, 24) * 0.055);
+		//bodies.at(1).setPosition(Vector3(0.4 * AU, 0, 0));
+		//bodies.at(1).setVelocity(Vector3(0, 4.25 * 1000, 0));
 
 
 		//gameTime.Reset();
@@ -93,13 +103,15 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 				//for each body
 				//engine.clearFrame();
 
-				int nrOfTicks = 1;
+				int nrOfTicks = 3600;
 				//Physics::doPhysics(bodies.at(0), bodies.at(1));
 				for (int i = 0; i < nrOfTicks; i++)
 				{
 					Physics::atracttion(bodies.at(0), bodies.at(1));
+					Physics::atracttion(bodies.at(0), bodies.at(2));
 					//gameCamera.SetPosition(bodies.at(1).getPosition() * SCALE);
 
+					bodies.at(2).update();
 					bodies.at(1).update();
 					bodies.at(0).update();
 					//Vector3 pos = bodies.at(1).getPosition() * SCALE * 0.01f;
@@ -119,9 +131,9 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 					//engine.fillCBuffers(planet.getWorldModel(), gameCamera);
 					//engine.drawObject(planet);
 				}
-				for (int i = 0; i < 2; i++)
+				for (int i = 0; i < 3; i++)
 				{
-					Vector3 pos = bodies.at(i).getPosition() * SCALE * 0.01f;
+					Vector3 pos = bodies.at(i).getPosition() * SCALE * 0.04f;
 					planet.setTranslationMatrix(pos);
 					planet.update();
 
