@@ -59,7 +59,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 
 		//bodies.at(0).setMass(5.973 * pow(10, 24));
 		//bodies.at(1).setMass(7.342 * pow(10, 22));
-
+		//https://en.wikipedia.org/wiki/Solar_System#Venus for values
 
 		bodies.push_back(Body(&planet, Vector3(0, 0, 0))); // sun
 		bodies.at(0).setMass(1.98892f * pow(10.0f,30.0f));
