@@ -75,8 +75,8 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 
 		bodies.push_back(Body(&planet, Vector3(0, 0, 0))); // Venus
 		bodies.at(2).setMass(5.9742 * pow(10, 24) * 0.815);
-		bodies.at(2).setPosition(Vector3(0.7 * AU, 0, 0));
-		bodies.at(2).setVelocity(Vector3(0, 10.36 * 1000, 0));
+		bodies.at(2).setPosition(Vector3(-0.7 * AU, 0, 0));
+		bodies.at(2).setVelocity(Vector3(0, 35.02 * 1000, 0));
 
 		//bodies.push_back(Body(&planet, Vector3(0, 0, 0))); // Mercury
 		//bodies.at(1).setMass(5.9742 * pow(10, 24) * 0.055);
@@ -137,7 +137,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 				}
 				for (int i = 0; i < 3; i++)
 				{
-					Vector3 pos = bodies.at(i).getPosition() * SCALE * 0.04f;
+					Vector3 pos = bodies.at(i).getPosition() * SCALE * 0.02f;
 					planet.setTranslationMatrix(pos);
 					planet.update();
 
