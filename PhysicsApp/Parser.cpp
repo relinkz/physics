@@ -3,7 +3,7 @@
 Parser::Parser()
 {
 	this->targaData = nullptr;
-	this->readFile();
+	//this->readFile();
 }
 
 Parser::~Parser()
@@ -293,6 +293,9 @@ ID3D11ShaderResourceView * Parser::LoadTarga(ID3D11Device* device, ID3D11DeviceC
 	ID3D11ShaderResourceView *tempTextureView = nullptr;
 
 	hresult = device->CreateShaderResourceView(texture, &srvDesc, &tempTextureView);
+
+	delete[] this->targaData;
+	this->targaData = nullptr;
 
 	return tempTextureView;
 }

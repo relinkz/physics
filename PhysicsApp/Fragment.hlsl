@@ -1,5 +1,5 @@
 Texture2D txDiffuse : register(t0);
-SamplerState sampAni;
+SamplerState sampAni : register(s0);
 
 struct VS_OUT
 {

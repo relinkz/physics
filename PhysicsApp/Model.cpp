@@ -57,6 +57,7 @@ void Model::initialize(ID3D11Device * gDevice, ID3D11DeviceContext * gDeviceCont
 
 	//get data
 	Parser test = Parser();
+	test.readFile();
 	rawData = test.getRawData();
 
 	this->nrOfVertex = rawData.size();

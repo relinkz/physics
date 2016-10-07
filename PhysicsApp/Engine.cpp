@@ -249,6 +249,22 @@ bool Engine::initialize(HWND* window)
 
 	this->SRVtest = parser.LoadTarga(this->gDevice, this->gDeviceContext, "PathfinderMap.tga");
 	
+	D3D11_SAMPLER_DESC sampDesc;
+	sampDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+	sampDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+	sampDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+	sampDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+	sampDesc.MipLODBias = 0.0f;
+	sampDesc.MaxAnisotropy = 1;
+	sampDesc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
+	sampDesc.BorderColor[0] = 0;
+	sampDesc.BorderColor[1] = 0;
+	sampDesc.BorderColor[2] = 0;
+	sampDesc.BorderColor[3] = 0;
+	sampDesc.MinLOD = 0;
+	sampDesc.MaxLOD = D3D11_FLOAT32_MAX;
+
+	result = this->gDevice->CreateSamplerState(&sampDesc, &this->samplerState);
 
 	return true;
 }
@@ -370,13 +386,20 @@ void Engine::fillCBuffers(const DirectX::XMMATRIX &modelWorldMatrix, const Camer
 	gDeviceContext->Unmap(this->matrixBuffer, 0);
 }
 
-void Engine::drawObject(Model &toDraw)
+void Engine::drawObject(Model &toDraw, ID3D11ShaderResourceView *SRV)
 {	
 	this->gDeviceContext->IASetInputLayout(this->inputLayout);
 	this->gDeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	//send ShaderResources to PixelShader
-	this->gDeviceContext->PSSetShaderResources(0, 1, &this->SRVtest);
+	if (SRV == nullptr)
+	{
+		this->gDeviceContext->PSSetShaderResources(0, 1, &this->SRVtest);
+	}
+	else
+	{
+		this->gDeviceContext->PSSetShaderResources(0, 1, &SRV);
+	}
 
 	//set vertex shader and data
 	this->gDeviceContext->VSSetShader(this->vertexShader, nullptr, 0);
@@ -394,7 +417,7 @@ void Engine::drawObject(Model &toDraw)
 	ID3D11Buffer* vBuffer= nullptr;
 	vBuffer = toDraw.getVertexBuffer();
 
-	gDeviceContext->PSSetSamplers(0, 0, NULL);
+	this->gDeviceContext->PSSetSamplers(0, 1, &this->samplerState);
 	this->gDeviceContext->IASetVertexBuffers(0, 1, &vBuffer, &stride, &offset);
 
 	this->gDeviceContext->Draw(toDraw.getNrOfVertex(), 0);

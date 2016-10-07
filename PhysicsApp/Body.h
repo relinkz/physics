@@ -13,6 +13,7 @@ private:
 	long float mass;
 	float size;
 	Model* bodyModel;
+	ID3D11ShaderResourceView *SRV;
 public:
 	Body();
 	Body(Model* src, const Vector3 &pos);
@@ -27,6 +28,7 @@ public:
 	float getMass() const;
 	float getSize() const;
 	Model* getModelAdress();
+	ID3D11ShaderResourceView* getSRV();
 
 	void setName(const std::string& newName);
 	void setVelocity(const Vector3& newVelocity);
@@ -34,6 +36,7 @@ public:
 	void setMass(const float& newMass);
 	void setSize(const float& newSize);
 	void setModelAdress(Model* newAdress);
+	void setSRV(ID3D11ShaderResourceView *newSRV);
 
 };
 

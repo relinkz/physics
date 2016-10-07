@@ -17,6 +17,7 @@ public:
 	std::vector<Vertex2>& getRawData();
 
 	ID3D11ShaderResourceView * LoadTarga(ID3D11Device* device, ID3D11DeviceContext* deviceContext, const char* filename);
+	void readFile();
 private:
 	std::vector<Vector3>PositionData;
 	std::vector<Vector3>NormalData;
@@ -26,7 +27,6 @@ private:
 
 	unsigned char* targaData;
 
-	void readFile();
 	int3 stringToInt3(string src);
 };
 #endif

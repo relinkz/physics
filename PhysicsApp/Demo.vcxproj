@@ -196,6 +196,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="PathfinderMap.tga" />
+    <Image Include="Sun.tga" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

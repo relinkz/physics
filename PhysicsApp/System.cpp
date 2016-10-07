@@ -34,6 +34,8 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 	//create model
 	Model planet;
 
+	//create Parser
+	Parser parser = Parser();
 	//timeClock
 	//GameTimer gameTime;
 
@@ -63,11 +65,13 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 
 		bodies.push_back(Body(&planet, Vector3(0, 0, 0))); // sun
 		bodies.at(0).setMass(1.98892f * pow(10.0f,30.0f));
+		bodies.at(0).setSRV(parser.LoadTarga(engine.getDevice(), engine.getDeviceContext(), "Sun.tga"));
 
 		bodies.push_back(Body(&planet, Vector3(0, 0, 0))); // earth
 		bodies.at(1).setMass(5.9742 * pow(10, 24));
 		bodies.at(1).setPosition(Vector3(-1 * AU, 0, 0));
 		bodies.at(1).setVelocity(Vector3(0, 29.783 * 1000, 0));
+		bodies.at(1).setSRV(parser.LoadTarga(engine.getDevice(), engine.getDeviceContext(), "PathfinderMap.tga"));
 
 		bodies.push_back(Body(&planet, Vector3(0, 0, 0))); // Venus
 		bodies.at(2).setMass(5.9742 * pow(10, 24) * 0.815);
@@ -138,7 +142,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 					planet.update();
 
 					engine.fillCBuffers(planet.getWorldModel(), gameCamera);
-					engine.drawObject(planet);
+					engine.drawObject(planet, bodies.at(i).getSRV());
 				}
 				/*for (int i = 0; i < 2; i++)
 				{
@@ -168,6 +172,17 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 		engine.shutdown();
 
 		planet.shutdown();
+
+		int size = bodies.size();
+		ID3D11ShaderResourceView *SRVptr = nullptr;
+		for (int i = 0; i < size; i++)
+		{
+			SRVptr = bodies.at(i).getSRV();
+			if (SRVptr != nullptr)
+			{
+				SRVptr->Release();
+			}
+		}
 
 
 	}

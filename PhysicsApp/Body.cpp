@@ -10,6 +10,7 @@ Body::Body()
 	this->mass = 0.0f;
 	this->size = 0.0f;
 	this->bodyModel = nullptr;
+	this->SRV = nullptr;
 	
 }
 
@@ -21,10 +22,15 @@ Body::Body(Model* src, const Vector3& pos)
 	this->mass = 0.0f;
 	this->size = 0.0f;
 	this->bodyModel = src;
+	this->SRV = nullptr;
 }
 
 Body::~Body()
 {
+	if (this->SRV != nullptr)
+	{
+		//this->SRV->Release();
+	}
 }
 
 void Body::update()
@@ -66,6 +72,10 @@ Model * Body::getModelAdress()
 {
 	return this->bodyModel;
 }
+ID3D11ShaderResourceView* Body::getSRV()
+{
+	return this->SRV;
+}
 #pragma endregion
 
 #pragma region set functions
@@ -97,6 +107,10 @@ void Body::setSize(const float & newSize)
 void Body::setModelAdress(Model * newAdress)
 {
 	this->bodyModel = newAdress;
+}
+void Body::setSRV(ID3D11ShaderResourceView *newSRV)
+{
+	this->SRV = newSRV;
 }
 #pragma endregion
 

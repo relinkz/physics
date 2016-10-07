@@ -89,5 +89,8 @@
     <Image Include="PathfinderMap.tga">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Sun.tga">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
