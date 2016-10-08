@@ -43,6 +43,11 @@ struct Vertex2
 	DirectX::XMFLOAT3 Normal;
 	DirectX::XMFLOAT2 UVs;
 };
+struct Vertex3
+{
+	DirectX::XMFLOAT3 Pos;
+	DirectX::XMFLOAT2 UVs;
+};
 
 struct Vector2
 {

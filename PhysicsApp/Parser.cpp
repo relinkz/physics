@@ -254,6 +254,7 @@ ID3D11ShaderResourceView * Parser::LoadTarga(ID3D11Device* device, ID3D11DeviceC
 		k -= (width * 8);
 	}
 
+
 	//Release the targa image data now that it was copied into the destination array
 	delete[] targaImage;
 	targaImage = nullptr;

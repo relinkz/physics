@@ -4,6 +4,7 @@
 //--------------------------------------------------------------------------------------
 #include "Engine.h" //model, camera, globaldata included here
 #include "Physics.h"
+#include "TextRenderer.h"
 #include <crtdbg.h.>
 #include <vector>
 
@@ -36,6 +37,10 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 
 	//create Parser
 	Parser parser = Parser();
+
+	//create textHandler
+	TextRenderer textHandler;
+
 	//timeClock
 	//GameTimer gameTime;
 
@@ -47,6 +52,8 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 
 		//initialize engine
 		engine.initialize(&wndHandle);
+
+		textHandler.Initialize(engine.getDevice(), engine.getDeviceContext());
 		
 		//initialize model
 		planet.initialize(engine.getDevice(), engine.getDeviceContext(), DirectX::XMFLOAT3(0.0f ,0.0f , 2.0f));
@@ -158,7 +165,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 					engine.drawObject(planet);
 
 				}*/
-
+				textHandler.RenderNumber(Vector3(0,0,0), 0.0f);
 
 				engine.present();
 				engine.clearFrame();
