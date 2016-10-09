@@ -71,6 +71,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 		//https://en.wikipedia.org/wiki/Solar_System#Venus for values
 
 		bodies.push_back(Body(&planet, Vector3(0, 0, 0))); // sun
+		bodies.at(0).setName("Sun");
 		bodies.at(0).setMass(1.98892f * pow(10.0f,30.0f));
 		bodies.at(0).setSRV(parser.LoadTarga(engine.getDevice(), engine.getDeviceContext(), "Sun.tga"));
 
@@ -82,6 +83,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 		bodies.at(1).setSRV(parser.LoadTarga(engine.getDevice(), engine.getDeviceContext(), "PathfinderMap.tga"));
 
 		bodies.push_back(Body(&planet, Vector3(0, 0, 0))); // Venus
+		bodies.at(2).setName("Venus");
 		bodies.at(2).setMass(5.9742 * pow(10, 24) * 0.815);
 		bodies.at(2).setPosition(Vector3(-0.7 * AU, 0, 0));
 		bodies.at(2).setVelocity(Vector3(0, 35.02 * 1000, 0));
