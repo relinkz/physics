@@ -107,5 +107,8 @@
     <Image Include="Numbers.tga">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="swapTest.tga">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

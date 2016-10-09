@@ -208,6 +208,7 @@
     <Image Include="Numbers.tga" />
     <Image Include="PathfinderMap.tga" />
     <Image Include="Sun.tga" />
+    <Image Include="swapTest.tga" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

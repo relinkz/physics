@@ -71,22 +71,22 @@ bool TextRenderer::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext *gDevic
 
 	Vertex3 vertex;
 	vertex.Pos = DirectX::XMFLOAT3(0, 0, 0);
-	vertex.UVs = DirectX::XMFLOAT2(0, 1);
-	this->vertexData.push_back(vertex);
-	vertex.Pos = DirectX::XMFLOAT3(0, 0.5, 0);
 	vertex.UVs = DirectX::XMFLOAT2(0, 0);
 	this->vertexData.push_back(vertex);
-	vertex.Pos = DirectX::XMFLOAT3(0.5, 0.5, 0);
-	vertex.UVs = DirectX::XMFLOAT2(1, 0);
+	vertex.Pos = DirectX::XMFLOAT3(0.5, -0.5, 0);
+	vertex.UVs = DirectX::XMFLOAT2(1, 1);
+	this->vertexData.push_back(vertex);
+	vertex.Pos = DirectX::XMFLOAT3(0, -0.5, 0);
+	vertex.UVs = DirectX::XMFLOAT2(0, 1);
 	this->vertexData.push_back(vertex);
 
 	vertex.Pos = DirectX::XMFLOAT3(0, 0, 0);
-	vertex.UVs = DirectX::XMFLOAT2(0, 1);
-	this->vertexData.push_back(vertex);
-	vertex.Pos = DirectX::XMFLOAT3(0.5, 0.5, 0);
-	vertex.UVs = DirectX::XMFLOAT2(1, 0);
+	vertex.UVs = DirectX::XMFLOAT2(0, 0);
 	this->vertexData.push_back(vertex);
 	vertex.Pos = DirectX::XMFLOAT3(0.5, 0, 0);
+	vertex.UVs = DirectX::XMFLOAT2(1, 0);
+	this->vertexData.push_back(vertex);
+	vertex.Pos = DirectX::XMFLOAT3(0.5, -0.5, 0);
 	vertex.UVs = DirectX::XMFLOAT2(1, 1);
 	this->vertexData.push_back(vertex);
 
@@ -120,6 +120,7 @@ bool TextRenderer::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext *gDevic
 	Parser parser = Parser();
 
 	this->textSRV = parser.LoadTarga(this->gDevice, this->gDeviceContext, "Numbers.tga");
+	//this->textSRV = parser.LoadTarga(this->gDevice, this->gDeviceContext, "swapTest.tga");
 
 	return true;
 }
@@ -201,3 +202,11 @@ void TextRenderer::UpdateVertexBuffer()
 
 	gDeviceContext->Unmap(this->vertexBuffer, 0);
 }
+
+void TextRenderer::UpdateQuadPos(Vector3 pos)
+{
+	Vector3 NDCpos = Vector3(pos.x / CLIENT_WIDTH, pos.y / CLIENT_HEIGHT, 0);
+
+
+}
+

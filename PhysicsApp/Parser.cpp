@@ -254,6 +254,41 @@ ID3D11ShaderResourceView * Parser::LoadTarga(ID3D11Device* device, ID3D11DeviceC
 		k -= (width * 8);
 	}
 
+	int height2 = height / 2;
+	int currPos = 0;
+	int swapPos = 0;
+	//turns the image to the right side upp
+	for (int y = 0; y < height2; y++)
+	{
+		int q;
+		for (int x = 0; x < width; x++)
+		{
+			currPos = (x * 4) + (width * 4 * y);
+			swapPos = (width * 4 * height) -(width * 4 * y)  - (width * 4) + (x * 4);
+	
+			unsigned char r = this->targaData[swapPos + 0];
+			unsigned char g = this->targaData[swapPos + 1];
+			unsigned char b = this->targaData[swapPos + 2];
+			unsigned char a = this->targaData[swapPos + 3];
+			
+			unsigned char r2 = this->targaData[currPos + 0];
+			unsigned char g2 = this->targaData[currPos + 1];
+			unsigned char b2 = this->targaData[currPos + 2];
+			unsigned char a2 = this->targaData[currPos + 3];
+			
+			this->targaData[swapPos + 0] = r2;
+			this->targaData[swapPos + 1] = g2;
+			this->targaData[swapPos + 2] = b2;
+			this->targaData[swapPos + 3] = a2;
+			
+			this->targaData[currPos + 0] = r;
+			this->targaData[currPos + 1] = g;
+			this->targaData[currPos + 2] = b;
+			this->targaData[currPos + 3] = a;
+	
+		}
+		int z = 0;
+	}
 
 	//Release the targa image data now that it was copied into the destination array
 	delete[] targaImage;

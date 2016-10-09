@@ -32,6 +32,7 @@ private:
 
 
 	void UpdateVertexBuffer();
+	void UpdateQuadPos(Vector3 pos);
 
 public:
 	TextRenderer();
