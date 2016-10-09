@@ -75,6 +75,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 		bodies.at(0).setSRV(parser.LoadTarga(engine.getDevice(), engine.getDeviceContext(), "Sun.tga"));
 
 		bodies.push_back(Body(&planet, Vector3(0, 0, 0))); // earth
+		bodies.at(1).setName("Earth");
 		bodies.at(1).setMass(5.9742 * pow(10, 24));
 		bodies.at(1).setPosition(Vector3(-1 * AU, 0, 0));
 		bodies.at(1).setVelocity(Vector3(0, 29.783 * 1000, 0));
@@ -166,7 +167,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 
 				}*/
 				//textHandler.RenderNumber(Vector3(0,0,0), 1.0f);
-				textHandler.RenderBodyInfo(nullptr, Vector3(0, 0, 0), 2.0f);
+				textHandler.RenderBodyInfo(&bodies.at(1), Vector3(0, 0, 0), 2.0f);
 				//textHandler.RenderText(Vector3(0, 0, 0), "0", 5);
 				//textHandler.RenderText(Vector3(40, 0, 0), "1", 5);
 				//textHandler.RenderText(Vector3(80, 0, 0), "2", 5);

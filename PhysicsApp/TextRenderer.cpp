@@ -154,20 +154,30 @@ bool TextRenderer::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext *gDevic
 
 void TextRenderer::RenderBodyInfo(Body * body, Vector3 pos, float size)
 {
-	string str = "this text is rendered";
+	Vector3 position = pos;
+	float yPosIncrement = 16 * size;
+	//string str = "this text is rendered";
+
+	//render body Name
+	string str = body->getName();
+	this->RenderTextRow(position, str, size);
+	position.x = 0;
+	position.y -= yPosIncrement;
+
+	Vector3 v = body->getVelocity();
+	//render x Velocity
+	str = "Velocity X: " + std::to_string((int)v.x);
+	this->RenderTextRow(position, str, size);
+	position.x = 0;
+	position.y -= yPosIncrement;
+
+	//render y Velocity
+	str = "Velocity Y: " + std::to_string((int)v.y);
+	this->RenderTextRow(position, str, size);
+	position.x = 0;
+	position.y -= yPosIncrement;
 
 
-	for (int i = 0; i < str.size(); i++)
-	{
-		this->RenderText(pos, &str.at(i), size);
-
-		char* cha = &str.at(i);
-		int index = cha[0] - 32;
-		
-		int textSize = this->fontChars[index].size;
-
-		pos.x += (4.0f * size) + (textSize * 2.0f);
-	}
 }
 
 void TextRenderer::RenderNumber(Vector3 pos, float number)
@@ -361,5 +371,24 @@ void TextRenderer::UpdateUVCoords(int number)
 	this->vertexData.at(5).UVs = DirectX::XMFLOAT2(UV.x + this->UPerNumber, 1);
 
 
+}
+
+void TextRenderer::RenderTextRow(Vector3 pos, string str, float size)
+{
+	int a = 0;
+	for (int i = 0; i < str.size(); i++)
+	{
+		this->RenderText(pos, &str.at(i), size);
+
+		char* cha = &str.at(i);
+		int index = cha[0] - 32;
+
+		int textSize = this->fontChars[index].size;
+
+		pos.x += (4.0f * size) + (textSize * 2.0f);
+	}
+
+	//pos.x = 0;
+	//pos.y += 40;
 }
 

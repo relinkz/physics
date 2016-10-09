@@ -37,6 +37,7 @@ private:
 	void UpdateVertexBuffer();
 	void UpdateQuadPos(Vector3 pos);
 	void UpdateUVCoords(int number);
+	void RenderTextRow(Vector3 pos, string str, float size);
 
 public:
 	TextRenderer();
