@@ -22,7 +22,11 @@ const float SCALE = 250 / AU;
 const float SCALE2 = 0.000000000000000000000001f;
 
 const float G = 6.674 * pow(10, -11);
-
+struct FontChar
+{
+	float left, right;
+	int size;
+};
 struct TargaHeader
 {
 	unsigned char data1[12];

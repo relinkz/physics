@@ -165,7 +165,13 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 					engine.drawObject(planet);
 
 				}*/
-				textHandler.RenderNumber(Vector3(0,0,0), 0.0f);
+				//textHandler.RenderNumber(Vector3(0,0,0), 1.0f);
+				textHandler.RenderBodyInfo(nullptr, Vector3(0, 0, 0), 2.0f);
+				//textHandler.RenderText(Vector3(0, 0, 0), "0", 5);
+				//textHandler.RenderText(Vector3(40, 0, 0), "1", 5);
+				//textHandler.RenderText(Vector3(80, 0, 0), "2", 5);
+				//textHandler.RenderText(Vector3(120, 0, 0), "3", 5);
+
 
 				engine.present();
 				engine.clearFrame();

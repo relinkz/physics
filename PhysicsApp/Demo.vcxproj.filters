@@ -96,6 +96,9 @@
     <Text Include="obj.txt">
       <Filter>Resource Files</Filter>
     </Text>
+    <Text Include="fontData.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <Image Include="PathfinderMap.tga">
@@ -108,6 +111,9 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="swapTest.tga">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="font.tga">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

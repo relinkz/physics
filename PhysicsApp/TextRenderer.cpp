@@ -10,12 +10,14 @@ TextRenderer::TextRenderer()
 	this->textSRV = nullptr;
 	this->samplerState = nullptr;
 	this->vertexBuffer = nullptr; 
-	this->textSize = 0.1f;
+	this->textWidth =  (160.0f / CLIENT_WIDTH);
+	this->textHeight = (120.0f / CLIENT_HEIGHT);
 	this->UPerNumber = 0.1;
 }
 
 TextRenderer::~TextRenderer()
 {
+	delete[] this->fontChars;
 }
 
 bool TextRenderer::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext *gDeviceContext)
@@ -119,10 +121,53 @@ bool TextRenderer::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext *gDevic
 
 	Parser parser = Parser();
 
-	this->textSRV = parser.LoadTarga(this->gDevice, this->gDeviceContext, "Numbers.tga");
+	//this->textSRV = parser.LoadTarga(this->gDevice, this->gDeviceContext, "Numbers.tga");
+	this->textSRV = parser.LoadTarga(this->gDevice, this->gDeviceContext, "font.tga");
 	//this->textSRV = parser.LoadTarga(this->gDevice, this->gDeviceContext, "swapTest.tga");
 
+	std::ifstream file;
+
+	char junkChar;
+	int junkInt;
+	std::stringstream ss;
+	std::string line;
+	std::string path = "fontData.txt";
+	file.open(path, std::ios::in);
+	if (!file.is_open()) {
+		return false;
+	}
+
+	this->fontChars = new FontChar[95];
+
+	for (int i = 0; i < 95; i++) {
+		std::getline(file, line);
+		ss.str(line);
+		ss >> junkInt >> junkChar >> this->fontChars[i].left >> this->fontChars[i].right >> this->fontChars[i].size;
+		ss.clear();
+	}
+
+
+	file.close();
+
 	return true;
+}
+
+void TextRenderer::RenderBodyInfo(Body * body, Vector3 pos, float size)
+{
+	string str = "this text is rendered";
+
+
+	for (int i = 0; i < str.size(); i++)
+	{
+		this->RenderText(pos, &str.at(i), size);
+
+		char* cha = &str.at(i);
+		int index = cha[0] - 32;
+		
+		int textSize = this->fontChars[index].size;
+
+		pos.x += (4.0f * size) + (textSize * 2.0f);
+	}
 }
 
 void TextRenderer::RenderNumber(Vector3 pos, float number)
@@ -134,6 +179,10 @@ void TextRenderer::RenderNumber(Vector3 pos, float number)
 	//this->vertexData.at(3).Pos = DirectX::XMFLOAT3(pos.x / CLIENT_WIDTH, pos.y / CLIENT_HEIGHT, 0);
 	//this->vertexData.at(4).Pos = DirectX::XMFLOAT3((pos.x / CLIENT_WIDTH) + this->textSize, pos.y / CLIENT_HEIGHT, 0);
 	//this->vertexData.at(5).Pos = DirectX::XMFLOAT3((pos.x / CLIENT_WIDTH) + this->textSize, (pos.y / CLIENT_HEIGHT) + this->textSize, 0);
+
+	this->UpdateQuadPos(pos);
+	//this->UpdateUVCoords(number);
+
 
 	this->UpdateVertexBuffer();
 
@@ -157,13 +206,87 @@ void TextRenderer::RenderNumber(Vector3 pos, float number)
 
 }
 
-void TextRenderer::RenderText(Vector3 pos, std::string str)
+void TextRenderer::RenderText(Vector3 pos, char* text, float size)
 {
+
+	this->gDeviceContext->VSSetShader(this->vertexShader, nullptr, 0);
+
+	this->gDeviceContext->HSSetShader(nullptr, nullptr, 0);
+	this->gDeviceContext->DSSetShader(nullptr, nullptr, 0);
+	this->gDeviceContext->GSSetShader(nullptr, nullptr, 0);
+	this->gDeviceContext->PSSetShader(this->pixelShader, nullptr, 0);
+
+	this->gDeviceContext->PSSetSamplers(0, 1, &this->samplerState);
+	this->gDeviceContext->PSSetShaderResources(0, 1, &this->textSRV);
+
+	this->gDeviceContext->IASetInputLayout(this->inputLayout);
+	this->gDeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	UINT vertexSize = sizeof(Vertex3);
+	UINT offset = 0;
+	
+	Vector3 NDCpos = Vector3(0, 0, 0);
+	NDCpos.x -= 1;
+	NDCpos.y += 1;
+
+	int nrLetters = (int)strlen(text);
+	int letter = 0;
+	int index = 0;
+	float dx, dy = 0.0f;
+	
+	
+	NDCpos = Vector3(pos.x / CLIENT_WIDTH, pos.y / CLIENT_HEIGHT, 0);
+	NDCpos.x -= 1;
+	NDCpos.y += 1;
+
+	letter = text[0] - 32;
+	if (letter == 0)
+	{
+		NDCpos.x += (3.0f * size) / CLIENT_WIDTH;
+	}
+	else
+	{
+		dx = float(this->fontChars[letter].size * size)  / CLIENT_WIDTH;
+		dy = (16.0f * size) / CLIENT_HEIGHT;
+		this->vertexData.at(0).Pos = DirectX::XMFLOAT3(NDCpos.x, NDCpos.y, 0);				//top left
+		this->vertexData.at(0).UVs = DirectX::XMFLOAT2(this->fontChars[letter].left, 0);
+
+		this->vertexData.at(1).Pos = DirectX::XMFLOAT3(NDCpos.x + dx, NDCpos.y - dy, 0);	//bottom right
+		this->vertexData.at(1).UVs = DirectX::XMFLOAT2(this->fontChars[letter].right, 1);
+
+		this->vertexData.at(2).Pos = DirectX::XMFLOAT3(NDCpos.x, NDCpos.y - dy, 0);			//bottom left
+		this->vertexData.at(2).UVs = DirectX::XMFLOAT2(this->fontChars[letter].left, 1);
+
+		this->vertexData.at(3).Pos = DirectX::XMFLOAT3(NDCpos.x, NDCpos.y, 0);				//top left
+		this->vertexData.at(3).UVs = DirectX::XMFLOAT2(this->fontChars[letter].left, 0);
+
+		this->vertexData.at(4).Pos = DirectX::XMFLOAT3(NDCpos.x + dx, NDCpos.y, 0);			//top right
+		this->vertexData.at(4).UVs = DirectX::XMFLOAT2(this->fontChars[letter].right, 0);
+
+		this->vertexData.at(5).Pos = DirectX::XMFLOAT3(NDCpos.x + dx, NDCpos.y - dy, 0);	//bottom right
+		this->vertexData.at(5).UVs = DirectX::XMFLOAT2(this->fontChars[letter].right, 1);
+
+		float t = (40.0f / CLIENT_WIDTH);
+		NDCpos.x += t;
+
+		this->UpdateVertexBuffer();
+		this->gDeviceContext->IASetVertexBuffers(0, 1, &this->vertexBuffer, &vertexSize, &offset);
+
+		this->gDeviceContext->Draw(6, 0);
+
+	}
+	
+
+
+
 }
 
-float TextRenderer::getTextSize() const
+float TextRenderer::getTextWidth() const
 {
-	return this->textSize;;
+	return this->textWidth;;
+}
+float TextRenderer::getTextHeight() const
+{
+	return this->textHeight;;
 }
 
 float TextRenderer::getUPerNumber() const
@@ -171,9 +294,13 @@ float TextRenderer::getUPerNumber() const
 	return this->UPerNumber;
 }
 
-void TextRenderer::setTextSize(float newTextSize)
+void TextRenderer::setTextWidth(float newTextWidth)
 {
-	this->textSize = newTextSize;
+	this->textWidth = (newTextWidth / CLIENT_WIDTH);
+}
+void TextRenderer::setTextHeight(float newTextHeight)
+{
+	this->textHeight = (newTextHeight / CLIENT_HEIGHT);
 }
 
 void TextRenderer::setUPerNumber(float newUPerNumber)
@@ -206,6 +333,32 @@ void TextRenderer::UpdateVertexBuffer()
 void TextRenderer::UpdateQuadPos(Vector3 pos)
 {
 	Vector3 NDCpos = Vector3(pos.x / CLIENT_WIDTH, pos.y / CLIENT_HEIGHT, 0);
+	NDCpos.x -= 1;
+	NDCpos.y += 1;
+
+	this->vertexData.at(0).Pos = DirectX::XMFLOAT3(NDCpos.x, NDCpos.y, 0);
+	this->vertexData.at(1).Pos = DirectX::XMFLOAT3(NDCpos.x + this->textWidth, NDCpos.y - this->textHeight, 0);
+	this->vertexData.at(2).Pos = DirectX::XMFLOAT3(NDCpos.x, NDCpos.y - this->textHeight, 0);
+
+	this->vertexData.at(3).Pos = DirectX::XMFLOAT3(NDCpos.x, NDCpos.y, 0);
+	this->vertexData.at(4).Pos = DirectX::XMFLOAT3(NDCpos.x + this->textWidth, NDCpos.y, 0);
+	this->vertexData.at(5).Pos = DirectX::XMFLOAT3(NDCpos.x + this->textWidth, NDCpos.y - this->textHeight, 0);
+
+
+}
+
+void TextRenderer::UpdateUVCoords(int number)
+{
+	Vector2 UV = Vector2(0, 0);
+	UV.x = number * this->UPerNumber;
+
+	this->vertexData.at(0).UVs = DirectX::XMFLOAT2(UV.x, UV.y);
+	this->vertexData.at(1).UVs = DirectX::XMFLOAT2(UV.x + this->UPerNumber, 1);
+	this->vertexData.at(2).UVs = DirectX::XMFLOAT2(UV.x, 1);
+						   
+	this->vertexData.at(3).UVs = DirectX::XMFLOAT2(UV.x, UV.y);
+	this->vertexData.at(4).UVs = DirectX::XMFLOAT2(UV.x + this->UPerNumber, UV.y);
+	this->vertexData.at(5).UVs = DirectX::XMFLOAT2(UV.x + this->UPerNumber, 1);
 
 
 }

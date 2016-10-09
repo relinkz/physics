@@ -3,6 +3,7 @@
 
 #include <windows.h>
 #include"GlobalData.h"
+#include "Body.h"
 #include "Parser.h"
 #include <string>
 #include <vector>
@@ -11,7 +12,8 @@ class TextRenderer
 {
 private:
 	
-	float textSize;
+	float textWidth;
+	float textHeight;
 	float UPerNumber;
 
 	ID3D11VertexShader* vertexShader;
@@ -30,9 +32,11 @@ private:
 	ID3D11Device *gDevice;
 	ID3D11DeviceContext *gDeviceContext;
 
+	FontChar* fontChars;
 
 	void UpdateVertexBuffer();
 	void UpdateQuadPos(Vector3 pos);
+	void UpdateUVCoords(int number);
 
 public:
 	TextRenderer();
@@ -40,13 +44,16 @@ public:
 
 	bool Initialize(ID3D11Device *gDevice, ID3D11DeviceContext *gDeviceContext);
 
+	void RenderBodyInfo(Body* body, Vector3 pos, float size);
 	void RenderNumber(Vector3 pos,float number);
-	void RenderText(Vector3 pos, std::string str);
+	void RenderText(Vector3 pos, char *text, float size);
 
-	float getTextSize() const;
+	float getTextWidth() const;
+	float getTextHeight() const;
 	float getUPerNumber() const;
 
-	void setTextSize(float newTextSize);
+	void setTextWidth(float newTextWidth);
+	void setTextHeight(float newTextHeight);
 	void setUPerNumber(float newUPerNumber);
 
 };

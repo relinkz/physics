@@ -201,10 +201,12 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
+    <Text Include="fontData.txt" />
     <Text Include="obj.txt" />
     <Text Include="sphere1.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="font.tga" />
     <Image Include="Numbers.tga" />
     <Image Include="PathfinderMap.tga" />
     <Image Include="Sun.tga" />
