@@ -33,10 +33,10 @@ Body::~Body()
 	}
 }
 
-void Body::update()
+void Body::update() //time
 {
 	//s = v *     s = v      
-	this->position = this->position + (this->velocity);
+	this->position = this->position + (this->velocity); // *t
 
 }
 void Body::applyForce(Vector3 & force)
