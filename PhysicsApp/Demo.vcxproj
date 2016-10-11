@@ -208,6 +208,7 @@
     <Text Include="sphere1.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="backGround.tga" />
     <Image Include="font.tga" />
     <Image Include="Numbers.tga" />
     <Image Include="PathfinderMap.tga" />

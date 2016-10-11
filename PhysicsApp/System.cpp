@@ -157,6 +157,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 					//CompleteSimulation();
 
 				}
+				engine.RenderSkyBox(gameCamera);
 				for (int i = 0; i < bodies.size(); i++)
 				{
 					Vector3 pos = bodies.at(i).getPosition() * SCALE * scaleMod.getModifier();

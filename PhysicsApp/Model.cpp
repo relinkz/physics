@@ -80,6 +80,37 @@ void Model::initialize(ID3D11Device * gDevice, ID3D11DeviceContext * gDeviceCont
 	this->spinnY(0.0001);
 }
 
+void Model::initializeSkyBox(ID3D11Device * gDevice, ID3D11DeviceContext * gDeviceContext, const DirectX::XMFLOAT3 & pos)
+{
+	HRESULT result;
+	std::vector<Vertex2>rawData;
+
+	this->worldPos = pos;
+
+	//get data
+	Parser test = Parser();
+	test.readFile();
+	test.ReverseTriangle();
+	rawData = test.getRawData();
+
+	this->nrOfVertex = rawData.size();
+
+	D3D11_BUFFER_DESC desc;
+	memset(&desc, 0, sizeof(desc));
+	desc.Usage = D3D11_USAGE_DEFAULT;
+	desc.ByteWidth = sizeof(Vertex2) * rawData.size();
+	desc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+
+	D3D11_SUBRESOURCE_DATA data;
+	memset(&data, 0, sizeof(data));
+	data.pSysMem = rawData.data();
+
+	result = gDevice->CreateBuffer(&desc, &data, &this->vertexBuffer);
+
+	this->translationMatrix = DirectX::XMMatrixTranslation(pos.x, pos.y, pos.z);
+	scaleMatrix = DirectX::XMMatrixIdentity();
+}
+
 void Model::initializeTriangle(ID3D11Device * gDevice, ID3D11DeviceContext * gDeviceContext, const DirectX::XMFLOAT3& pos)
 {
 	HRESULT result;

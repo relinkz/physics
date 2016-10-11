@@ -22,6 +22,9 @@ Engine::Engine()
 	this->inputLayout = nullptr;
 
 	this->matrixBuffer = nullptr;
+
+	this->bakcGroundSRV = nullptr;
+	this->SRVtest = nullptr;
 }
 
 
@@ -247,7 +250,9 @@ bool Engine::initialize(HWND* window)
 
 	Parser parser = Parser();
 
-	this->SRVtest = parser.LoadTarga(this->gDevice, this->gDeviceContext, "PathfinderMap.tga");
+	this->SRVtest		= parser.LoadTarga(this->gDevice, this->gDeviceContext, "PathfinderMap.tga");
+	this->bakcGroundSRV	= parser.LoadTarga(this->gDevice, this->gDeviceContext, "backGround.tga");
+	this->backGroundModel.initializeSkyBox(this->gDevice, this->gDeviceContext, DirectX::XMFLOAT3(0,0,0));
 	
 	D3D11_SAMPLER_DESC sampDesc;
 	sampDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
@@ -422,6 +427,50 @@ void Engine::drawObject(Model &toDraw, ID3D11ShaderResourceView *SRV)
 
 	this->gDeviceContext->Draw(toDraw.getNrOfVertex(), 0);
 	//HRESULT result = this->gSwapChain->Present(0, 0);
+}
+
+void Engine::RenderSkyBox(const Camera & gameCamera)
+{
+	this->gDeviceContext->OMSetRenderTargets(1, &gRenderTargetView, NULL);
+
+
+	Vector3 cameraPos = gameCamera.GetCameraPos();
+	this->backGroundModel.setTranslationMatrix(cameraPos);
+	this->backGroundModel.update();
+
+
+	this->fillCBuffers(this->backGroundModel.getWorldModel(), gameCamera);
+
+	this->gDeviceContext->IASetInputLayout(this->inputLayout);
+	this->gDeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	//send ShaderResources to PixelShade
+	this->gDeviceContext->PSSetShaderResources(0, 1, &this->bakcGroundSRV);
+
+
+	//set vertex shader and data
+	this->gDeviceContext->VSSetShader(this->vertexShader, nullptr, 0);
+	this->gDeviceContext->VSSetConstantBuffers(0, 1, &this->matrixBuffer);
+
+	this->gDeviceContext->HSSetShader(nullptr, nullptr, 0);
+	this->gDeviceContext->DSSetShader(nullptr, nullptr, 0);
+	this->gDeviceContext->GSSetShader(nullptr, nullptr, 0);
+	this->gDeviceContext->PSSetShader(this->pixelShader, nullptr, 0);
+
+
+	UINT stride = sizeof(Vertex2);
+	UINT offset = 0;
+
+	ID3D11Buffer* vBuffer = nullptr;
+	vBuffer = this->backGroundModel.getVertexBuffer();
+
+	this->gDeviceContext->PSSetSamplers(0, 1, &this->samplerState);
+	this->gDeviceContext->IASetVertexBuffers(0, 1, &vBuffer, &stride, &offset);
+
+	this->gDeviceContext->Draw(this->backGroundModel.getNrOfVertex(), 0);
+
+
+	this->gDeviceContext->OMSetRenderTargets(1, &gRenderTargetView, this->mDepthStencilView);
 }
 
 void Engine::clearFrame()

@@ -122,5 +122,8 @@
     <Image Include="font.tga">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="backGround.tga">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
