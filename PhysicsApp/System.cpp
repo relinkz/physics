@@ -11,8 +11,11 @@
 
 HWND InitWindow(HINSTANCE hInstance);
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
+void SimpleSimulation();
+void CompleteSimulation();
 
-
+//create bodies
+std::vector<Body>bodies;
 /*
  Entry point for our program
  This part of the code uses extensively Windows Datatypes, please the following
@@ -62,8 +65,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 		//initialize model
 		planet.initialize(engine.getDevice(), engine.getDeviceContext(), DirectX::XMFLOAT3(0.0f ,0.0f , 2.0f));
 		planet.setUniformScale(0.09f);
-		//create bodies
-		std::vector<Body>bodies;
+
 
 		//bodies.push_back(Body(&planet, Vector3(0, 0, 0)));
 		//bodies.push_back(Body(&planet, Vector3(0, 4, 0)));
@@ -125,29 +127,9 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 				//Physics::doPhysics(bodies.at(0), bodies.at(1));
 				for (int i = 0; i < nrOfTicks; i++)
 				{
-					Physics::atracttion(bodies.at(0), bodies.at(1));
-					Physics::atracttion(bodies.at(0), bodies.at(2));
-					//gameCamera.SetPosition(bodies.at(1).getPosition() * SCALE);
+					SimpleSimulation();
+					//CompleteSimulation();
 
-					bodies.at(2).update();
-					bodies.at(1).update();
-					bodies.at(0).update();
-					//Vector3 pos = bodies.at(1).getPosition() * SCALE * 0.01f;
-					//planet.setTranslationMatrix(pos);
-					//planet.update();
-
-					//engine.fillCBuffers(planet.getWorldModel(), gameCamera);
-					//engine.drawObject(planet);
-
-
-
-
-					//pos = bodies.at(0).getPosition() * SCALE * 0.01f;
-					//planet.setTranslationMatrix(pos);
-					//planet.update();
-
-					//engine.fillCBuffers(planet.getWorldModel(), gameCamera);
-					//engine.drawObject(planet);
 				}
 				for (int i = 0; i < 3; i++)
 				{
@@ -160,26 +142,8 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 
 					scaleMod.checkInput();
 				}
-				/*for (int i = 0; i < 2; i++)
-				{
 
-
-					//set wordpos
-					bodies.at(i).update();
-					Vector3 pos = bodies.at(i).getPosition() * SCALE * 0.01f;
-					planet.setTranslationMatrix(pos);
-					planet.update();
-
-					engine.fillCBuffers(planet.getWorldModel(), gameCamera);
-					engine.drawObject(planet);
-
-				}*/
-				//textHandler.RenderNumber(Vector3(0,0,0), 1.0f);
 				textHandler.RenderBodyInfo(&bodies.at(1), Vector3(0, 0, 0), 2.0f);
-				//textHandler.RenderText(Vector3(0, 0, 0), "0", 5);
-				//textHandler.RenderText(Vector3(40, 0, 0), "1", 5);
-				//textHandler.RenderText(Vector3(80, 0, 0), "2", 5);
-				//textHandler.RenderText(Vector3(120, 0, 0), "3", 5);
 
 
 				engine.present();
@@ -262,4 +226,36 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 
 	// if we do not handle the message here, simply call the Default handler function
 	return DefWindowProc(hWnd, message, wParam, lParam);
+}
+
+void SimpleSimulation()
+{
+	//only sun affects bodies
+
+	int nrOfBodies = bodies.size();
+	//index 0 == sun
+	for (int i = 1; i < nrOfBodies; i++)
+	{
+		Physics::atracttion(bodies.at(0), bodies.at(i));
+		bodies.at(i).update();
+	}
+}
+
+void CompleteSimulation()
+{
+	//all bodies affects all bodies
+
+	int nrOfBodies = bodies.size();
+	//index 0 == sun
+	for (int i = 1; i < nrOfBodies; i++)
+	{
+		for (int z = 0; z < nrOfBodies; z++)
+		{
+			if (i != z)
+			{
+				Physics::atracttion(bodies.at(i), bodies.at(z));
+			}
+		}
+		bodies.at(i).update();
+	}
 }
