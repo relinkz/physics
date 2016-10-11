@@ -150,7 +150,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 				}
 
 
-				textHandler.RenderBodyInfo(&bodies.at(infoHandler.getNumOfPlanets()), Vector3(0, 0, 0), 2.0f);
+				textHandler.RenderBodyInfo(&bodies.at(infoHandler.getPlanetWatched()), Vector3(0, 0, 0), 2.0f);
 
 				engine.present();
 				engine.clearFrame();
