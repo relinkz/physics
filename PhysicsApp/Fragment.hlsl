@@ -47,6 +47,5 @@ float4 PS_main(VS_OUT input) : SV_Target
 
 	color += extraColor;
 
-
 	return color;
 };

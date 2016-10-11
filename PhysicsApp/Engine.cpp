@@ -384,7 +384,7 @@ void Engine::fillCBuffers(const DirectX::XMMATRIX &modelWorldMatrix, const Camer
 	v->projectionMatrix = gameCamera.getProjectionMatrix();
 	if (isSelected == true)
 	{
-		v->extraColor = DirectX::XMFLOAT4(100.0f, 0, 0, 0);
+		v->extraColor = DirectX::XMFLOAT4(0.5f, 0.0f, 0.0f, 0);
 	}
 	else
 	{
@@ -418,7 +418,9 @@ void Engine::drawObject(Model &toDraw, ID3D11ShaderResourceView *SRV)
 	this->gDeviceContext->HSSetShader(nullptr, nullptr, 0);
 	this->gDeviceContext->DSSetShader(nullptr, nullptr, 0);
 	this->gDeviceContext->GSSetShader(nullptr, nullptr, 0);
+
 	this->gDeviceContext->PSSetShader(this->pixelShader, nullptr, 0);
+	this->gDeviceContext->PSSetConstantBuffers(0, 1, &this->matrixBuffer);
 
 
 	UINT stride = sizeof(Vertex2);
