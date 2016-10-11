@@ -35,8 +35,9 @@ Body::~Body()
 
 void Body::update()
 {
+	//s = v *     s = v      
 	this->position = this->position + (this->velocity);
-	//this->velocity = Vector3(0, 0, 0);
+
 }
 void Body::applyForce(Vector3 & force)
 {

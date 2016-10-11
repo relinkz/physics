@@ -12,6 +12,8 @@
 #define VK_S 0x53
 #define VK_D 0x44
 #define VK_R 0x52
+#define VK_I 0x49
+#define VK_J 0x4A
 
 UINT const CLIENT_WIDTH = 640;
 UINT const CLIENT_HEIGHT = 480;
