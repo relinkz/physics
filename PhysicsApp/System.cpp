@@ -121,7 +121,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 				//for each body
 				//engine.clearFrame();
 
-				int nrOfTicks = 3600;
+				int nrOfTicks = 360;
 				//Physics::doPhysics(bodies.at(0), bodies.at(1));
 				for (int i = 0; i < nrOfTicks; i++)
 				{

@@ -5,7 +5,6 @@
 //body1 attracts body2
 void Physics::atracttion(Body & body1, Body & body2)
 {
-	//				   0.000000000000000000000001f;
 	double tempScale = 0.00000000000001f;
 	tempScale = 1.0f;
 
