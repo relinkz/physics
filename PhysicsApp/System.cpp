@@ -10,7 +10,11 @@
 
 HWND InitWindow(HINSTANCE hInstance);
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
+void SimpleSimulation();
+void CompleteSimulation();
 
+//create bodies
+std::vector<Body>bodies;
 
 /*
  Entry point for our program
@@ -58,8 +62,6 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 		//initialize model
 		planet.initialize(engine.getDevice(), engine.getDeviceContext(), DirectX::XMFLOAT3(0.0f ,0.0f , 2.0f));
 		planet.setUniformScale(0.09f);
-		//create bodies
-		std::vector<Body>bodies;
 
 		//bodies.push_back(Body(&planet, Vector3(0, 0, 0)));
 		//bodies.push_back(Body(&planet, Vector3(0, 4, 0)));
@@ -118,36 +120,16 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 				//engine.clearFrame();
 
 				int nrOfTicks = 3600;
-				//Physics::doPhysics(bodies.at(0), bodies.at(1));
+				Physics::doPhysics(bodies.at(0), bodies.at(1));
 				for (int i = 0; i < nrOfTicks; i++)
 				{
-					Physics::atracttion(bodies.at(0), bodies.at(1));
-					Physics::atracttion(bodies.at(0), bodies.at(2));
-					//gameCamera.SetPosition(bodies.at(1).getPosition() * SCALE);
-
-					bodies.at(2).update();
-					bodies.at(1).update();
-					bodies.at(0).update();
-					//Vector3 pos = bodies.at(1).getPosition() * SCALE * 0.01f;
-					//planet.setTranslationMatrix(pos);
-					//planet.update();
-
-					//engine.fillCBuffers(planet.getWorldModel(), gameCamera);
-					//engine.drawObject(planet);
-
-
-
-
-					//pos = bodies.at(0).getPosition() * SCALE * 0.01f;
-					//planet.setTranslationMatrix(pos);
-					//planet.update();
-
-					//engine.fillCBuffers(planet.getWorldModel(), gameCamera);
-					//engine.drawObject(planet);
+					int nrOfBodies = bodies.size();
+					SimpleSimulation();
+					//CompleteSimulation();
 				}
 				for (int i = 0; i < 3; i++)
 				{
-					Vector3 pos = bodies.at(i).getPosition() * SCALE * 0.02f;
+					Vector3 pos = bodies.at(i).getPosition() * SCALE * 0.01f;
 					planet.setTranslationMatrix(pos);
 					planet.update();
 
@@ -256,4 +238,40 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 
 	// if we do not handle the message here, simply call the Default handler function
 	return DefWindowProc(hWnd, message, wParam, lParam);
+}
+
+void SimpleSimulation()
+{
+	//only sun affects bodies
+	int nrOfBodies = bodies.size();
+	for (int i = 0; i < nrOfBodies; i++)
+	{
+		//index 0 == sun
+		for (int i = 1; i < nrOfBodies; i++)
+		{
+			Physics::atracttion(bodies.at(0), bodies.at(i));
+		
+			bodies.at(i).update();
+		}
+	}
+}
+
+void CompleteSimulation()
+{
+	//all bodies affects all bodies
+	int nrOfBodies = bodies.size();
+	for (int i = 0; i < nrOfBodies; i++)
+	{
+		for (int i = 0; i < nrOfBodies; i++)
+		{
+			for (int z = 0; z < nrOfBodies; z++)
+			{
+				if (i != z)
+				{
+					Physics::atracttion(bodies.at(i), bodies.at(z));
+				}
+			}
+			bodies.at(i).update();
+		}
+	}
 }
