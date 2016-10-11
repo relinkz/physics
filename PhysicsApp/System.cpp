@@ -130,7 +130,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 					inputCheck = true;
 					watchingPlanet += 1;
 
-					if (watchingPlanet > bodies.size())
+					if (watchingPlanet >= bodies.size())
 					{
 						watchingPlanet = 0;
 					}
