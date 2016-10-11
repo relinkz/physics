@@ -451,7 +451,7 @@ void Engine::RenderSkyBox(const Camera & gameCamera)
 	this->backGroundModel.update();
 
 
-	this->fillCBuffers(this->backGroundModel.getWorldModel(), gameCamera);
+	this->fillCBuffers(this->backGroundModel.getWorldModel(), gameCamera, false);
 
 	this->gDeviceContext->IASetInputLayout(this->inputLayout);
 	this->gDeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
