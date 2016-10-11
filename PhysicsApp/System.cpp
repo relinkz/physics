@@ -5,6 +5,7 @@
 #include "Engine.h" //model, camera, globaldata included here
 #include "Physics.h"
 #include "TextRenderer.h"
+#include "InfoHandler.h"
 #include <crtdbg.h.>
 #include <vector>
 #include "scaleModifier.h"
@@ -45,16 +46,14 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 	//create textHandler
 	TextRenderer textHandler;
 
+	//create infoHandler for presenting active planet
+	InfoHandler infoHandler;
+
 	//timeClock
 	//GameTimer gameTime;
 
-	//for presenting active planet  
-	int watchingPlanet = 0;
-	bool inputCheck = false;
-
 	//scaleHandler
 	scaleModifier scaleMod = scaleModifier();
-
 
 	// window is valid
 	if (wndHandle)
@@ -104,7 +103,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 		//bodies.at(1).setPosition(Vector3(0.4 * AU, 0, 0));
 		//bodies.at(1).setVelocity(Vector3(0, 4.25 * 1000, 0));
 
-
+		infoHandler.setNumOfPlanets(bodies.size());
 		//gameTime.Reset();
 
 		// enter message loop, loop until the message WM_QUIT is received.
@@ -119,26 +118,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 			}
 			else
 			{
-				//input
-				if (GetAsyncKeyState(VK_ESCAPE))
-				{
-					//shut down
-				}
-
-				if (GetAsyncKeyState(VK_TAB) && inputCheck == false)
-				{
-					inputCheck = true;
-					watchingPlanet += 1;
-
-					if (watchingPlanet >= bodies.size())
-					{
-						watchingPlanet = 0;
-					}
-				}
-				else if (GetAsyncKeyState(VK_TAB) == 0)
-				{
-					inputCheck = false;
-				}
+				infoHandler.checkInput();
 
 				//gameTime.Tick();
 
@@ -160,18 +140,26 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 				engine.RenderSkyBox(gameCamera);
 				for (int i = 0; i < bodies.size(); i++)
 				{
+					bool renderActivePlanet = false;
+					if (infoHandler.getPlanetWatched() == i)
+					{
+						renderActivePlanet = true;
+					}
+
+
 					Vector3 pos = bodies.at(i).getPosition() * SCALE * scaleMod.getModifier();
 					planet.setTranslationMatrix(pos);
 					planet.update();
 
-					engine.fillCBuffers(planet.getWorldModel(), gameCamera);
+					
+					engine.fillCBuffers(planet.getWorldModel(), gameCamera, renderActivePlanet);
 					engine.drawObject(planet, bodies.at(i).getSRV());
 
 					scaleMod.checkInput();
 				}
 
 
-				textHandler.RenderBodyInfo(&bodies.at(watchingPlanet), Vector3(0, 0, 0), 2.0f);
+				textHandler.RenderBodyInfo(&bodies.at(infoHandler.getPlanetWatched()), Vector3(0, 0, 0), 2.0f);
 
 				engine.present();
 				engine.clearFrame();

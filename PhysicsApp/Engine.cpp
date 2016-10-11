@@ -358,7 +358,7 @@ ID3D11DeviceContext* Engine::getDeviceContext()
 	return this->gDeviceContext;
 }
 
-void Engine::fillCBuffers(const DirectX::XMMATRIX &modelWorldMatrix, const Camera &gameCamera)
+void Engine::fillCBuffers(const DirectX::XMMATRIX &modelWorldMatrix, const Camera &gameCamera, bool isSelected)
 {
 	HRESULT result;
 
@@ -387,6 +387,16 @@ void Engine::fillCBuffers(const DirectX::XMMATRIX &modelWorldMatrix, const Camer
 	v->worldMatrix = modelWorldMatrix;
 	v->viewMatrix = gameCamera.getViewMatrix();
 	v->projectionMatrix = gameCamera.getProjectionMatrix();
+	if (isSelected == true)
+	{
+		v->extraColor = DirectX::XMFLOAT4(0.5f, 0.0f, 0.0f, 0);
+	}
+	else
+	{
+		v->extraColor = DirectX::XMFLOAT4(0, 0, 0, 0);
+	}
+
+	
 
 	gDeviceContext->Unmap(this->matrixBuffer, 0);
 }
@@ -413,7 +423,9 @@ void Engine::drawObject(Model &toDraw, ID3D11ShaderResourceView *SRV)
 	this->gDeviceContext->HSSetShader(nullptr, nullptr, 0);
 	this->gDeviceContext->DSSetShader(nullptr, nullptr, 0);
 	this->gDeviceContext->GSSetShader(nullptr, nullptr, 0);
+
 	this->gDeviceContext->PSSetShader(this->pixelShader, nullptr, 0);
+	this->gDeviceContext->PSSetConstantBuffers(0, 1, &this->matrixBuffer);
 
 
 	UINT stride = sizeof(Vertex2);
