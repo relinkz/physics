@@ -341,10 +341,23 @@ void Engine::shutdown()
 		this->gDevice->Release();
 		this->gDevice = nullptr;
 	}
+
 	if (this->SRVtest != nullptr)
 	{
 		this->SRVtest->Release();
 		this->SRVtest = nullptr;
+	}
+
+	if (this->bakcGroundSRV != nullptr)
+	{
+		this->bakcGroundSRV->Release();
+		this->bakcGroundSRV = nullptr;
+	}
+
+	if (this->samplerState != nullptr)
+	{
+		this->samplerState->Release();
+		this->samplerState = nullptr;
 	}
 }
 
