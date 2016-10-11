@@ -139,11 +139,19 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 				}
 				for (int i = 0; i < bodies.size(); i++)
 				{
+					bool renderActivePlanet = false;
+					if (infoHandler.getPlanetWatched() == i)
+					{
+						renderActivePlanet = true;
+					}
+
+
 					Vector3 pos = bodies.at(i).getPosition() * SCALE * scaleMod.getModifier();
 					planet.setTranslationMatrix(pos);
 					planet.update();
 
-					engine.fillCBuffers(planet.getWorldModel(), gameCamera);
+					
+					engine.fillCBuffers(planet.getWorldModel(), gameCamera, renderActivePlanet);
 					engine.drawObject(planet, bodies.at(i).getSRV());
 
 					scaleMod.checkInput();

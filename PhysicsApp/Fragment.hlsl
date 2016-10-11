@@ -1,5 +1,13 @@
 Texture2D txDiffuse : register(t0);
 SamplerState sampAni : register(s0);
+cbuffer matrixData
+{
+	float4x4 worldMatrix;
+	float4x4 viewMatrix;
+	float4x4 projectionMatrix;
+	float4 extraColor;
+};
+
 
 struct VS_OUT
 {
@@ -36,6 +44,8 @@ float4 PS_main(VS_OUT input) : SV_Target
 	}
 
 	color = (color * angle) + color * 0.8f;
+
+	color += extraColor;
 
 
 	return color;

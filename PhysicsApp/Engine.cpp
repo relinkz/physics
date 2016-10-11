@@ -353,7 +353,7 @@ ID3D11DeviceContext* Engine::getDeviceContext()
 	return this->gDeviceContext;
 }
 
-void Engine::fillCBuffers(const DirectX::XMMATRIX &modelWorldMatrix, const Camera &gameCamera)
+void Engine::fillCBuffers(const DirectX::XMMATRIX &modelWorldMatrix, const Camera &gameCamera, bool isSelected)
 {
 	HRESULT result;
 
@@ -382,6 +382,16 @@ void Engine::fillCBuffers(const DirectX::XMMATRIX &modelWorldMatrix, const Camer
 	v->worldMatrix = modelWorldMatrix;
 	v->viewMatrix = gameCamera.getViewMatrix();
 	v->projectionMatrix = gameCamera.getProjectionMatrix();
+	if (isSelected == true)
+	{
+		v->extraColor = DirectX::XMFLOAT4(100.0f, 0, 0, 0);
+	}
+	else
+	{
+		v->extraColor = DirectX::XMFLOAT4(0, 0, 0, 0);
+	}
+
+	
 
 	gDeviceContext->Unmap(this->matrixBuffer, 0);
 }

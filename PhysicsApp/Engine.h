@@ -13,6 +13,7 @@ private:
 		DirectX::XMMATRIX worldMatrix;
 		DirectX::XMMATRIX viewMatrix;
 		DirectX::XMMATRIX projectionMatrix;
+		DirectX::XMFLOAT4 extraColor;
 	};
 private:
 
@@ -55,7 +56,7 @@ public:
 	ID3D11Device* getDevice();
 	ID3D11DeviceContext* getDeviceContext();
 
-	void fillCBuffers(const DirectX::XMMATRIX &modelWorldMatrix, const Camera &gameCamera);
+	void fillCBuffers(const DirectX::XMMATRIX &modelWorldMatrix, const Camera &gameCamera, bool isSelected);
 	void drawObject(Model &toDraw, ID3D11ShaderResourceView *SRV);
 
 	void clearFrame();
