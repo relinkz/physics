@@ -7,6 +7,7 @@
 #include "TextRenderer.h"
 #include <crtdbg.h.>
 #include <vector>
+#include "scaleModifier.h"
 
 HWND InitWindow(HINSTANCE hInstance);
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
@@ -43,6 +44,9 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 
 	//timeClock
 	//GameTimer gameTime;
+
+	//scaleHandler
+	scaleModifier scaleMod = scaleModifier();
 
 	// window is valid
 	if (wndHandle)
@@ -147,12 +151,14 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 				}
 				for (int i = 0; i < 3; i++)
 				{
-					Vector3 pos = bodies.at(i).getPosition() * SCALE * 0.02f;
+					Vector3 pos = bodies.at(i).getPosition() * SCALE * scaleMod.getModifier();
 					planet.setTranslationMatrix(pos);
 					planet.update();
 
 					engine.fillCBuffers(planet.getWorldModel(), gameCamera);
 					engine.drawObject(planet, bodies.at(i).getSRV());
+
+					scaleMod.checkInput();
 				}
 				/*for (int i = 0; i < 2; i++)
 				{
