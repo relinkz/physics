@@ -37,12 +37,22 @@ void InfoHandler::checkInput()
 	}
 }
 
+void InfoHandler::setPlanetWatched(int numberOfThePlanet)
+{
+	this->watchingPlanet = numberOfThePlanet;
+}
+
 void InfoHandler::setNumOfPlanets(size_t NumOfPlanets)
 {
 	this->numberOfBodies = NumOfPlanets;
 }
 
 int InfoHandler::getNumOfPlanets()
+{
+	return this->numberOfBodies;
+}
+
+int InfoHandler::getPlanetWatched()
 {
 	return this->watchingPlanet;
 }

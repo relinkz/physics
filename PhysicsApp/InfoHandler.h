@@ -17,8 +17,11 @@ public:
 
 	void checkInput();
 
+	void setPlanetWatched(int numberOfThePlanet);
 	void setNumOfPlanets(size_t NumOfPlanets);
+
 	int getNumOfPlanets();
+	int getPlanetWatched();
 };
 
 #endif
