@@ -44,6 +44,9 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 	//timeClock
 	//GameTimer gameTime;
 
+	int watchingPlanet = 0;
+	bool inputCheck = false;
+
 	// window is valid
 	if (wndHandle)
 	{
@@ -108,6 +111,27 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 			}
 			else
 			{
+				//input
+				if (GetAsyncKeyState(VK_ESCAPE))
+				{
+					//shut down
+				}
+
+				if (GetAsyncKeyState(VK_TAB) && inputCheck == false)
+				{
+					inputCheck = true;
+					watchingPlanet += 1;
+
+					if (watchingPlanet > 2)
+					{
+						watchingPlanet = 0;
+					}
+				}
+				else if (GetAsyncKeyState(VK_TAB) == 0)
+				{
+					inputCheck = false;
+				}
+
 				//gameTime.Tick();
 
 				//update camera with delta time
@@ -169,7 +193,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 
 				}*/
 				//textHandler.RenderNumber(Vector3(0,0,0), 1.0f);
-				textHandler.RenderBodyInfo(&bodies.at(1), Vector3(0, 0, 0), 2.0f);
+				textHandler.RenderBodyInfo(&bodies.at(watchingPlanet), Vector3(0, 0, 0), 2.0f);
 				//textHandler.RenderText(Vector3(0, 0, 0), "0", 5);
 				//textHandler.RenderText(Vector3(40, 0, 0), "1", 5);
 				//textHandler.RenderText(Vector3(80, 0, 0), "2", 5);
