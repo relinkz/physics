@@ -8,7 +8,7 @@ Body::Body()
 	this->velocity = Vector3(0.0f, 0.0f, 0.0f);
 	this->position = Vector3(0.0f, 0.0f, 0.0f);
 	this->mass = 0.0f;
-	this->size = 0.0f;
+	this->size = 1.0f;
 	this->bodyModel = nullptr;
 	this->SRV = nullptr;
 	
@@ -20,7 +20,7 @@ Body::Body(Model* src, const Vector3& pos)
 	this->velocity = Vector3(0.0f, 0.0f, 0.0f);
 	this->position = pos;
 	this->mass = 0.0f;
-	this->size = 0.0f;
+	this->size = 1.0f;
 	this->bodyModel = src;
 	this->SRV = nullptr;
 }
