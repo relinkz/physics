@@ -98,6 +98,14 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 		bodies.at(2).setPosition(Vector3(-0.7 * AU, 0, 0));
 		bodies.at(2).setVelocity(Vector3(0, 35.02 * 1000, 0));
 
+		bodies.push_back(Body(&planet, Vector3(0, 0, 0))); //Mars
+		bodies.at(3).setName("Mars");
+		bodies.at(3).setMass(6.4174 * pow(10, 23));
+		bodies.at(3).setPosition(Vector3(-1.523 * AU, 0, 0)); //halv storaxel?
+		bodies.at(3).setVelocity(Vector3(0, 24.077 * 1000, 0));
+		bodies.at(3).setSRV(parser.LoadTarga(engine.getDevice(), engine.getDeviceContext(), "MarsMap_2500x1250.tga"));
+		
+
 		//bodies.push_back(Body(&planet, Vector3(0, 0, 0))); // Mercury
 		//bodies.at(1).setMass(5.9742 * pow(10, 24) * 0.055);
 		//bodies.at(1).setPosition(Vector3(0.4 * AU, 0, 0));

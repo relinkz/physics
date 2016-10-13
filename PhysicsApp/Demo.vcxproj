@@ -211,10 +211,14 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="font.tga" />
+    <Image Include="MarsMap_2500x1250.tga" />
     <Image Include="Numbers.tga" />
     <Image Include="PathfinderMap.tga" />
     <Image Include="Sun.tga" />
     <Image Include="swapTest.tga" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="goldPlating.rtf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
