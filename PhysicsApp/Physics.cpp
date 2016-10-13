@@ -14,8 +14,10 @@ void Physics::atracttion(Body & body1, Body & body2)
 	if (d == 0)
 	{
 		//that shit is not acceptable
+		d = 0.00001;
 	}
 	long double m1m2 = (body1.getMass() * tempScale) * (body2.getMass() * tempScale);
+	
 	double d2 = pow(d, 2)  * tempScale;
 
 	long double f = (G * (m1m2 / d2)) / tempScale;

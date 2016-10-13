@@ -41,6 +41,7 @@ void Body::update() //time
 }
 void Body::applyForce(Vector3 & force)
 {
+	//v = v+(f/(m*s))
 	this->velocity = this->velocity + (force / this->mass);
 }
 #pragma region get functions

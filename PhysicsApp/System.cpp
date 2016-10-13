@@ -80,17 +80,18 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 		//bodies.at(1).setMass(7.342 * pow(10, 22));
 		//https://en.wikipedia.org/wiki/Solar_System#Venus for values
 
+		
 		bodies.push_back(Body(&planet, Vector3(0, 0, 0))); // sun
 		bodies.at(0).setName("Sun");
 		bodies.at(0).setMass(1.98892f * pow(10.0f,30.0f));
 		bodies.at(0).setSRV(parser.LoadTarga(engine.getDevice(), engine.getDeviceContext(), "Sun.tga"));
 
-		bodies.push_back(Body(&planet, Vector3(0, 0, 0))); // earth
-		bodies.at(1).setName("Earth");
-		bodies.at(1).setMass(5.9742 * pow(10, 24));
-		bodies.at(1).setPosition(Vector3(-1 * AU, 0, 0));
-		bodies.at(1).setVelocity(Vector3(0, 29.783 * 1000, 0));
-		bodies.at(1).setSRV(parser.LoadTarga(engine.getDevice(), engine.getDeviceContext(), "PathfinderMap.tga"));
+		bodies.push_back(Body(&planet, Vector3(0, 0, 0))); //mercery
+		bodies.at(1).setName("Mercery");
+		bodies.at(1).setMass(3.3022* pow(10, 23));
+		bodies.at(1).setPosition(Vector3(-0.387098 * AU, 0, 0));
+		bodies.at(1).setVelocity(Vector3(0, 47.87 * 1000, 0));
+		bodies.at(1).setSRV(parser.LoadTarga(engine.getDevice(), engine.getDeviceContext(), "mercurycyl2.tga"));
 
 		bodies.push_back(Body(&planet, Vector3(0, 0, 0))); // Venus
 		bodies.at(2).setName("Venus");
@@ -98,19 +99,20 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 		bodies.at(2).setPosition(Vector3(-0.7 * AU, 0, 0));
 		bodies.at(2).setVelocity(Vector3(0, 35.02 * 1000, 0));
 
+		bodies.push_back(Body(&planet, Vector3(0, 0, 0))); // earth
+		bodies.at(3).setName("Earth");
+		bodies.at(3).setMass(5.9742 * pow(10, 24));
+		bodies.at(3).setPosition(Vector3(-1 * AU, 0, 0));
+		bodies.at(3).setVelocity(Vector3(0, 29.783 * 1000, 0));
+		bodies.at(3).setSRV(parser.LoadTarga(engine.getDevice(), engine.getDeviceContext(), "PathfinderMap.tga"));
+
 		bodies.push_back(Body(&planet, Vector3(0, 0, 0))); //Mars
-		bodies.at(3).setName("Mars");
-		bodies.at(3).setMass(6.4174 * pow(10, 23));
-		bodies.at(3).setPosition(Vector3(-1.523 * AU, 0, 0)); //halv storaxel?
-		bodies.at(3).setVelocity(Vector3(0, 24.077 * 1000, 0));
-		bodies.at(3).setSRV(parser.LoadTarga(engine.getDevice(), engine.getDeviceContext(), "MarsMap_2500x1250.tga"));
+		bodies.at(4).setName("Mars");
+		bodies.at(4).setMass(6.4174 * pow(10, 23));
+		bodies.at(4).setPosition(Vector3(-1.523 * AU, 0, 0)); //halv storaxel?
+		bodies.at(4).setVelocity(Vector3(0, 24.077 * 1000, 0));
+		bodies.at(4).setSRV(parser.LoadTarga(engine.getDevice(), engine.getDeviceContext(), "MarsMap_2500x1250.tga"));
 		
-
-		//bodies.push_back(Body(&planet, Vector3(0, 0, 0))); // Mercury
-		//bodies.at(1).setMass(5.9742 * pow(10, 24) * 0.055);
-		//bodies.at(1).setPosition(Vector3(0.4 * AU, 0, 0));
-		//bodies.at(1).setVelocity(Vector3(0, 4.25 * 1000, 0));
-
 		infoHandler.setNumOfPlanets(bodies.size());
 		//gameTime.Reset();
 
