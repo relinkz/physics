@@ -19,7 +19,7 @@ UINT const CLIENT_WIDTH = 640;
 UINT const CLIENT_HEIGHT = 480;
 
 const float AU = (149.6e6 * 1000);
-const float SCALE = 250 / AU;
+const float SCALE = 500 / AU;
 
 const float SCALE2 = 0.000000000000000000000001f;
 

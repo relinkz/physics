@@ -2,7 +2,7 @@
 
 Camera::Camera()
 {
-	this->position	= DirectX::XMLoadFloat3(&(DirectX::XMFLOAT3(0.0f, 0.0f, -8.0f)));
+	this->position	= DirectX::XMLoadFloat3(&(DirectX::XMFLOAT3(0.0f, 0.0f, -12.0f)));
 	this->target	= DirectX::XMLoadFloat3(&(DirectX::XMFLOAT3(0.0f, 0.0f, 1.0f)));
 	this->upVector	= DirectX::XMLoadFloat3(&(DirectX::XMFLOAT3(0.0f, 1.0f, 0.0f)));
 	this->right		= DirectX::XMLoadFloat3(&(DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f)));
@@ -95,7 +95,7 @@ DirectX::XMMATRIX Camera::getViewMatrix() const
 DirectX::XMMATRIX Camera::getProjectionMatrix() const
 {
 	DirectX::XMMATRIX toReturn;
-	toReturn = DirectX::XMMatrixPerspectiveFovLH(3.14f*0.45f, float(CLIENT_WIDTH) / float(CLIENT_HEIGHT), 0.5f, 20.0f);
+	toReturn = DirectX::XMMatrixPerspectiveFovLH(3.14f*0.45f, float(CLIENT_WIDTH) / float(CLIENT_HEIGHT), 0.5f, 50.0f);
 	return DirectX::XMMatrixTranspose(toReturn);
 }
 

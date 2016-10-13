@@ -6,7 +6,7 @@
 void Physics::atracttion(Body & body1, Body & body2)
 {
 	double tempScale = 0.00000000000001f;
-	tempScale = 1.0f;
+	//tempScale = 1.0f;
 
 
 	Vector3 dir = (body1.getPosition() - body2.getPosition());
@@ -18,7 +18,7 @@ void Physics::atracttion(Body & body1, Body & body2)
 	long double m1m2 = (body1.getMass() * tempScale) * (body2.getMass() * tempScale);
 	double d2 = pow(d, 2)  * tempScale;
 
-	long double f = (G * (m1m2 / d2)) / tempScale;
+	long double f = (G * ((m1m2 / d2) / tempScale));
 
 	float theta = atan2(dir.y, dir.x);
 

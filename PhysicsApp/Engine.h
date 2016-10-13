@@ -48,6 +48,9 @@ private:
 	Model backGroundModel;
 
 	ID3D11SamplerState *samplerState;
+
+	ID3D11DepthStencilState *mDpethState1;
+	ID3D11DepthStencilState *mDpethState2;
 	
 public:
 	Engine();

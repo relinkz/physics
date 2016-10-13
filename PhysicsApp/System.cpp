@@ -84,6 +84,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 		bodies.at(0).setName("Sun");
 		bodies.at(0).setMass(1.98892f * pow(10.0f,30.0f));
 		bodies.at(0).setSRV(parser.LoadTarga(engine.getDevice(), engine.getDeviceContext(), "Sun.tga"));
+		bodies.at(0).setSize(1.0f);
 
 		bodies.push_back(Body(&planet, Vector3(0, 0, 0))); // earth
 		bodies.at(1).setName("Earth");
@@ -91,12 +92,14 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 		bodies.at(1).setPosition(Vector3(-1 * AU, 0, 0));
 		bodies.at(1).setVelocity(Vector3(0, 29.783 * 1000, 0));
 		bodies.at(1).setSRV(parser.LoadTarga(engine.getDevice(), engine.getDeviceContext(), "PathfinderMap.tga"));
+		bodies.at(1).setSize(1.0f);
 
 		bodies.push_back(Body(&planet, Vector3(0, 0, 0))); // Venus
 		bodies.at(2).setName("Venus");
 		bodies.at(2).setMass(5.9742 * pow(10, 24) * 0.815);
 		bodies.at(2).setPosition(Vector3(-0.7 * AU, 0, 0));
 		bodies.at(2).setVelocity(Vector3(0, 35.02 * 1000, 0));
+		bodies.at(2).setSize(0.815f);
 
 		//bodies.push_back(Body(&planet, Vector3(0, 0, 0))); // Mercury
 		//bodies.at(1).setMass(5.9742 * pow(10, 24) * 0.055);
@@ -105,6 +108,16 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 
 		infoHandler.setNumOfPlanets(bodies.size());
 		//gameTime.Reset();
+
+		int nrOfTicks = 3600 * 24;
+		//Physics::doPhysics(bodies.at(0), bodies.at(1));
+		for (int i = 0; i < nrOfTicks; i++)
+		{
+			SimpleSimulation();
+			//CompleteSimulation();
+
+		}
+
 
 		// enter message loop, loop until the message WM_QUIT is received.
 		while (WM_QUIT != msg.message)
@@ -129,13 +142,13 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 				//for each body
 				//engine.clearFrame();
 
-				int nrOfTicks = 360;
+				int nrOfTicks = 3600;
 				//Physics::doPhysics(bodies.at(0), bodies.at(1));
 				for (int i = 0; i < nrOfTicks; i++)
 				{
 					SimpleSimulation();
 					//CompleteSimulation();
-
+				
 				}
 				engine.RenderSkyBox(gameCamera);
 				for (int i = 0; i < bodies.size(); i++)
@@ -149,6 +162,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 
 					Vector3 pos = bodies.at(i).getPosition() * SCALE * scaleMod.getModifier();
 					planet.setTranslationMatrix(pos);
+					planet.setUniformScale(bodies.at(i).getSize());
 					planet.update();
 
 					

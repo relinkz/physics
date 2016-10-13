@@ -271,6 +271,33 @@ bool Engine::initialize(HWND* window)
 
 	result = this->gDevice->CreateSamplerState(&sampDesc, &this->samplerState);
 
+	D3D11_DEPTH_STENCIL_DESC depthStateDesc;
+	depthStateDesc.DepthEnable = TRUE;
+	depthStateDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+	depthStateDesc.DepthFunc = D3D11_COMPARISON_LESS;
+	depthStateDesc.StencilEnable = TRUE;
+	depthStateDesc.StencilReadMask = 0xFF;
+	depthStateDesc.StencilWriteMask = 0xFF;
+
+	// Stencil operations if pixel is front-facing
+	depthStateDesc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+	depthStateDesc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_INCR;
+	depthStateDesc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+	depthStateDesc.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+
+	// Stencil operations if pixel is back-facing
+	depthStateDesc.BackFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+	depthStateDesc.BackFace.StencilDepthFailOp = D3D11_STENCIL_OP_DECR;
+	depthStateDesc.BackFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+	depthStateDesc.BackFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+
+
+	result = this->gDevice->CreateDepthStencilState(&depthStateDesc, &this->mDpethState1);
+	depthStateDesc.DepthEnable = false;
+	result = this->gDevice->CreateDepthStencilState(&depthStateDesc, &this->mDpethState2);
+
+	this->gDeviceContext->OMSetDepthStencilState(this->mDpethState1, 0);
+
 	return true;
 }
 
@@ -358,6 +385,16 @@ void Engine::shutdown()
 	{
 		this->samplerState->Release();
 		this->samplerState = nullptr;
+	}
+	if (this->mDpethState1 != nullptr)
+	{
+		this->mDpethState1->Release();
+		this->mDpethState1 = nullptr;
+	}
+	if (this->mDpethState2 != nullptr)
+	{
+		this->mDpethState2->Release();
+		this->mDpethState2 = nullptr;
 	}
 }
 
@@ -456,7 +493,8 @@ void Engine::drawObject(Model &toDraw, ID3D11ShaderResourceView *SRV)
 
 void Engine::RenderSkyBox(const Camera & gameCamera)
 {
-	this->gDeviceContext->OMSetRenderTargets(1, &gRenderTargetView, NULL);
+	//this->gDeviceContext->OMSetRenderTargets(1, &gRenderTargetView, NULL);
+	this->gDeviceContext->OMSetDepthStencilState(this->mDpethState2, 0);
 
 
 	Vector3 cameraPos = gameCamera.GetCameraPos();
@@ -495,7 +533,8 @@ void Engine::RenderSkyBox(const Camera & gameCamera)
 	this->gDeviceContext->Draw(this->backGroundModel.getNrOfVertex(), 0);
 
 
-	this->gDeviceContext->OMSetRenderTargets(1, &gRenderTargetView, this->mDepthStencilView);
+	//this->gDeviceContext->OMSetRenderTargets(1, &gRenderTargetView, this->mDepthStencilView);
+	this->gDeviceContext->OMSetDepthStencilState(this->mDpethState1, 0);
 }
 
 void Engine::clearFrame()
