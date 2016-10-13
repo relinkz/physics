@@ -15,6 +15,8 @@ public:
 
 	void ResetCamera();
 	void SetPosition(Vector3 newPos);
+	DirectX::XMMATRIX GetWorldMatrix() const;
+	Vector3 GetCameraPos() const;
 private:
 	DirectX::XMVECTOR position;
 	DirectX::XMVECTOR target;

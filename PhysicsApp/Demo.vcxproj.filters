@@ -131,10 +131,11 @@
     <Image Include="MarsMap_2500x1250.tga">
       <Filter>Resource Files</Filter>
     </Image>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="goldPlating.rtf">
       <Filter>Resource Files</Filter>
     </None>
+    <Image Include="backGround.tga">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

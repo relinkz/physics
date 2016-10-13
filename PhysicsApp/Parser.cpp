@@ -117,6 +117,18 @@ void Parser::readFile()
 	file.close();
 }
 
+void Parser::ReverseTriangle()
+{
+	int nrOfVertexes = this->finalData.size();
+	Vertex2 temp;
+	for (int i = 0; i < nrOfVertexes; i += 3)
+	{
+		temp = this->finalData.at(i + 1);
+		this->finalData.at(i + 1) = this->finalData.at(i + 2);
+		this->finalData.at(i + 2) = temp;
+	}
+}
+
 int3 Parser::stringToInt3(string src)
 {
 	int3 face;

@@ -118,3 +118,23 @@ void Camera::SetPosition(Vector3 newPos)
 {
 	this->position = DirectX::XMLoadFloat3(&DirectX::XMFLOAT3(newPos.x, newPos.y, -4));
 }
+
+DirectX::XMMATRIX Camera::GetWorldMatrix() const
+{
+	float x = DirectX::XMVectorGetX(this->position);
+	float y = DirectX::XMVectorGetY(this->position);
+	float z = DirectX::XMVectorGetZ(this->position);
+
+	return DirectX::XMMatrixTranslation(x, y, z);
+}
+
+Vector3 Camera::GetCameraPos() const
+{
+	float x = DirectX::XMVectorGetX(this->position);
+	float y = DirectX::XMVectorGetY(this->position);
+	float z = DirectX::XMVectorGetZ(this->position);
+
+
+	Vector3 pos = Vector3(x, y, z);
+	return pos;
+}

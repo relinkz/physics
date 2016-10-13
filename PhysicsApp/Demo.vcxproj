@@ -210,6 +210,7 @@
     <Text Include="sphere1.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="backGround.tga" />
     <Image Include="font.tga" />
     <Image Include="MarsMap_2500x1250.tga" />
     <Image Include="Numbers.tga" />

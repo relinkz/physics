@@ -43,6 +43,9 @@ private:
 	ID3D11InputLayout* inputLayout;
 
 	ID3D11ShaderResourceView *SRVtest;
+	ID3D11ShaderResourceView *bakcGroundSRV;
+
+	Model backGroundModel;
 
 	ID3D11SamplerState *samplerState;
 	
@@ -58,6 +61,7 @@ public:
 
 	void fillCBuffers(const DirectX::XMMATRIX &modelWorldMatrix, const Camera &gameCamera, bool isSelected);
 	void drawObject(Model &toDraw, ID3D11ShaderResourceView *SRV);
+	void RenderSkyBox(const Camera &gameCamera);
 
 	void clearFrame();
 	void present();
