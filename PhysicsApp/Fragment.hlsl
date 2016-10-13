@@ -30,7 +30,7 @@ float4 PS_main(VS_OUT input) : SV_Target
 
 	light.Pos = float3(0.0f, 0.0f, 0.0f);
 	light.Color = float3(1.0f, 1.0f, 1.0f);
-	light.range = 0.1f;
+	light.range = 1.0f;
 
 	float4 color = float4(txDiffuse.Sample(sampAni, input.UV).xyz, 0.0f);
 

@@ -25,7 +25,7 @@ public:
 	std::string getName() const;
 	Vector3 getVelocity() const;
 	Vector3 getPosition() const;
-	float getMass() const;
+	long float getMass() const;
 	float getSize() const;
 	Model* getModelAdress();
 	ID3D11ShaderResourceView* getSRV();

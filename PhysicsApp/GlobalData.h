@@ -18,12 +18,12 @@
 UINT const CLIENT_WIDTH = 640;
 UINT const CLIENT_HEIGHT = 480;
 
-const float AU = (149.6e6 * 1000);
-const float SCALE = 250 / AU;
+const long float AU = (149.6e6 * 1000);
+const long float SCALE = 250 / AU;
 
-const float SCALE2 = 0.000000000000000000000001f;
+const long float SCALE2 = 0.000000000000000000000001f;
 
-const float G = 6.674 * pow(10, -11);
+const long float G = 6.674 * pow(10, -11);
 struct FontChar
 {
 	float left, right;
@@ -88,52 +88,68 @@ struct Vector3
 
 	Vector3 operator +(const Vector3 &src)
 	{
-		this->x += src.x;
-		this->y += src.y;
-		this->z += src.z;
+		Vector3 newVector;
 
-		return *this;
+		newVector.x = this->x + src.x;
+		newVector.y = this->y + src.y;
+		newVector.z = this->z + src.z;
+
+		return newVector;
 	}
 
 	Vector3 operator -(const Vector3 &src)
 	{
-		this->x -= src.x;
-		this->y -= src.y;
-		this->z -= src.z;
+		Vector3 newVector;
 
-		return *this;
+		newVector.x = this->x - src.x;
+		newVector.y = this->y - src.y;
+		newVector.z = this->z - src.z;
+
+		return newVector;
 	}
+
 	Vector3 operator /(const Vector3 &src)
 	{
-		this->x /= src.x;
-		this->y /= src.y;
-		this->z /= src.z;
+		Vector3 newVector;
 
-		return *this;
+		newVector.x = this->x / src.x;
+		newVector.y = this->y / src.y;
+		newVector.z = this->z / src.z;
+
+		return newVector;
 	}
+
 	Vector3 operator *(const Vector3 &src)
 	{
-		this->x *= src.x;
-		this->y *= src.y;
-		this->z *= src.z;
+		Vector3 newVector;
 
-		return *this;
+		newVector.x = this->x * src.x;
+		newVector.y = this->y * src.y;
+		newVector.z = this->z * src.z;
+
+		return newVector;
 	}
+
 	Vector3 operator /(const float &flt)
 	{
-		this->x /= flt;
-		this->y /= flt;
-		this->z /= flt;
+		Vector3 newVector;
 
-		return *this;
+		newVector.x = this->x / flt;
+		newVector.y = this->y / flt;
+		newVector.z = this->z / flt;
+
+		return newVector;
 	}
+
 	Vector3 operator *(const float &flt)
 	{
-		this->x *= flt;
-		this->y *= flt;
-		this->z *= flt;
+		Vector3 newVector;
 
-		return *this;
+		newVector.x = this->x * flt;
+		newVector.y = this->y * flt;
+		newVector.z = this->z * flt;
+
+		return newVector;
 	}
 };
 

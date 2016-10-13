@@ -5,22 +5,22 @@
 //body1 attracts body2
 void Physics::atracttion(Body & body1, Body & body2)
 {
-	double tempScale = 0.00000000000001f;
-	tempScale = 1.0f;
-
+	
+	//double tempScale = 0.00000000000001f;
+	//tempScale = 1.0f;
 
 	Vector3 dir = (body1.getPosition() - body2.getPosition());
-	float d = calcRadius(dir);
+	long float d = calcRadius(dir);
 	if (d == 0)
 	{
 		//that shit is not acceptable
 		d = 0.00001;
 	}
-	long double m1m2 = (body1.getMass() * tempScale) * (body2.getMass() * tempScale);
+	long double m1m2 = (body1.getMass()) * (body2.getMass());
 	
-	double d2 = pow(d, 2)  * tempScale;
+	long double d2 = pow(d, 2);
 
-	long double f = (G * (m1m2 / d2)) / tempScale;
+	long double f = (G * (m1m2 / d2));
 
 	float theta = atan2(dir.y, dir.x);
 
@@ -78,9 +78,9 @@ float Physics::calcSpeed(/*Body body*/)
 	return result;
 }
 
-float Physics::calcRadius(const Vector3 & v1)
+long float Physics::calcRadius(const Vector3 & v1)
 {
-	float result = 0;
+	long float result = 0;
 	result = abs(v1.x) + abs(v1.y) + abs(v1.z);
 
 	return result;
