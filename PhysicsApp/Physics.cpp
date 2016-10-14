@@ -22,7 +22,8 @@ void Physics::atracttion(Body & body1, Body & body2)
 
 	long double f = (G * (m1m2 / d2));
 
-	float theta = atan2(dir.y, dir.x);
+	Vector3 dir2 = normalizeVector(dir);
+	float theta = atan2(dir2.y, dir2.x);
 
 	Vector3 force = Vector3(0, 0, 0);
 	force.x = cos(theta) * f;
@@ -87,7 +88,7 @@ long float Physics::calcRadius(const Vector3 & v1)
 }
 Vector3 Physics::normalizeVector(Vector3 vec)
 {
-	float length = calcRadius(vec);
+	long float length = calcRadius(vec);
 
 	Vector3 result = vec / length;
 

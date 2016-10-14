@@ -18,7 +18,8 @@
 UINT const CLIENT_WIDTH = 640;
 UINT const CLIENT_HEIGHT = 480;
 
-const long float AU = (149.6e6 * 1000);
+//const long float AU = (149.6e6 * 1000.0f);
+const long float AU = 149597870700;
 const long float SCALE = 250 / AU;
 
 const long float SCALE2 = 0.000000000000000000000001f;
