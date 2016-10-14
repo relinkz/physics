@@ -162,7 +162,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 				//for each body
 				//engine.clearFrame();
 
-				int nrOfTicks = 3600;
+				int nrOfTicks = 360;
 				//Physics::doPhysics(bodies.at(0), bodies.at(1));
 				for (int i = 0; i < nrOfTicks; i++)
 				{
@@ -194,6 +194,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 
 
 				textHandler.RenderBodyInfo(&bodies.at(infoHandler.getPlanetWatched()), Vector3(0, 0, 0), 2.0f);
+				//textHandler.RenderTextRow(Vector3(CLIENT_WIDTH, -240, 0), "hello", 2.0f);
 
 				engine.present();
 				engine.clearFrame();
