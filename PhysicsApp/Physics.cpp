@@ -3,7 +3,7 @@
 
 
 //body1 attracts body2
-void Physics::atracttion(Body & body1, Body & body2)
+void Physics::atracttion(Body & body1, Body & body2, int time)
 {
 	
 	//double tempScale = 0.00000000000001f;
@@ -29,55 +29,10 @@ void Physics::atracttion(Body & body1, Body & body2)
 	force.x = cos(theta) * f;
 	force.y = sin(theta) * f;
 
-	body2.applyForce(force);
+	body2.applyForce(force, time);
 
 }
 
-//body1 acts on body2
-void Physics::doPhysics(Body &body1, Body &body2)
-{
-	////float SCALE = 0.0000001f;
-
-	////const float G = 6.674 * pow(10,-11) * SCALE;
-	//long float distance = 0;
-
-	////G
-
-	//Vector3 diffVector = body1.getPosition() - body2.getPosition();
-	//diffVector = normalizeVector(diffVector);
-	////distance = calcRadius(diffVector);
-	//distance = 384400000.0f * SCALE; //m
-
-
-
-	////do c00l stuff
-	////F = G* ((m.b1 * mb2) / distance^2)
-
-	//double force;
-	//long float result;
-
-	//float m1m2 = (body1.getMass() * SCALE) * (body2.getMass() * SCALE);
-	//
-	//result = m1m2 / pow(distance, 2);
-	//result *= G;
-
-	//force = result;
-
-	//diffVector = diffVector * force;
-
-	//body2.applyForce(diffVector);
-}
-
-float Physics::calcSpeed(/*Body body*/)
-{
-	float result = 0;
-	
-	//result += abs(body.getVelocity().x);
-	//result += abs(body.getVelocity().y);
-	//result += abs(body.getVelocity().z);
-
-	return result;
-}
 
 long float Physics::calcRadius(const Vector3 & v1)
 {

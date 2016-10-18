@@ -33,16 +33,16 @@ Body::~Body()
 	}
 }
 
-void Body::update() //time
+void Body::update(int time) //time
 {
 	//s = v *     s = v  * t    
-	this->position = this->position + (this->velocity* 20.0); // *t
+	this->position = this->position + (this->velocity* time); // *t
 
 }
-void Body::applyForce(Vector3 & force)
+void Body::applyForce(Vector3 & force, int time)
 {
 	//v = v+(f/(m*s))
-	this->velocity = this->velocity + (force / this->mass) * 20.0f;
+	this->velocity = this->velocity + (force / this->mass) * time;
 }
 #pragma region get functions
 std::string Body::getName() const

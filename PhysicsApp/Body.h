@@ -19,8 +19,8 @@ public:
 	Body(Model* src, const Vector3 &pos);
 	virtual ~Body();
 
-	void update();
-	void applyForce(Vector3 &force);
+	void update(int time);
+	void applyForce(Vector3 &force, int time);
 
 	std::string getName() const;
 	Vector3 getVelocity() const;
