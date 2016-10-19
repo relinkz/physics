@@ -3,7 +3,7 @@
 
 
 //body1 attracts body2
-void Physics::atracttion(Body & body1, Body & body2, int time)
+void Physics::attraction(Body & body1, Body & body2, int time)
 {
 	
 	//double tempScale = 0.00000000000001f;
