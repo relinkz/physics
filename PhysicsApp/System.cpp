@@ -242,7 +242,7 @@ void SimpleSimulation()
 	//index 0 == sun
 	for (int i = 1; i < nrOfBodies; i++)
 	{
-		Physics::atracttion(bodies.at(0), bodies.at(i), timeModifier.getTime());
+		Physics::attraction(bodies.at(0), bodies.at(i), timeModifier.getTime());
 		bodies.at(i).update(timeModifier.getTime());
 	}
 }
@@ -259,7 +259,7 @@ void CompleteSimulation()
 		{
 			if (i != z)
 			{
-				Physics::atracttion(bodies.at(i), bodies.at(z), timeModifier.getTime());
+				Physics::attraction(bodies.at(i), bodies.at(z), timeModifier.getTime());
 			}
 		}
 		bodies.at(i).update(timeModifier.getTime());
