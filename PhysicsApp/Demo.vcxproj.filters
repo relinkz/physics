@@ -16,6 +16,12 @@
     <Filter Include="Source Files\shaders">
       <UniqueIdentifier>{0272281b-dd75-4da8-82be-71b7b322227c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Physics">
+      <UniqueIdentifier>{b543ca59-bd34-4403-82a0-a6614a8e60c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Physics">
+      <UniqueIdentifier>{608914f7-c423-448a-8a7a-4cca7d18fd86}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
@@ -55,10 +61,10 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PhysicsComponent.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Physics</Filter>
     </ClCompile>
     <ClCompile Include="PhysicsHandler.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Physics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -98,11 +104,11 @@
     <ClInclude Include="TimeModifier.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PhysicsComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="PhysicsHandler.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsComponent.h">
+      <Filter>Header Files\Physics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

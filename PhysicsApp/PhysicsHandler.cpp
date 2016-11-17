@@ -10,24 +10,24 @@ PhysicsHandler::~PhysicsHandler()
 
 bool PhysicsHandler::Initialize(Engine* engine, Camera* gameCamera)
 {
-	this->engine = engine;
-	this->gameCamera = gameCamera;
+	this->m_engine = engine;
+	this->m_gameCamera = gameCamera;
 
-	this->Gravity = Vector3(0.0f, -0.1f, 0.0f);
+	this->m_gravity = Vector3(0.0f, -0.1f, 0.0f);
 
-	this->model.initialize(this->engine->getDevice(), this->engine->getDeviceContext(), DirectX::XMFLOAT3(0, 0, 0));
+	this->m_model.initialize(this->m_engine->getDevice(), this->m_engine->getDeviceContext(), DirectX::XMFLOAT3(0, 0, 0));
 
-	this->box.initializeSkyBox(this->engine->getDevice(), this->engine->getDeviceContext(), DirectX::XMFLOAT3(0, 5, 0));
-	this->box.setUniformScale(10);
+	this->m_box.initializeSkyBox(this->m_engine->getDevice(), this->m_engine->getDeviceContext(), DirectX::XMFLOAT3(0, 5, 0));
+	this->m_box.setUniformScale(10);
 
 	Parser parser = Parser();
 
-	this->SRV = (parser.LoadTarga(this->engine->getDevice(), this->engine->getDeviceContext(), "cube_box.tga"));
-	this->SRV2 = (parser.LoadTarga(this->engine->getDevice(), this->engine->getDeviceContext(), "Gray.tga"));
+	this->m_SRV = (parser.LoadTarga(this->m_engine->getDevice(), this->m_engine->getDeviceContext(), "cube_box.tga"));
+	this->m_SRV2 = (parser.LoadTarga(this->m_engine->getDevice(), this->m_engine->getDeviceContext(), "Gray.tga"));
 
 
-	this->components.push_back(PhysicsComponent());
-	this->components.at(0).setPos(Vector3(0, 5, 0));
+	this->m_components.push_back(PhysicsComponent());
+	this->m_components.at(0).setPos(Vector3(0, 5, 0));
 	//this->SRV
 
 	return false;
@@ -42,19 +42,19 @@ void PhysicsHandler::Update()
 
 void PhysicsHandler::SimpleCollition(float dt)
 {
-	int size = this->components.size();
+	int size = this->m_components.size();
 	PhysicsComponent* ptr;
 	for (int i = 0; i < size; i++)
 	{
-		ptr = &this->components.at(i);
+		ptr = &this->m_components.at(i);
 		Vector3 pos = ptr->getPos();
-		if (pos.y > (0 + offSet))
+		if (pos.y > (0 + this->m_offSet))
 		{
 			SimpleGravity(ptr ,dt);
 		}
-		else if (pos.y < (0 + offSet))
+		else if (pos.y < (0 + this->m_offSet))
 		{
-			ptr->setPos(Vector3(0, (0 + offSet), 0));
+			ptr->setPos(Vector3(0, (0 + this->m_offSet), 0));
 			Vector3 vel = ptr->getVelocity();
 			ptr->setVelocity(Vector3(vel.x, 0.0f, vel.z));
 		}
@@ -62,35 +62,30 @@ void PhysicsHandler::SimpleCollition(float dt)
 	}
 }
 
-void PhysicsHandler::SimpleGravity(PhysicsComponent* pComponent, float dt)
+void PhysicsHandler::SimpleGravity(PhysicsComponent* pComponent, const float &dt)
 {
-	//Vector3 newPos = pComponent->getPos();
-	//newPos.y -= 0.5;
-	//
-	//pComponent->setPos(newPos);
-
-	pComponent->ApplyForce(this->Gravity,dt);
+	pComponent->ApplyForce(this->m_gravity,dt);
 }
 
 void PhysicsHandler::Render()
 {
-	this->box.setTranslationMatrix(Vector3(0, 5, 0));
-	this->box.setUniformScale(10);
-	this->box.update();
-	this->engine->fillCBuffers(this->box.getWorldModel(), *this->gameCamera, 0);
-	this->engine->drawObject(this->box, this->SRV);
+	this->m_box.setTranslationMatrix(Vector3(0, 5, 0));
+	this->m_box.setUniformScale(10);
+	this->m_box.update();
+	this->m_engine->fillCBuffers(this->m_box.getWorldModel(), *this->m_gameCamera, 0);
+	this->m_engine->drawObject(this->m_box, this->m_SRV);
 
 
-	for (int i = 0; i < this->components.size(); i++)
+	for (int i = 0; i < this->m_components.size(); i++)
 	{
-		Vector3 pos = components.at(i).getPos();
-		this->model.setTranslationMatrix(pos);
-		this->model.setUniformScale(0.5f);
-		this->model.update();
+		Vector3 pos = m_components.at(i).getPos();
+		this->m_model.setTranslationMatrix(pos);
+		this->m_model.setUniformScale(0.5f);
+		this->m_model.update();
 
 
-		this->engine->fillCBuffers(this->model.getWorldModel(), *this->gameCamera, 0);
-		this->engine->drawObject(this->model, this->SRV2);
+		this->m_engine->fillCBuffers(this->m_model.getWorldModel(), *this->m_gameCamera, 0);
+		this->m_engine->drawObject(this->m_model, this->m_SRV2);
 	}
 
 }
