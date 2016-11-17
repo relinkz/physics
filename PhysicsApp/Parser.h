@@ -17,7 +17,7 @@ public:
 	std::vector<Vertex2>& getRawData();
 
 	ID3D11ShaderResourceView * LoadTarga(ID3D11Device* device, ID3D11DeviceContext* deviceContext, const char* filename);
-	void readFile();
+	void readFile(string filename);
 	void ReverseTriangle();
 private:
 	std::vector<Vector3>PositionData;

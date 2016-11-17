@@ -15,7 +15,7 @@ Parser::~Parser()
 	}
 }
 
-void Parser::readFile()
+void Parser::readFile(string filename)
 {
 	stringstream errorMessage;
 	stringstream dataStream;
@@ -27,7 +27,8 @@ void Parser::readFile()
 	int crap;
 
 	ifstream file;
-	file.open("sphere1.txt");
+	file.open(filename);
+	//file.open("sphere1.txt");
 	//file.open("obj.txt");
 
 

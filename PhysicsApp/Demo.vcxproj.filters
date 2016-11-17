@@ -54,6 +54,12 @@
     <ClCompile Include="TimeModifier.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PhysicsComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -90,6 +96,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TimeModifier.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -144,6 +156,12 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="mercurycyl2.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="cube_box.tga">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Gray.tga">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

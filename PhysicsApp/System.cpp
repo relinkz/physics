@@ -9,7 +9,9 @@
 #include "InfoHandler.h"
 #include <crtdbg.h.>
 #include <vector>
+#include "PhysicsHandler.h"
 #include "scaleModifier.h"
+
 
 HWND InitWindow(HINSTANCE hInstance);
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
@@ -31,6 +33,8 @@ Engine engine;
 //scaleHandler
 scaleModifier scaleMod = scaleModifier();
 
+PhysicsHandler PH;
+ 
 TimeModifier timeModifier;
 /*
  Entry point for our program
@@ -38,7 +42,7 @@ TimeModifier timeModifier;
  link for more detail about them,
  https://msdn.microsoft.com/en-us/library/windows/desktop/aa383751(v=vs.85).aspx
 */
-int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow )
+int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	MSG msg = { 0 };
@@ -72,28 +76,15 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 		engine.initialize(&wndHandle);
 
 		textHandler.Initialize(engine.getDevice(), engine.getDeviceContext());
-		
-		//initialize model
-		planet.initialize(engine.getDevice(), engine.getDeviceContext(), DirectX::XMFLOAT3(0.0f ,0.0f , 2.0f));
-		planet.setUniformScale(0.09f);
 
+		PH.Initialize(&engine, &gameCamera);
 
-		//bodies.push_back(Body(&planet, Vector3(0, 0, 0)));
-		//bodies.push_back(Body(&planet, Vector3(0, 4, 0)));
-		////1022 m/s 1.022 km/s (0.029 works)
-		//bodies.at(1).setVelocity(Vector3(1022.0f * SCALE, 0.0, 0.0)); // m/s
-
-		//bodies.at(0).setMass(5.973 * pow(10, 24));
-		//bodies.at(1).setMass(7.342 * pow(10, 22));
-		//https://en.wikipedia.org/wiki/Solar_System#Venus for values
-
-		
 		//CreateEarthOrbitTest();
-		CreateSolarSystem();
+		//CreateSolarSystem();
 		//CreateEarthAndMoon();
 		//CreateNewtonsCannonball();
-		
-		infoHandler.setNumOfPlanets(bodies.size());
+
+		//infoHandler.setNumOfPlanets(bodies.size());
 		//gameTime.Reset();
 		// enter message loop, loop until the message WM_QUIT is received.
 		while (WM_QUIT != msg.message)
@@ -107,8 +98,8 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 			}
 			else
 			{
-				infoHandler.checkInput();
-				timeModifier.checkInput();
+				//infoHandler.checkInput();
+				//timeModifier.checkInput();
 				//gameTime.Tick();
 
 				//update camera with delta time
@@ -118,40 +109,41 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 				//for each body
 				//engine.clearFrame();
 
-				int nrOfTicks = 180;
+				//int nrOfTicks = 1;
 				//Physics::doPhysics(bodies.at(0), bodies.at(1));
-				for (int i = 0; i < nrOfTicks; i++)
-				{
-					SimpleSimulation();
-					//CompleteSimulation();
+				//for (int i = 0; i < nrOfTicks; i++)
+				//{
+				//	SimpleSimulation();
+				//	//CompleteSimulation();
+				//
+				//}
+				//engine.RenderSkyBox(gameCamera);
+				//for (int i = 0; i < bodies.size(); i++)
+				//{
+				//	bool renderActivePlanet = false;
+				//	if (infoHandler.getPlanetWatched() == i)
+				//	{
+				//		renderActivePlanet = true;
+				//	}
+				//
+				//
+				//	Vector3 pos = bodies.at(i).getPosition() * SCALE * scaleMod.getModifier();
+				//	planet.setTranslationMatrix(pos);
+				//	planet.setUniformScale(bodies.at(i).getSize());
+				//	planet.update();
+				//
+				//	
+				//	engine.fillCBuffers(planet.getWorldModel(), gameCamera, renderActivePlanet);
+				//	engine.drawObject(planet, bodies.at(i).getSRV());
+				//
+				//	scaleMod.checkInput();
+				//}
 
-				}
-				engine.RenderSkyBox(gameCamera);
-				for (int i = 0; i < bodies.size(); i++)
-				{
-					bool renderActivePlanet = false;
-					if (infoHandler.getPlanetWatched() == i)
-					{
-						renderActivePlanet = true;
-					}
 
-
-					Vector3 pos = bodies.at(i).getPosition() * SCALE * scaleMod.getModifier();
-					planet.setTranslationMatrix(pos);
-					planet.setUniformScale(bodies.at(i).getSize());
-					planet.update();
-
-					
-					engine.fillCBuffers(planet.getWorldModel(), gameCamera, renderActivePlanet);
-					engine.drawObject(planet, bodies.at(i).getSRV());
-
-					scaleMod.checkInput();
-				}
-
-
-				textHandler.RenderBodyInfo(&bodies.at(infoHandler.getPlanetWatched()), Vector3(0, 0, 0), 2.0f);
+				//textHandler.RenderBodyInfo(&bodies.at(infoHandler.getPlanetWatched()), Vector3(0, 0, 0), 2.0f);
 				//textHandler.RenderTextRow(Vector3(CLIENT_WIDTH, -240, 0), "hello", 2.0f);
-
+				PH.Update();
+				PH.Render();
 				engine.present();
 				engine.clearFrame();
 			}
@@ -161,26 +153,26 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 		DestroyWindow(wndHandle);
 
 		//release resourses
-		engine.shutdown();
-
-		planet.shutdown();
-
-		int size = bodies.size();
-		ID3D11ShaderResourceView *SRVptr = nullptr;
-		for (int i = 0; i < size; i++)
-		{
-			SRVptr = bodies.at(i).getSRV();
-			if (SRVptr != nullptr)
-			{
-				SRVptr->Release();
-			}
-		}
+		//engine.shutdown();
+		//
+		//planet.shutdown();
+		//
+		//int size = bodies.size();
+		//ID3D11ShaderResourceView *SRVptr = nullptr;
+		//for (int i = 0; i < size; i++)
+		//{
+		//	SRVptr = bodies.at(i).getSRV();
+		//	if (SRVptr != nullptr)
+		//	{
+		//		SRVptr->Release();
+		//	}
+		//}
 
 
 	}
 
 	// return how the program finished.
-	return (int) msg.wParam;
+	return (int)msg.wParam;
 }
 
 HWND InitWindow(HINSTANCE hInstance)

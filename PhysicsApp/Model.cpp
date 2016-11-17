@@ -57,7 +57,7 @@ void Model::initialize(ID3D11Device * gDevice, ID3D11DeviceContext * gDeviceCont
 
 	//get data
 	Parser test = Parser();
-	test.readFile();
+	test.readFile("sphere1.txt");
 	rawData = test.getRawData();
 
 	this->nrOfVertex = rawData.size();
@@ -89,7 +89,7 @@ void Model::initializeSkyBox(ID3D11Device * gDevice, ID3D11DeviceContext * gDevi
 
 	//get data
 	Parser test = Parser();
-	test.readFile();
+	test.readFile("obj.txt");
 	test.ReverseTriangle();
 	rawData = test.getRawData();
 
