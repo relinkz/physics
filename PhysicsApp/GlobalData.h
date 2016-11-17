@@ -27,6 +27,7 @@ const long float SCALE = 250 / AU;
 const long float SCALE2 = 0.000000000000000000000001f;
 
 const long float G = 6.674 * pow(10, -11);
+const float offSet = 0.5f;
 struct FontChar
 {
 	float left, right;

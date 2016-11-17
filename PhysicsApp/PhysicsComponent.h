@@ -11,6 +11,10 @@ public:
 	PhysicsComponent();
 	~PhysicsComponent();
 
+	void Update(float dt);
+
+	void ApplyForce(Vector3 force, float dt);
+
 	Vector3 getPos()const;
 	Vector3 getVelocity()const;
 

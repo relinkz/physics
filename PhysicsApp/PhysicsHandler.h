@@ -18,8 +18,8 @@ public:
 	bool Initialize(Engine* engine, Camera* gameCamera);
 	void Update();
 	 
-	void SimpleCollition();
-	void SimpleGravity(PhysicsComponent* componentPtr);
+	void SimpleCollition(float dt);
+	void SimpleGravity(PhysicsComponent* componentPtr, float dt);
 	void Render();
 
 
