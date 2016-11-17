@@ -27,7 +27,7 @@ bool PhysicsHandler::Initialize(Engine* engine, Camera* gameCamera)
 
 
 	this->m_components.push_back(PhysicsComponent());
-	this->m_components.at(0).setPos(Vector3(0, 5, 0));
+	this->m_components.at(0).SetPos(Vector3(0, 5, 0));
 	//this->SRV
 
 	return false;
@@ -47,16 +47,16 @@ void PhysicsHandler::SimpleCollition(float dt)
 	for (int i = 0; i < size; i++)
 	{
 		ptr = &this->m_components.at(i);
-		Vector3 pos = ptr->getPos();
+		Vector3 pos = ptr->GetPos();
 		if (pos.y > (0 + this->m_offSet))
 		{
 			SimpleGravity(ptr ,dt);
 		}
 		else if (pos.y < (0 + this->m_offSet))
 		{
-			ptr->setPos(Vector3(0, (0 + this->m_offSet), 0));
-			Vector3 vel = ptr->getVelocity();
-			ptr->setVelocity(Vector3(vel.x, 0.0f, vel.z));
+			ptr->SetPos(Vector3(0, (0 + this->m_offSet), 0));
+			Vector3 vel = ptr->GetVelocity();
+			ptr->SetVelocity(Vector3(vel.x, 0.0f, vel.z));
 		}
 		ptr->Update(dt);
 	}
@@ -78,7 +78,7 @@ void PhysicsHandler::Render()
 
 	for (int i = 0; i < this->m_components.size(); i++)
 	{
-		Vector3 pos = m_components.at(i).getPos();
+		Vector3 pos = m_components.at(i).GetPos();
 		this->m_model.setTranslationMatrix(pos);
 		this->m_model.setUniformScale(0.5f);
 		this->m_model.update();

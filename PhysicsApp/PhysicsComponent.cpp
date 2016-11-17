@@ -2,40 +2,40 @@
 
 PhysicsComponent::PhysicsComponent()
 {
-	this->pos = Vector3(0, 0, 0);
-	this->velocity = Vector3(0, 0, 0);
+	this->m_pos = Vector3(0, 0, 0);
+	this->m_velocity = Vector3(0, 0, 0);
 }
 
 PhysicsComponent::~PhysicsComponent()
 {
 }
 
-void PhysicsComponent::Update(float dt)
+void PhysicsComponent::Update(const float &dt)
 {
-	this->pos = this->pos + (this->velocity * dt);
+	this->m_pos = this->m_pos + (this->m_velocity * dt);
 }
 
-void PhysicsComponent::ApplyForce(Vector3 force, float dt)
+void PhysicsComponent::ApplyForce(Vector3 force, const float &dt)
 {
-	this->velocity = this->velocity + (force * dt);
+	this->m_velocity = this->m_velocity + (force * dt);
 }
 
-Vector3 PhysicsComponent::getPos() const
+Vector3 PhysicsComponent::GetPos() const
 {
-	return this->pos;
+	return this->m_pos;
 }
 
-Vector3 PhysicsComponent::getVelocity() const
+Vector3 PhysicsComponent::GetVelocity() const
 {
-	return this->velocity;
+	return this->m_velocity;
 }
 
-void PhysicsComponent::setPos(Vector3 pos)
+void PhysicsComponent::SetPos(Vector3 pos)
 {
-	this->pos = pos;
+	this->m_pos = pos;
 }
 
-void PhysicsComponent::setVelocity(Vector3 vel)
+void PhysicsComponent::SetVelocity(Vector3 vel)
 {
-	this->velocity = vel;
+	this->m_velocity = vel;
 }

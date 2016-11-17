@@ -5,22 +5,20 @@
 class PhysicsComponent
 {
 private:
-	Vector3 pos;
-	Vector3 velocity;
+	Vector3 m_pos;
+	Vector3 m_velocity;
 public:
 	PhysicsComponent();
 	~PhysicsComponent();
 
-	void Update(float dt);
+	void Update(const float &dt);
 
-	void ApplyForce(Vector3 force, float dt);
+	Vector3 GetPos()const;
+	Vector3 GetVelocity()const;
 
-	Vector3 getPos()const;
-	Vector3 getVelocity()const;
-
-	void setPos(Vector3 pos);
-	void setVelocity(Vector3 vel);
-
+	void SetPos(Vector3 pos);
+	void SetVelocity(Vector3 vel);
+	void ApplyForce(Vector3 force, const float &dt);
 };
 
 #endif
