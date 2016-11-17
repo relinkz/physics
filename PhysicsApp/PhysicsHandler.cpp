@@ -40,13 +40,17 @@ void PhysicsHandler::SimpleCollition()
 {
 }
 
-void PhysicsHandler::SimpleGravity()
+void PhysicsHandler::SimpleGravity(PhysicsComponent* pComponent)
 {
+	Vector3 newPos = pComponent->getPos();
+	newPos.y -= 0.5;
+
+	pComponent->setPos(newPos);
 }
 
 void PhysicsHandler::Render()
 {
-	this->box.setTranslationMatrix(Vector3(0, 5, 0));
+	this->box.setTranslationMatrix(Vector3(0, 4, 0));
 	this->box.setUniformScale(10);
 	this->box.update();
 	this->engine->fillCBuffers(this->box.getWorldModel(), *this->gameCamera, 0);
