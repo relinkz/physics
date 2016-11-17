@@ -34,13 +34,32 @@ bool PhysicsHandler::Initialize(Engine* engine, Camera* gameCamera)
 
 void PhysicsHandler::Update()
 {
+
+	SimpleCollition();
 }
 
 void PhysicsHandler::SimpleCollition()
 {
+	int size = this->components.size();
+	PhysicsComponent* ptr;
+	for (int i = 0; i < size; i++)
+	{
+		ptr = &this->components.at(i);
+		Vector3 pos = ptr->getPos();
+		if (pos.y > 0)
+		{
+			SimpleGravity(ptr);
+		}
+		else if (pos.y < 0)
+		{
+			ptr->setPos(Vector3(0, 0, 0));
+			Vector3 vel = ptr->getVelocity();
+			ptr->setVelocity(Vector3(vel.x, 0.0f, vel.z));
+		}
+	}
 }
 
-void PhysicsHandler::SimpleGravity()
+void PhysicsHandler::SimpleGravity(PhysicsComponent* componentPtr)
 {
 }
 

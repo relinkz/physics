@@ -19,7 +19,7 @@ public:
 	void Update();
 	 
 	void SimpleCollition();
-	void SimpleGravity();
+	void SimpleGravity(PhysicsComponent* componentPtr);
 	void Render();
 
 
