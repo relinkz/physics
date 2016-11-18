@@ -232,7 +232,7 @@
     <Image Include="swapTest.tga" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\NetworkLearning\physicsDLL\physicsDLL\physicsDLL.vcxproj">
+    <ProjectReference Include="..\physicsDLL\physicsDLL\physicsDLL.vcxproj">
       <Project>{0e7d331b-b435-4a7e-8074-09225fec9cdb}</Project>
     </ProjectReference>
   </ItemGroup>
