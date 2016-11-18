@@ -7,6 +7,8 @@ class PhysicsComponent
 private:
 	Vector3 m_pos;
 	Vector3 m_velocity;
+	
+	DirectX::XMFLOAT3 m_vel;
 public:
 	PhysicsComponent();
 	~PhysicsComponent();

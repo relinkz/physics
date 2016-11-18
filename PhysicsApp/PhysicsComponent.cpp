@@ -3,6 +3,7 @@
 PhysicsComponent::PhysicsComponent()
 {
 	this->m_pos = Vector3(0, 0, 0);
+	this->m_vel = DirectX::XMFLOAT3(0.0f,0.0f,0.0f);
 	this->m_velocity = Vector3(0, 0, 0);
 }
 

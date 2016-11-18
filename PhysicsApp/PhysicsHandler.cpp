@@ -1,4 +1,7 @@
 #include "PhysicsHandler.h"
+#include "modules\PhysicsLibrary.h"
+
+//#pragma comment (lib, "../PhysicsApp/modules/physicsDLL")
 
 PhysicsHandler::PhysicsHandler()
 {
@@ -64,7 +67,14 @@ void PhysicsHandler::SimpleCollition(float dt)
 
 void PhysicsHandler::SimpleGravity(PhysicsComponent* pComponent, const float &dt)
 {
+	DirectX::XMVECTOR test = DirectX::XMVECTOR();
+	DirectX::XMFLOAT3 testRes(0, 5, 0);
+	test = DirectX::XMLoadFloat3(&testRes);
+
 	pComponent->ApplyForce(this->m_gravity,dt);
+
+	PhysicsLibrary::Fuctions::Gravity(test, dt);
+	DirectX::XMStoreFloat3(&testRes, test);
 }
 
 void PhysicsHandler::Render()

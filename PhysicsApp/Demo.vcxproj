@@ -157,6 +157,7 @@
     <ClCompile Include="TimeModifier.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\NetworkLearning\physicsDLL\physicsDLL\PhysicsLibrary.h" />
     <ClInclude Include="Body.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Engine.h" />
@@ -229,6 +230,11 @@
     <Image Include="PathfinderMap.tga" />
     <Image Include="Sun.tga" />
     <Image Include="swapTest.tga" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\NetworkLearning\physicsDLL\physicsDLL\physicsDLL.vcxproj">
+      <Project>{0e7d331b-b435-4a7e-8074-09225fec9cdb}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
