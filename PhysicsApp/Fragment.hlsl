@@ -40,7 +40,7 @@ float4 PS_main(VS_OUT input) : SV_Target
 	angle = saturate(angle);
 	if (length(float4(light.Pos, 1) - input.worldPos) < light.range)
 	{
-		angle = 1;
+		//angle = 1;
 	}
 
 	color = (color * angle) + color * 0.8f;

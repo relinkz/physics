@@ -7,11 +7,14 @@
 #include "Engine.h"
 
 #include "PhysicsComponent.h"
+#include "Chain.h"
 
 class PhysicsHandler
 {
 private:
 	vector<PhysicsComponent> m_components;
+	vector<Plane> m_walls;
+	Chain m_chain;
 
 	Vector3 m_gravity;
 	Model m_model;
@@ -24,6 +27,10 @@ private:
 	Camera* m_gameCamera;
 
 	const float m_offSet = 0.5f;
+
+	Plane m_floor;
+	Triangle m_floor2;
+
 public:
 	PhysicsHandler();
 	~PhysicsHandler();
@@ -34,6 +41,10 @@ public:
 	void SimpleCollition(float dt);
 	void SimpleGravity(PhysicsComponent* componentPtr, const float &dt);
 	void Render();	
+
+	bool SpherePlaneIntersevtion(PhysicsComponent* pComponent, float radius, Plane plane, float dt);
+	bool PointInTriangleTest(Vector3 point, Triangle triangle);
+
 };
 
 #endif

@@ -143,6 +143,7 @@
   <ItemGroup>
     <ClCompile Include="Body.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Chain.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="GameTimer.cpp" />
     <ClCompile Include="InfoHandler.cpp" />
@@ -160,6 +161,7 @@
     <ClInclude Include="..\..\NetworkLearning\physicsDLL\physicsDLL\PhysicsLibrary.h" />
     <ClInclude Include="Body.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Chain.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="GameTimer.h" />
     <ClInclude Include="GlobalData.h" />

@@ -49,3 +49,36 @@ Vector3 Physics::normalizeVector(Vector3 vec)
 
 	return result;
 }
+
+float Physics::dot(Vector3 vec1, Vector3 vec2)
+{
+	float result = (vec1.x * vec2.x) + (vec1.y * vec2.y) + (vec1.z * vec2.z);
+	return result;
+}
+
+Vector3 Physics::cross(Vector3 vec1, Vector3 vec2)
+{
+	Vector3 result;
+
+	result.x = (vec1.y * vec2.z) - (vec1.z * vec2.y);
+	result.y = (vec1.z * vec2.x) - (vec1.x * vec2.z);	
+	result.z = (vec1.x * vec2.y) - (vec1.y * vec2.x);
+
+	return result;
+}
+
+Vector3 Physics::vectorOnVectorProjection(Vector3 vec1, Vector3 vec2)
+{
+	Vector3 result;
+
+	if (calcRadius(vec2) != 1.0f)
+	{
+		vec2 = normalizeVector(vec2);
+	}
+
+	float scalarProjection = dot(vec1, vec2);
+
+	result = vec2 * scalarProjection;
+
+	return result;
+}

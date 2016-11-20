@@ -66,6 +66,9 @@
     <ClCompile Include="PhysicsHandler.cpp">
       <Filter>Source Files\Physics</Filter>
     </ClCompile>
+    <ClCompile Include="Chain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -111,6 +114,9 @@
       <Filter>Header Files\Physics</Filter>
     </ClInclude>
     <ClInclude Include="..\..\NetworkLearning\physicsDLL\physicsDLL\PhysicsLibrary.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Chain.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
