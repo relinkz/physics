@@ -28,9 +28,6 @@ private:
 
 	const float m_offSet = 0.5f;
 
-	Plane m_floor;
-	Triangle m_floor2;
-
 public:
 	PhysicsHandler();
 	~PhysicsHandler();

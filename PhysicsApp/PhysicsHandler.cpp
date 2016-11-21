@@ -40,20 +40,6 @@ bool PhysicsHandler::Initialize(Engine* engine, Camera* gameCamera)
 
 	this->m_chain.Initialize(3, &this->m_components.at(0), &this->m_components.at(1));
 
-
-	this->m_floor.m_pos = Vector3(-5, 0, -5);
-	this->m_floor.m_normal = Vector3(0, 1, 0);
-	this->m_floor.m_left = Vector3(10, 0, 0);
-	this->m_floor.m_forward = Vector3(0, 0, 10);
-
-	this->m_floor.topLeft.m_pos1 = Vector3(-5, 0, -5);
-	this->m_floor.topLeft.m_pos2 = Vector3(-5, 0, 5);
-	this->m_floor.topLeft.m_pos3 = Vector3(5, 0, -5);
-
-	this->m_floor.bottomRight.m_pos1 = Vector3(5, 0, 5);
-	this->m_floor.bottomRight.m_pos2 = Vector3(-5, 0, 5);
-	this->m_floor.bottomRight.m_pos3 = Vector3(5, 0, -5);
-
 	this->m_walls.push_back(Plane());
 	this->m_walls.at(0).m_pos = Vector3(-5, 0, -5);
 	this->m_walls.at(0).m_normal = Vector3(0, 1, 0);
@@ -82,11 +68,6 @@ bool PhysicsHandler::Initialize(Engine* engine, Camera* gameCamera)
 	this->m_walls.at(1).bottomRight.m_pos2 = Vector3(5, 10, -5);
 	this->m_walls.at(1).bottomRight.m_pos3 = Vector3(5, 0, 5);
 
-
-
-	//this->m_floor2.m_pos1 = Vector3(-5, 0, - 5);
-	//this->m_floor2.m_pos2 = Vector3(-5, 0, 5);
-	//this->m_floor2.m_pos3 = Vector3(5, 0, -5);
 
 	return false;
 }
