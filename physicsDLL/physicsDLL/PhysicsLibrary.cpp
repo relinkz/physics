@@ -15,6 +15,18 @@ namespace PhysicsLibrary
 		//load back to XMVector 
 		force = DirectX::XMLoadFloat3(&alteredForce);
 	}
+	void PhysicsLibrary::Fuctions::bla()
+	{
+		int ahahahhaha = 0;
+	}
+	void PhysicsLibrary::Fuctions::boo()
+	{
+		int muwhahahahhahahahha = 12;
+	}
+	void PhysicsLibrary::Fuctions::buu()
+	{
+		int blublublub = 13;
+	}
 }
 
 

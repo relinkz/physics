@@ -20,6 +20,9 @@ namespace PhysicsLibrary
 	{
 	public:
 		static void Gravity(DirectX::XMVECTOR &force, const float &dt);
+		static void bla();
+		static void boo();
+		static void buu();
 	};
 }
 

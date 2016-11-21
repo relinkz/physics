@@ -1,7 +1,7 @@
 #include "PhysicsHandler.h"
 #include "modules\PhysicsLibrary.h"
 
-//#pragma comment (lib, "../PhysicsApp/modules/physicsDLL")
+#pragma comment (lib, "../PhysicsApp/Debug/physicsDLL")
 
 PhysicsHandler::PhysicsHandler()
 {
@@ -167,6 +167,7 @@ void PhysicsHandler::SimpleGravity(PhysicsComponent* pComponent, const float &dt
 
 	PhysicsLibrary::Fuctions::Gravity(test, dt);
 	DirectX::XMStoreFloat3(&testRes, test);
+	
 }
 
 void PhysicsHandler::Render()
