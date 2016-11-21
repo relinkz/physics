@@ -27,6 +27,18 @@ namespace PhysicsLibrary
 	{
 		int blublublub = 13;
 	}
+	void PhysicsLibrary::Fuctions::KimIsGod()
+	{
+		int skill_level = 90001;
+	}
+	void PhysicsLibrary::Fuctions::EvenMoreTestFunctions()
+	{
+		int woh = 0;
+	}
+	void PhysicsLibrary::Fuctions::PlsWork()
+	{
+		int plsplsplsplsplsplspsls = 1;
+	}
 }
 
 

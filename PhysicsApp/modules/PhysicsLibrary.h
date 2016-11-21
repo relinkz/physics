@@ -23,6 +23,8 @@ namespace PhysicsLibrary
 		static void bla();
 		static void boo();
 		static void buu();
+		static void KimIsGod();
+		static void EvenMoreTestFunctions();
 	};
 }
 

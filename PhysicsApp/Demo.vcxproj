@@ -158,7 +158,6 @@
     <ClCompile Include="TimeModifier.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\NetworkLearning\physicsDLL\physicsDLL\PhysicsLibrary.h" />
     <ClInclude Include="Body.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Chain.h" />

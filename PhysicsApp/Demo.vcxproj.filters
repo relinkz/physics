@@ -113,9 +113,6 @@
     <ClInclude Include="PhysicsComponent.h">
       <Filter>Header Files\Physics</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\NetworkLearning\physicsDLL\physicsDLL\PhysicsLibrary.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Chain.h">
       <Filter>Header Files</Filter>
     </ClInclude>

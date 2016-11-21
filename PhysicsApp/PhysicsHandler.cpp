@@ -1,5 +1,8 @@
 #include "PhysicsHandler.h"
-#include "modules\PhysicsLibrary.h"
+//#include "modules\PhysicsLibrary.h"
+//#include "C:\Users\apaka\Documents\GitHub\physics\physicsDLL\physicsDLL\PhysicsLibrary.h"
+#include "../physicsDLL/physicsDLL/PhysicsLibrary.h"
+
 
 #pragma comment (lib, "../PhysicsApp/Debug/physicsDLL")
 
@@ -68,6 +71,7 @@ bool PhysicsHandler::Initialize(Engine* engine, Camera* gameCamera)
 	this->m_walls.at(1).bottomRight.m_pos2 = Vector3(5, 10, -5);
 	this->m_walls.at(1).bottomRight.m_pos3 = Vector3(5, 0, 5);
 
+	
 
 	return false;
 }
@@ -168,6 +172,8 @@ void PhysicsHandler::SimpleGravity(PhysicsComponent* pComponent, const float &dt
 	PhysicsLibrary::Fuctions::Gravity(test, dt);
 	DirectX::XMStoreFloat3(&testRes, test);
 	
+	
+
 }
 
 void PhysicsHandler::Render()
