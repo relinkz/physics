@@ -26,6 +26,7 @@ namespace PhysicsLibrary
 		static void KimIsGod();
 		static void EvenMoreTestFunctions();
 		static void PlsWork();
+		static void DinMamma();
 	};
 }
 

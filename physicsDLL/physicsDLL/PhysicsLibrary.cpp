@@ -39,6 +39,9 @@ namespace PhysicsLibrary
 	{
 		int plsplsplsplsplsplspsls = 1;
 	}
+	void PhysicsLibrary::Fuctions::DinMamma()
+	{
+	}
 }
 
 
