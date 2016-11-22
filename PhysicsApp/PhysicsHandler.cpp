@@ -78,6 +78,10 @@ void PhysicsHandler::Update()
 
 	SimpleCollition(dt);
 	this->m_chain.DoChainPhysics(dt);
+
+	DirectX::XMVECTOR test;
+
+	PhysicsLibrary::Fuctions::Gravity(test, dt);
 }
 
 void PhysicsHandler::SimpleCollition(float dt)

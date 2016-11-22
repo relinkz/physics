@@ -14,6 +14,9 @@ namespace PhysicsLibrary
 
 		//load back to XMVector 
 		force = DirectX::XMLoadFloat3(&alteredForce);
+
+		BoundingVolume test;
+		alteredForce = test.GetPos();
 	}
 }
 
