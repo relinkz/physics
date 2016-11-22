@@ -175,6 +175,4 @@ struct Plane
 	Triangle bottomRight;
 	Vector3 m_pos;
 	Vector3 m_normal;
-	Vector3 m_left;
-	Vector3 m_forward;
 };
