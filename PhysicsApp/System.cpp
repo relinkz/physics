@@ -12,6 +12,11 @@
 #include "PhysicsHandler.h"
 #include "scaleModifier.h"
 
+#include "../physicsDLL/physicsDLL/PhysicsLibrary.h"
+
+
+#pragma comment (lib, "../PhysicsApp/Debug/physicsDLL")
+
 
 HWND InitWindow(HINSTANCE hInstance);
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
@@ -25,6 +30,8 @@ void CreateNewtonsCannonball();
 //create bodies
 std::vector<Body>bodies;
 //create model
+Model ball;
+Model box;
 Model planet;
 //create Parser
 Parser parser = Parser();
@@ -33,7 +40,11 @@ Engine engine;
 //scaleHandler
 scaleModifier scaleMod = scaleModifier();
 
-PhysicsHandler PH;
+ID3D11ShaderResourceView* SRV;
+ID3D11ShaderResourceView* SRV2;
+
+//PhysicsHandler PH;
+PhysicsLibrary::PhysicsHandler PH;
  
 TimeModifier timeModifier;
 /*
@@ -75,9 +86,18 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		//initialize engine
 		engine.initialize(&wndHandle);
 
+		ball.initialize(engine.getDevice(), engine.getDeviceContext(), DirectX::XMFLOAT3(0, 0, 0));
+		box.initializeSkyBox(engine.getDevice(), engine.getDeviceContext(), DirectX::XMFLOAT3(0, 5, 0));
+		box.setUniformScale(10.0f);
+
+
+		SRV = (parser.LoadTarga(engine.getDevice(), engine.getDeviceContext(), "cube_box.tga"));
+		SRV2 = (parser.LoadTarga(engine.getDevice(), engine.getDeviceContext(), "Gray.tga"));
+
+
 		textHandler.Initialize(engine.getDevice(), engine.getDeviceContext());
 
-		PH.Initialize(&engine, &gameCamera);
+		PH.Initialize();
 
 		//CreateEarthOrbitTest();
 		//CreateSolarSystem();
@@ -98,52 +118,41 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 			}
 			else
 			{
-				//infoHandler.checkInput();
-				//timeModifier.checkInput();
-				//gameTime.Tick();
+;
 
 				//update camera with delta time
 				gameCamera.Update(0.01f);
 
-				//without rotation
-				//for each body
-				//engine.clearFrame();
-
-				//int nrOfTicks = 1;
-				//Physics::doPhysics(bodies.at(0), bodies.at(1));
-				//for (int i = 0; i < nrOfTicks; i++)
-				//{
-				//	SimpleSimulation();
-				//	//CompleteSimulation();
-				//
-				//}
-				//engine.RenderSkyBox(gameCamera);
-				//for (int i = 0; i < bodies.size(); i++)
-				//{
-				//	bool renderActivePlanet = false;
-				//	if (infoHandler.getPlanetWatched() == i)
-				//	{
-				//		renderActivePlanet = true;
-				//	}
-				//
-				//
-				//	Vector3 pos = bodies.at(i).getPosition() * SCALE * scaleMod.getModifier();
-				//	planet.setTranslationMatrix(pos);
-				//	planet.setUniformScale(bodies.at(i).getSize());
-				//	planet.update();
-				//
-				//	
-				//	engine.fillCBuffers(planet.getWorldModel(), gameCamera, renderActivePlanet);
-				//	engine.drawObject(planet, bodies.at(i).getSRV());
-				//
-				//	scaleMod.checkInput();
-				//}
-
-
-				//textHandler.RenderBodyInfo(&bodies.at(infoHandler.getPlanetWatched()), Vector3(0, 0, 0), 2.0f);
-				//textHandler.RenderTextRow(Vector3(CLIENT_WIDTH, -240, 0), "hello", 2.0f);
 				PH.Update();
-				PH.Render();
+
+				int nrOfObjects = PH.getNrOfComponents();
+
+				PhysicsLibrary::PhysicsComponent* ptr = PH.getPComponents();
+
+				box.setTranslationMatrix(Vector3(0, 5, 0));
+				box.setUniformScale(10);
+				box.update();
+				engine.fillCBuffers(box.getWorldModel(), gameCamera, 0);
+				engine.drawObject(box, SRV);
+
+				for (int i = 0; i < nrOfObjects; i++)
+				{
+					DirectX::XMVECTOR pos = ptr[i].GetPos();
+					Vector3 posv;
+					posv.x = DirectX::XMVectorGetX(pos);
+					posv.y = DirectX::XMVectorGetY(pos);
+					posv.z = DirectX::XMVectorGetZ(pos);
+
+					ball.setTranslationMatrix(posv);
+					ball.setUniformScale(0.5f);
+					ball.update();
+
+
+					engine.fillCBuffers(ball.getWorldModel(), gameCamera, 0);
+					engine.drawObject(ball, SRV2);
+				}
+
+
 				engine.present();
 				engine.clearFrame();
 			}
