@@ -41,7 +41,6 @@ public:
 
 	bool SpherePlaneIntersevtion(PhysicsComponent* pComponent, float radius, Plane plane, float dt);
 	bool PointInTriangleTest(Vector3 point, Triangle triangle);
-
 };
 
 #endif

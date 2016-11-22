@@ -148,10 +148,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AABB.h" />
     <ClInclude Include="BoundingVolume.h" />
     <ClInclude Include="PhysicsLibrary.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AABB.cpp" />
     <ClCompile Include="BoundingVolume.cpp" />
     <ClCompile Include="PhysicsLibrary.cpp" />
   </ItemGroup>
