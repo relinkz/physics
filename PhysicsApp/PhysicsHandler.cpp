@@ -171,6 +171,8 @@ void PhysicsHandler::SimpleGravity(PhysicsComponent* pComponent, const float &dt
 
 	PhysicsLibrary::Fuctions::Gravity(test, dt);
 	DirectX::XMStoreFloat3(&testRes, test);
+	PhysicsLibrary::Fuctions::_DCollition();
+	
 }
 
 void PhysicsHandler::Render()

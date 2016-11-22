@@ -18,6 +18,7 @@ namespace PhysicsLibrary
 	{
 	public:
 		static void Gravity(DirectX::XMVECTOR &force, const float &dt);
+		static void _DCollition();
 	};
 }
 
