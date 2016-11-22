@@ -3,6 +3,7 @@
 
 //including the vector
 #include <DirectXMath.h>
+#include <math.h>
 
 class AABB
 {
@@ -15,7 +16,7 @@ public:
 	AABB(DirectX::XMFLOAT3 &pos, DirectX::XMFLOAT3 &ext);
 	virtual ~AABB();
 
-
+	bool IntersectAABB(const AABB &toCheck) const;
 };
 
 #endif
