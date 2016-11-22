@@ -46,8 +46,6 @@ bool PhysicsHandler::Initialize(Engine* engine, Camera* gameCamera)
 	this->m_walls.push_back(Plane());
 	this->m_walls.at(0).m_pos = Vector3(-5, 0, -5);
 	this->m_walls.at(0).m_normal = Vector3(0, 1, 0);
-	this->m_walls.at(0).m_left = Vector3(10, 0, 0);
-	this->m_walls.at(0).m_forward = Vector3(0, 0, 10);
 
 	this->m_walls.at(0).topLeft.m_pos1 = Vector3(-5, 0, -5);
 	this->m_walls.at(0).topLeft.m_pos2 = Vector3(-5, 0, 5);
@@ -60,8 +58,6 @@ bool PhysicsHandler::Initialize(Engine* engine, Camera* gameCamera)
 	this->m_walls.push_back(Plane());
 	this->m_walls.at(1).m_pos = Vector3(5, 5, 0);
 	this->m_walls.at(1).m_normal = Vector3(-1, 0, 0);
-	this->m_walls.at(1).m_left = Vector3(10, 0, 0);
-	this->m_walls.at(1).m_forward = Vector3(0, 0, 10);
 
 	this->m_walls.at(1).topLeft.m_pos1 = Vector3(5, 10, 5);
 	this->m_walls.at(1).topLeft.m_pos2 = Vector3(5, 10, -5);
@@ -171,10 +167,6 @@ void PhysicsHandler::SimpleGravity(PhysicsComponent* pComponent, const float &dt
 
 	PhysicsLibrary::Fuctions::Gravity(test, dt);
 	DirectX::XMStoreFloat3(&testRes, test);
-	PhysicsLibrary::Fuctions::DinMamma();
-	
-	
-
 }
 
 void PhysicsHandler::Render()
