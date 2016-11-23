@@ -38,7 +38,6 @@ namespace PhysicsLibrary
 
 	public:
 		static void Gravity(DirectX::XMVECTOR &force, const float &dt);
-
 	};
 	class PHYSICSDLL_PHYSICS_PHYSICSLIBRARY_API PhysicsComponent
 	{
