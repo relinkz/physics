@@ -148,9 +148,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="PhysicsComponent.h" />
+    <ClInclude Include="PhysicsHandler.h" />
     <ClInclude Include="PhysicsLibrary.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="PhysicsComponent.cpp" />
+    <ClCompile Include="PhysicsHandler.cpp" />
     <ClCompile Include="PhysicsLibrary.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

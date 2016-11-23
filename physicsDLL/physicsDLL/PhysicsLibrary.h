@@ -6,6 +6,7 @@
 #define PHYSICSDLL_PHYSICS_PHYSICSLIBRARY_API __declspec(dllimport)
 #endif
 
+//#include "PhysicsComponent.h"
 /*
 dllexport and dllimport
 https://msdn.microsoft.com/en-us/library/3y1sfaz2.aspx
@@ -16,19 +17,7 @@ https://msdn.microsoft.com/en-us/library/3y1sfaz2.aspx
 #include <DirectXMath.h>
 namespace PhysicsLibrary
 {
-	//struct Triangle
-	//{
-	//	DirectX::XMVECTOR m_pos1;
-	//	DirectX::XMVECTOR m_pos2;
-	//	DirectX::XMVECTOR m_pos3;
-	//};
-	//struct Plane
-	//{
-	//	Triangle topLeft;
-	//	Triangle bottomRight;
-	//	DirectX::XMVECTOR m_pos;
-	//	DirectX::XMVECTOR m_normal;
-	//};
+
 
 
 	class PHYSICSDLL_PHYSICS_PHYSICSLIBRARY_API Fuctions
@@ -39,63 +28,138 @@ namespace PhysicsLibrary
 	public:
 		static void Gravity(DirectX::XMVECTOR &force, const float &dt);
 	};
-	class PHYSICSDLL_PHYSICS_PHYSICSLIBRARY_API PhysicsComponent
+	
+
+	/*class Chain
 	{
 	private:
-		DirectX::XMVECTOR m_pos;
-		DirectX::XMVECTOR m_velocity;
-		float m_mass;
+		PhysicsComponent* playerPtr;
+		PhysicsComponent* ballPtr;
+		float lenght;
 
-		DirectX::XMVECTOR m_vel;
+
 	public:
-		PhysicsComponent();
-		~PhysicsComponent();
+		Chain();
+		~Chain();
 
-		void Update(const float &dt);
+		bool Initialize(float lenght, PhysicsComponent* playerPtr, PhysicsComponent* ballPtr);
 
-		DirectX::XMVECTOR GetPos()const;
-		DirectX::XMVECTOR GetVelocity()const;
-		float GetMass()const;
+		void DoChainPhysics(float dt);
+		void AdjustVelocities(PhysicsComponent* pComponent, float dt);
 
-		void SetPos(DirectX::XMVECTOR pos);
-		void SetVelocity(DirectX::XMVECTOR vel);
-		void SetMass(float mass);
+		void SetPlayerPtr(PhysicsComponent* playerPtr);
+		void SetBallPtr(PhysicsComponent* ballPtr);
+		void SetLenght(float lenght);
 
-		void ApplyForce(DirectX::XMVECTOR force, const float &dt);
+	};*/
 
-	};
+	//Chain::Chain()
+	//{
+	//}
 
-	class PHYSICSDLL_PHYSICS_PHYSICSLIBRARY_API PhysicsHandler
-	{
-	private:
-		//Chain m_chain;
+	//Chain::~Chain()
+	//{
+	//}
 
-		PhysicsComponent* m_components;
-		int m_capacity;
-		int m_nrOfComponents;
-		//std::vector<Plane> m_walls;
+	//bool Chain::Initialize(float lenght, PhysicsComponent * playerPtr, PhysicsComponent * ballPtr)
+	//{
+	//	this->playerPtr = playerPtr;
+	//	this->ballPtr = ballPtr;
+	//	this->lenght = lenght;
 
-		DirectX::XMVECTOR m_gravity;
+	//	return false;
+	//}
 
-		const float m_offSet = 0.5f;
-	public:
-		PhysicsHandler();
-		~PhysicsHandler();
+	//void Chain::DoChainPhysics(float dt)
+	//{
+	//	Vector3 playerToBall = this->ballPtr->GetPos() - this->playerPtr->GetPos();
 
-		bool Initialize();
-		void Update();
+	//	float d = Physics::calcRadius(playerToBall);
 
-		void SimpleCollition(float dt);
-		void SimpleGravity(PhysicsComponent* componentPtr, const float &dt);
+	//	playerToBall = Physics::normalizeVector(playerToBall);
 
-		int getNrOfComponents()const;
-		PhysicsComponent* getPComponents()const;
+	//	if (d > this->lenght)
+	//	{
+	//		//this->ballPtr->SetPos(this->playerPtr->GetPos() + (playerToBall * d));
+	//		//
+	//		//Vector3 velocityVector = this->ballPtr->GetVelocity();
+	//		//float velocityLenght = Physics::calcRadius(velocityVector);
+	//		//
+	//		//velocityVector = Physics::normalizeVector(velocityVector);
+	//		//
+	//		//Vector3 resultVel = ((velocityVector * playerToBall) * playerToBall) * velocityLenght;
+	//		//
+	//		//this->playerPtr->SetVelocity(resultVel);
 
 
-		//bool SpherePlaneIntersevtion(PhysicsComponent* pComponent, float radius, Plane plane, float dt);
-		//bool PointInTriangleTest(DirectX::XMVECTOR point, Triangle triangle);
+	//		Vector3 force = playerToBall * (d - this->lenght) * 0.2f;
+
+	//		force = force + (this->ballPtr->GetVelocity() - this->playerPtr->GetVelocity()) * 0.5f;
+
+	//		this->playerPtr->ApplyForce(force, dt);
+	//	}
 
 
-	};
+
+	//}
+
+	//void Chain::AdjustVelocities(PhysicsComponent * pComponent, float dt)
+	//{
+	//	PhysicsComponent* toBeAdjusted = nullptr;
+	//	PhysicsComponent* other = nullptr;
+
+
+	//	if (pComponent == this->ballPtr)
+	//	{
+	//		//adjust player data
+	//		toBeAdjusted = this->playerPtr;
+	//		other = this->ballPtr;
+
+	//	}
+	//	if (pComponent == this->playerPtr)
+	//	{
+	//		//adjust ball data
+	//		toBeAdjusted = this->ballPtr;
+	//		other = this->playerPtr;
+
+	//	}
+
+	//	if (toBeAdjusted != nullptr)
+	//	{
+	//		Vector3 toVec = toBeAdjusted->GetPos() - other->GetPos();
+
+	//		float d = Physics::calcRadius(toVec);
+
+	//		toVec = Physics::normalizeVector(toVec);
+
+	//		if (d > this->lenght)
+	//		{
+
+	//			toBeAdjusted->SetPos(other->GetPos() + (toVec * this->lenght));
+
+
+
+	//		}
+
+
+	//	}
+
+	//}
+
+	//void Chain::SetPlayerPtr(PhysicsComponent * playerPtr)
+	//{
+	//	this->playerPtr = playerPtr;
+	//}
+
+	//void Chain::SetBallPtr(PhysicsComponent * ballPtr)
+	//{
+	//	this->ballPtr = ballPtr;
+	//}
+
+	//void Chain::SetLenght(float lenght)
+	//{
+	//	this->lenght = lenght;
+	//}
+
 }
 

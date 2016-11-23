@@ -3,7 +3,6 @@
 
 #include <windows.h>
 #include"GlobalData.h"
-#include "Body.h"
 #include "Parser.h"
 #include <string>
 #include <vector>
@@ -44,7 +43,7 @@ public:
 
 	bool Initialize(ID3D11Device *gDevice, ID3D11DeviceContext *gDeviceContext);
 
-	void RenderBodyInfo(Body* body, Vector3 pos, float size);
+	//void RenderBodyInfo(Body* body, Vector3 pos, float size);
 	void RenderNumber(Vector3 pos,float number);
 	void RenderText(Vector3 pos, char *text, float size);
 	void RenderTextRow(Vector3 pos, string str, float size);

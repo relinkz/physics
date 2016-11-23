@@ -1,24 +1,34 @@
-#ifndef PHYSICSDLL_PHYSICS_PHYSICSCOMPONENT_H
-#define PHYSICSDLL_PHYSICS_PHYSICSCOMPONENT_H
-#include "GlobalData.h"
-
-//class PhysicsComponent
-//{
-//private:
-//	Vector3 m_pos;
-//	Vector3 m_velocity;
-//public:
-//	PhysicsComponent();
-//	~PhysicsComponent();
-//
-//	void Update(const float &dt);
-//
-//	Vector3 GetPos()const;
-//	Vector3 GetVelocity()const;
-//
-//	void SetPos(Vector3 pos);
-//	void SetVelocity(Vector3 vel);
-//	void ApplyForce(Vector3 force, const float &dt);
-//};
-
+#pragma once
+#define PHYSICSLIBRARY_EXPORTS
+#ifdef PHYSICSLIBRARY_EXPORTS
+#define PHYSICSDLL_PHYSICS_PHYSICSLIBRARY_API __declspec(dllexport)
+#else
+#define PHYSICSDLL_PHYSICS_PHYSICSLIBRARY_API __declspec(dllimport)
 #endif
+#include <DirectXMath.h>
+
+class PHYSICSDLL_PHYSICS_PHYSICSLIBRARY_API PhysicsComponent
+{
+private:
+	DirectX::XMVECTOR m_pos;
+	DirectX::XMVECTOR m_velocity;
+	float m_mass;
+
+	DirectX::XMVECTOR m_vel;
+public:
+	PhysicsComponent();
+	~PhysicsComponent();
+
+	void Update(const float &dt);
+
+	DirectX::XMVECTOR GetPos()const;
+	DirectX::XMVECTOR GetVelocity()const;
+	float GetMass()const;
+
+	void SetPos(DirectX::XMVECTOR pos);
+	void SetVelocity(DirectX::XMVECTOR vel);
+	void SetMass(float mass);
+
+	void ApplyForce(DirectX::XMVECTOR force, const float &dt);
+
+};
