@@ -3,8 +3,8 @@
 
 //#pragma once
 //#define PHYSICSLIBRARY_EXPORTS
-#ifdef PHYSICSLIBRARY_EXPORTS
-#define PHYSICSDLL_PHYSICS_PHYSICSLIBRARY_API __declspec(dllexport)
+#ifdef PHYSICSDLL_EXPORTS
+#define PHYSICSDLL_PHYSICS_PHYSICSLIBRARY_API __declspec(dllexport) //__declspec tells the compiler and linker to export the function or variable from the DLL so that it can be used by other applications.
 #else
 #define PHYSICSDLL_PHYSICS_PHYSICSLIBRARY_API __declspec(dllimport)
 #endif
@@ -13,7 +13,13 @@
 #include <DirectXMath.h>
 #include <vector>
 
-struct PhysicsComponent
+struct PHYSICSDLL_PHYSICS_PHYSICSLIBRARY_API AABB
+{
+	float pos[3];
+	float ext[3];
+};
+
+struct PHYSICSDLL_PHYSICS_PHYSICSLIBRARY_API PhysicsComponent
 {
 	int m_active;
 	bool m_is_Static;
@@ -24,6 +30,10 @@ struct PhysicsComponent
 	DirectX::XMVECTOR m_rotationVelocity;
 	double m_gravityInfluence;
 	bool m_coolides;
+
+	
+	//AABB info
+	AABB m_AABB;
 	//AABB m_looseBoundingBox
 	//BoundingVolume* m_tightBoundingVolume; 
 	//std::vector<int entityID, event EVENT> m_eventlist;
@@ -44,6 +54,8 @@ private:
 	DirectX::XMVECTOR m_gravity;
 
 	const float m_offSet = 0.5f;
+	bool IntersectAABB();
+
 public:
 	PhysicsHandler();
 	~PhysicsHandler();
@@ -53,6 +65,8 @@ public:
 
 	void SimpleCollition(float dt);
 	void SimpleGravity(PhysicsComponent* componentPtr, const float &dt);
+
+	bool checkCollition();
 
 	int getNrOfComponents()const;
 	PhysicsComponent* getDynamicComponents(int index)const;

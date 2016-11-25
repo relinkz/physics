@@ -11,6 +11,8 @@ PhysicsHandler::~PhysicsHandler()
 
 bool PhysicsHandler::Initialize()
 {
+	PhysicsComponent* tempPtr;
+
 	this->m_gravity = DirectX::XMVectorSet(0, -0.000005, 0, 0);
 
 	//this->m_components.push_back(PhysicsComponent());
@@ -24,14 +26,38 @@ bool PhysicsHandler::Initialize()
 	this->m_capacity = 10;
 	this->m_nrOfComponents = 2;
 	//this->m_components = new PhysicsComponent2[this->m_capacity];
-	this->m_dynamicComponents.push_back(new PhysicsComponent);
-	this->m_dynamicComponents.push_back(new PhysicsComponent);
 
-	this->m_dynamicComponents.at(0)->m_pos = DirectX::XMVectorSet(-1, 5, 0, 0);
-	this->m_dynamicComponents.at(0)->m_velocity = DirectX::XMVectorSet(0, 0, 0, 0);
+	//first dummy obj
+	tempPtr = new PhysicsComponent;
+	tempPtr->m_pos = DirectX::XMVectorSet(-1, 5, 0, 0);
+	tempPtr->m_velocity = DirectX::XMVectorSet(0, 0, 0, 0);
 
-	this->m_dynamicComponents.at(1)->m_pos = DirectX::XMVectorSet(1, 5, 0, 0);
-	this->m_dynamicComponents.at(1)->m_velocity = DirectX::XMVectorSet(0, 0, 0, 0);
+	tempPtr->m_AABB.pos[0] = 0;
+	tempPtr->m_AABB.pos[1] = 0;
+	tempPtr->m_AABB.pos[2] = 0;
+
+	tempPtr->m_AABB.ext[0] = 1;
+	tempPtr->m_AABB.ext[1] = 1;
+	tempPtr->m_AABB.ext[2] = 1;
+
+	this->m_dynamicComponents.push_back(tempPtr);
+
+	//secound obj
+	tempPtr = new PhysicsComponent;
+	tempPtr->m_pos = DirectX::XMVectorSet(1, 5, 0, 0);
+	tempPtr->m_velocity = DirectX::XMVectorSet(0, 0, 0, 0);
+
+	tempPtr->m_AABB.pos[0] = 2;
+	tempPtr->m_AABB.pos[1] = 0;
+	tempPtr->m_AABB.pos[2] = 0;
+
+	tempPtr->m_AABB.ext[0] = 1;
+	tempPtr->m_AABB.ext[1] = 1;
+	tempPtr->m_AABB.ext[2] = 1;
+
+	this->m_dynamicComponents.push_back(tempPtr);
+
+	this->checkCollition();
 
 	//this->m_components[0].SetPos(DirectX::XMVectorSet(0, 2.5, 0, 0));
 	//this->m_components[1].SetPos(DirectX::XMVectorSet(1, 2.5, 0, 0));
@@ -133,6 +159,60 @@ PhysicsComponent* PhysicsHandler::getDynamicComponents(int index)const
 	}
 	return nullptr;
 
+}
+
+bool PhysicsHandler::IntersectAABB()
+{
+	bool possibleCollitionX = false;
+	bool possibleCollitionY = false;
+	bool possibleCollitionZ = false;
+	PhysicsComponent* PC_ptr = nullptr;
+	
+
+	int nrOfComponents = this->m_dynamicComponents.size();
+	float vecToObj[3];
+
+
+	for (int i = 0; i < nrOfComponents; i++)
+	{
+		PC_ptr = this->m_dynamicComponents.at(i);
+
+		//iterate through all physicscomponents 
+		for (int axis = 0; axis < 3; axis++)
+		{
+			vecToObj[axis] = 0; //remove clutter values, or old values
+			vecToObj[axis] = toCheck.pos[axis] - PC_ptr->m_AABB.pos[axis];
+		}
+
+		//Fraps return the absolute value
+		//http://www.cplusplus.com/reference/cmath/fabs/
+
+		//if the extensions from objA and objB together is smaller than the vector to b, then no collition
+		possibleCollitionX = (fabs(vecToObj[0]) <= (toCheck.ext[0] + PC_ptr->m_AABB.ext[0]));
+		if (possibleCollitionX == true)
+		{
+			possibleCollitionY = (fabs(vecToObj[1]) <= (toCheck.ext[0] + PC_ptr->m_AABB.ext[0]));
+			if (possibleCollitionY == true)
+			{
+				possibleCollitionZ = (fabs(vecToObj[2]) <= (toCheck.ext[0] + PC_ptr->m_AABB.ext[0]));
+				if (possibleCollitionZ == true)
+				{
+					// apply OOB check for more precisition
+					return true;
+				}
+			}
+		}
+	}
+		//collition not possible
+		return false;
+}
+
+bool PhysicsHandler::checkCollition()
+{
+	bool result = false;
+	result = this->IntersectAABB();
+
+	return result;
 }
 
 //bool PhysicsHandler::SpherePlaneIntersevtion(PhysicsComponent* pComponent, float radius, Plane plane, float dt)
