@@ -7,12 +7,11 @@ PhysicsHandler::PhysicsHandler()
 }
 PhysicsHandler::~PhysicsHandler()
 {
-	delete[] this->m_components;
 }
 
 bool PhysicsHandler::Initialize()
 {
-	this->m_gravity = DirectX::XMVectorSet(0, -0.5, 0, 0);
+	this->m_gravity = DirectX::XMVectorSet(0, -0.005, 0, 0);
 
 	//this->m_components.push_back(PhysicsComponent());
 	//this->m_components.at(0).SetPos(DirectX::XMVectorSet(0, 0.5, 0, 0));
@@ -24,10 +23,18 @@ bool PhysicsHandler::Initialize()
 
 	this->m_capacity = 10;
 	this->m_nrOfComponents = 2;
-	this->m_components = new PhysicsComponent[this->m_capacity];
+	//this->m_components = new PhysicsComponent2[this->m_capacity];
+	this->m_dynamicComponents.push_back(new PhysicsComponent);
+	this->m_dynamicComponents.push_back(new PhysicsComponent);
 
-	this->m_components[0].SetPos(DirectX::XMVectorSet(0, 2.5, 0, 0));
-	this->m_components[1].SetPos(DirectX::XMVectorSet(1, 2.5, 0, 0));
+	this->m_dynamicComponents.at(0)->m_pos = DirectX::XMVectorSet(-1, 5, 0, 0);
+	this->m_dynamicComponents.at(0)->m_velocity = DirectX::XMVectorSet(0, 0, 0, 0);
+
+	this->m_dynamicComponents.at(1)->m_pos = DirectX::XMVectorSet(1, 5, 0, 0);
+	this->m_dynamicComponents.at(1)->m_velocity = DirectX::XMVectorSet(0, 0, 0, 0);
+
+	//this->m_components[0].SetPos(DirectX::XMVectorSet(0, 2.5, 0, 0));
+	//this->m_components[1].SetPos(DirectX::XMVectorSet(1, 2.5, 0, 0));
 
 
 	//this->m_walls.push_back(Plane());
@@ -62,18 +69,18 @@ void PhysicsHandler::Update()
 
 	SimpleCollition(dt);
 }
-
 void PhysicsHandler::SimpleCollition(float dt)
 {
 	float m_frictionConstant = 0.999f;
 	//int componentSize = this->m_components.size();
 	PhysicsComponent* ptr;
-	for (int i = 0; i < this->m_nrOfComponents; i++)
+	int size = this->m_dynamicComponents.size();
+	for (int i = 0; i < size; i++)
 	{
-		ptr = &this->m_components[i];
+		ptr = this->m_dynamicComponents.at(i);
 
 
-		DirectX::XMVECTOR pos = ptr->GetPos();
+		DirectX::XMVECTOR pos = ptr->m_pos;
 
 		float y = DirectX::XMVectorGetY(pos);
 
@@ -83,16 +90,18 @@ void PhysicsHandler::SimpleCollition(float dt)
 		}
 		else if (y < (0 + this->m_offSet))
 		{
-			ptr->SetPos(DirectX::XMVectorSet(DirectX::XMVectorGetX(pos), (0 + this->m_offSet), DirectX::XMVectorGetZ(pos), 0.0f));
-			DirectX::XMVECTOR vel = ptr->GetVelocity();
-			ptr->SetVelocity(DirectX::XMVectorSet(DirectX::XMVectorGetX(vel) * m_frictionConstant, 0, DirectX::XMVectorGetZ(vel) * m_frictionConstant, 0.0f));
+			ptr->m_pos =  (DirectX::XMVectorSet(DirectX::XMVectorGetX(pos), (0 + this->m_offSet), DirectX::XMVectorGetZ(pos), 0.0f));
+			DirectX::XMVECTOR vel = ptr->m_velocity;
+			ptr->m_velocity = (DirectX::XMVectorSet(DirectX::XMVectorGetX(vel) * m_frictionConstant, 0, DirectX::XMVectorGetZ(vel) * m_frictionConstant, 0.0f));
 		}
 		else if (y == (0 + this->m_offSet))
 		{
-			DirectX::XMVECTOR vel = ptr->GetVelocity();
-			ptr->SetVelocity(DirectX::XMVectorSet(DirectX::XMVectorGetX(vel) * m_frictionConstant, 0.0f, DirectX::XMVectorGetZ(vel) * m_frictionConstant, 0.0f));
+			DirectX::XMVECTOR vel = ptr->m_velocity;
+			ptr->m_velocity = (DirectX::XMVectorSet(DirectX::XMVectorGetX(vel) * m_frictionConstant, 0.0f, DirectX::XMVectorGetZ(vel) * m_frictionConstant, 0.0f));
 		}
-		ptr->Update(dt);
+		//ptr->Update(dt);
+
+		ptr->m_pos = DirectX::XMVectorAdd(ptr->m_pos, DirectX::XMVectorScale(ptr->m_velocity, dt));
 	}
 }
 void PhysicsHandler::SimpleGravity(PhysicsComponent* componentPtr, const float &dt)
@@ -103,7 +112,9 @@ void PhysicsHandler::SimpleGravity(PhysicsComponent* componentPtr, const float &
 
 	//pComponent->ApplyForce((this->m_gravity * pComponent->GetMass()), dt);
 
-	componentPtr->ApplyForce(DirectX::XMVectorScale(this->m_gravity, componentPtr->GetMass()), dt);
+	componentPtr->m_velocity = DirectX::XMVectorAdd(componentPtr->m_velocity, this->m_gravity);
+
+	//componentPtr->ApplyForce(DirectX::XMVectorScale(this->m_gravity, componentPtr->GetMass()), dt);
 
 	//PhysicsLibrary::Fuctions::Gravity(test, dt);
 	//DirectX::XMStoreFloat3(&testRes, test);
@@ -112,11 +123,16 @@ void PhysicsHandler::SimpleGravity(PhysicsComponent* componentPtr, const float &
 
 int PhysicsHandler::getNrOfComponents()const
 {
-	return this->m_nrOfComponents;
+	return this->m_dynamicComponents.size();
 }
-PhysicsComponent* PhysicsHandler::getPComponents()const
+PhysicsComponent* PhysicsHandler::getDynamicComponents(int index)const
 {
-	return this->m_components;
+	if (index >= 0 && index < this->m_dynamicComponents.size())
+	{
+		return this->m_dynamicComponents.at(index);
+	}
+	return nullptr;
+
 }
 
 //bool PhysicsHandler::SpherePlaneIntersevtion(PhysicsComponent* pComponent, float radius, Plane plane, float dt)

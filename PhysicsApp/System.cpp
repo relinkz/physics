@@ -8,7 +8,6 @@
 #include <vector>
 //#include "PhysicsHandler.h"
 
-#include "../physicsDLL/physicsDLL/PhysicsLibrary.h"
 #include "../physicsDLL/physicsDLL/PhysicsComponent.h"
 #include "../physicsDLL/physicsDLL/PhysicsHandler.h"
 
@@ -110,7 +109,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 				int nrOfObjects = PH.getNrOfComponents();
 
-				PhysicsComponent* ptr = PH.getPComponents();
 
 				box.setTranslationMatrix(Vector3(0, 5, 0));
 				box.setUniformScale(10);
@@ -120,7 +118,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 				for (int i = 0; i < nrOfObjects; i++)
 				{
-					DirectX::XMVECTOR pos = ptr[i].GetPos();
+					PhysicsComponent* ptr = PH.getDynamicComponents(i);
+					DirectX::XMVECTOR pos = ptr->m_pos;
 					Vector3 posv;
 					posv.x = DirectX::XMVectorGetX(pos);
 					posv.y = DirectX::XMVectorGetY(pos);
