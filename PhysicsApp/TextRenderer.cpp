@@ -152,33 +152,33 @@ bool TextRenderer::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext *gDevic
 	return true;
 }
 
-void TextRenderer::RenderBodyInfo(Body * body, Vector3 pos, float size)
-{
-	Vector3 position = pos;
-	float yPosIncrement = 16 * size;
-	//string str = "this text is rendered";
-
-	//render body Name
-	string str = body->getName();
-	this->RenderTextRow(position, str, size);
-	position.x = 0;
-	position.y -= yPosIncrement;
-
-	Vector3 v = body->getVelocity();
-	//render x Velocity
-	str = "Velocity X: " + std::to_string((int)v.x);
-	this->RenderTextRow(position, str, size);
-	position.x = 0;
-	position.y -= yPosIncrement;
-
-	//render y Velocity
-	str = "Velocity Y: " + std::to_string((int)v.y);
-	this->RenderTextRow(position, str, size);
-	position.x = 0;
-	position.y -= yPosIncrement;
-
-
-}
+//void TextRenderer::RenderBodyInfo(Body * body, Vector3 pos, float size)
+//{
+//	Vector3 position = pos;
+//	float yPosIncrement = 16 * size;
+//	//string str = "this text is rendered";
+//
+//	//render body Name
+//	string str = body->getName();
+//	this->RenderTextRow(position, str, size);
+//	position.x = 0;
+//	position.y -= yPosIncrement;
+//
+//	Vector3 v = body->getVelocity();
+//	//render x Velocity
+//	str = "Velocity X: " + std::to_string((int)v.x);
+//	this->RenderTextRow(position, str, size);
+//	position.x = 0;
+//	position.y -= yPosIncrement;
+//
+//	//render y Velocity
+//	str = "Velocity Y: " + std::to_string((int)v.y);
+//	this->RenderTextRow(position, str, size);
+//	position.x = 0;
+//	position.y -= yPosIncrement;
+//
+//
+//}
 
 void TextRenderer::RenderNumber(Vector3 pos, float number)
 {

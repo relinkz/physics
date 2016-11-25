@@ -150,12 +150,14 @@
   <ItemGroup>
     <ClInclude Include="AABB.h" />
     <ClInclude Include="BoundingVolume.h" />
-    <ClInclude Include="PhysicsLibrary.h" />
+    <ClInclude Include="PhysicsHandler.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AABB.cpp" />
     <ClCompile Include="BoundingVolume.cpp" />
-    <ClCompile Include="PhysicsLibrary.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="PhysicsHandler.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
