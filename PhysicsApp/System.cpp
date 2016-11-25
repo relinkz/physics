@@ -8,7 +8,6 @@
 #include <vector>
 //#include "PhysicsHandler.h"
 
-#include "../physicsDLL/physicsDLL/PhysicsComponent.h"
 #include "../physicsDLL/physicsDLL/PhysicsHandler.h"
 
 

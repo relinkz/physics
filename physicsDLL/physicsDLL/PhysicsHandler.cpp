@@ -1,9 +1,8 @@
 #include "PhysicsHandler.h"
+#include <malloc.h>
 
 PhysicsHandler::PhysicsHandler()
 {
-	this->m_nrOfComponents = 0;
-	this->m_capacity = 0;
 }
 PhysicsHandler::~PhysicsHandler()
 {
@@ -12,18 +11,8 @@ PhysicsHandler::~PhysicsHandler()
 bool PhysicsHandler::Initialize()
 {
 	this->m_gravity = DirectX::XMVectorSet(0, -0.005, 0, 0);
+	
 
-	//this->m_components.push_back(PhysicsComponent());
-	//this->m_components.at(0).SetPos(DirectX::XMVectorSet(0, 0.5, 0, 0));
-	//this->m_components.at(0).SetVelocity(DirectX::XMFLOAT3(-1, 2, 0));
-
-	//this->m_components.push_back(PhysicsComponent());
-	//this->m_components.at(1).SetPos(DirectX::XMVectorSet(1, 0.5, 0, 0));
-	//this->m_components.at(1).SetVelocity(DirectX::XMFLOAT3(-1, 1, 0));
-
-	this->m_capacity = 10;
-	this->m_nrOfComponents = 2;
-	//this->m_components = new PhysicsComponent2[this->m_capacity];
 	this->m_dynamicComponents.push_back(new PhysicsComponent);
 	this->m_dynamicComponents.push_back(new PhysicsComponent);
 
@@ -33,33 +22,6 @@ bool PhysicsHandler::Initialize()
 	this->m_dynamicComponents.at(1)->m_pos = DirectX::XMVectorSet(1, 5, 0, 0);
 	this->m_dynamicComponents.at(1)->m_velocity = DirectX::XMVectorSet(0, 0, 0, 0);
 
-	//this->m_components[0].SetPos(DirectX::XMVectorSet(0, 2.5, 0, 0));
-	//this->m_components[1].SetPos(DirectX::XMVectorSet(1, 2.5, 0, 0));
-
-
-	//this->m_walls.push_back(Plane());
-	//this->m_walls.at(0).m_pos = DirectX::XMVectorSet(-5, 0, -5, 0);
-	//this->m_walls.at(0).m_normal = DirectX::XMVectorSet(0, 1, 0, 0);
-	//
-	//this->m_walls.at(0).topLeft.m_pos1 = DirectX::XMVectorSet(-5, 0, -5, 0);
-	//this->m_walls.at(0).topLeft.m_pos2 = DirectX::XMVectorSet(-5, 0, 5, 0);
-	//this->m_walls.at(0).topLeft.m_pos3 = DirectX::XMVectorSet(5, 0, -5, 0);
-	//
-	//this->m_walls.at(0).bottomRight.m_pos1 = DirectX::XMVectorSet(5, 0, 5, 0);
-	//this->m_walls.at(0).bottomRight.m_pos2 = DirectX::XMVectorSet(-5, 0, 5, 0);
-	//this->m_walls.at(0).bottomRight.m_pos3 = DirectX::XMVectorSet(5, 0, -5, 0);
-	//
-	//this->m_walls.push_back(Plane());
-	//this->m_walls.at(1).m_pos = DirectX::XMVectorSet(5, 5, 0, 0);
-	//this->m_walls.at(1).m_normal = DirectX::XMVectorSet(-1, 0, 0, 0);
-	//
-	//this->m_walls.at(1).topLeft.m_pos1 = DirectX::XMVectorSet(5, 10, 5 , 0);
-	//this->m_walls.at(1).topLeft.m_pos2 = DirectX::XMVectorSet(5, 10, -5, 0);
-	//this->m_walls.at(1).topLeft.m_pos3 = DirectX::XMVectorSet(5, 0, 5, 0);
-	//
-	//this->m_walls.at(1).bottomRight.m_pos1 = DirectX::XMVectorSet(5, 0, -5, 0);
-	//this->m_walls.at(1).bottomRight.m_pos2 = DirectX::XMVectorSet(5, 10, -5, 0);
-	//this->m_walls.at(1).bottomRight.m_pos3 = DirectX::XMVectorSet(5, 0, 5, 0);
 
 	return true;
 }
@@ -72,7 +34,6 @@ void PhysicsHandler::Update()
 void PhysicsHandler::SimpleCollition(float dt)
 {
 	float m_frictionConstant = 0.999f;
-	//int componentSize = this->m_components.size();
 	PhysicsComponent* ptr;
 	int size = this->m_dynamicComponents.size();
 	for (int i = 0; i < size; i++)
@@ -99,7 +60,6 @@ void PhysicsHandler::SimpleCollition(float dt)
 			DirectX::XMVECTOR vel = ptr->m_velocity;
 			ptr->m_velocity = (DirectX::XMVectorSet(DirectX::XMVectorGetX(vel) * m_frictionConstant, 0.0f, DirectX::XMVectorGetZ(vel) * m_frictionConstant, 0.0f));
 		}
-		//ptr->Update(dt);
 
 		ptr->m_pos = DirectX::XMVectorAdd(ptr->m_pos, DirectX::XMVectorScale(ptr->m_velocity, dt));
 	}
@@ -110,14 +70,9 @@ void PhysicsHandler::SimpleGravity(PhysicsComponent* componentPtr, const float &
 	DirectX::XMFLOAT3 testRes(0, 5, 0);
 	test = DirectX::XMLoadFloat3(&testRes);
 
-	//pComponent->ApplyForce((this->m_gravity * pComponent->GetMass()), dt);
 
 	componentPtr->m_velocity = DirectX::XMVectorAdd(componentPtr->m_velocity, this->m_gravity);
 
-	//componentPtr->ApplyForce(DirectX::XMVectorScale(this->m_gravity, componentPtr->GetMass()), dt);
-
-	//PhysicsLibrary::Fuctions::Gravity(test, dt);
-	//DirectX::XMStoreFloat3(&testRes, test);
 }
 
 
