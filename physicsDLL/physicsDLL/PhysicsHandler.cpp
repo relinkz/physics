@@ -28,8 +28,8 @@ bool PhysicsHandler::Initialize()
 	
 	this->m_dynamicComponents.push_back(PhysicsComponent());
 
-	//this->m_dynamicComponents.push_back(PhysicsComponent());
-	//this->m_dynamicComponents.push_back(PhysicsComponent());
+	this->m_dynamicComponents.push_back(PhysicsComponent());
+	this->m_dynamicComponents.push_back(PhysicsComponent());
 	//this->m_dynamicComponents.push_back(PhysicsComponent());
 	//this->m_dynamicComponents.push_back(PhysicsComponent());
 
@@ -49,10 +49,10 @@ bool PhysicsHandler::Initialize()
 
 
 	//ball physicsComponent
-	this->m_ballPC->m_pos = DirectX::XMVectorSet(3, 9, 0, 0);
+	this->m_ballPC->m_pos = DirectX::XMVectorSet(0, 9, 0, 0);
 	this->m_ballPC->m_velocity = DirectX::XMVectorSet(0, 0, 0, 0);
 	this->m_ballPC->m_mass = 10.0;
-	this->m_ballPC->m_is_Static = false;
+	this->m_ballPC->m_is_Static = true;
 	//player physicsComponent
 	this->m_playerPC->m_pos = DirectX::XMVectorSet(0, 9, 0, 0);
 	this->m_playerPC->m_velocity = DirectX::XMVectorSet(0, 0, 0, 0);
@@ -64,14 +64,14 @@ bool PhysicsHandler::Initialize()
 	{
 		if (i != 0 && i != nrOfChainLinkObjects - 1)
 		{
-			this->m_chain.m_links.at(i)->m_pos = DirectX::XMVectorSet(1.5, 9, 0, 0);
+			this->m_chain.m_links.at(i)->m_pos = DirectX::XMVectorSet(0, 9, 0, 0);
 			this->m_chain.m_links.at(i)->m_velocity = DirectX::XMVectorSet(0, 0, 0, 0);
 			this->m_chain.m_links.at(i)->m_mass = 1.0;
 			this->m_chain.m_links.at(i)->m_is_Static = false;
 		}
 	}
 
-	this->m_chain.m_linkLenght = 3.0f;
+	this->m_chain.m_linkLenght = 1.0f;
 
 	this->m_chain.m_totalLenght = this->m_chain.m_linkLenght * this->m_chain.m_links.size();
 
@@ -84,7 +84,7 @@ void PhysicsHandler::Update()
 {
 	this->m_current_time = (GetCurrentTime());
 	float dt = 0.01f;
-	dt = (this->m_current_time - this->m_old_time) / 1000;
+	dt = (this->m_current_time - this->m_old_time) / 100;
 
 	int size = this->m_chain.m_links.size();
 	for (int i = 0; i < size - 1; i++)
@@ -136,10 +136,10 @@ void PhysicsHandler::Update()
 	if (GetAsyncKeyState(0x52))
 	{
 		//ball physicsComponent
-		this->m_ballPC->m_pos = DirectX::XMVectorSet(3, 9, 0, 0);
+		this->m_ballPC->m_pos = DirectX::XMVectorSet(0, 9, 0, 0);
 		this->m_ballPC->m_velocity = DirectX::XMVectorSet(0, 0, 0, 0);
 		this->m_ballPC->m_mass = 10;
-		this->m_ballPC->m_is_Static = false;
+		this->m_ballPC->m_is_Static = true;
 		//player physicsComponent
 		this->m_playerPC->m_pos = DirectX::XMVectorSet(0, 9, 0, 0);
 		this->m_playerPC->m_velocity = DirectX::XMVectorSet(0, 0, 0, 0);
@@ -210,7 +210,7 @@ void PhysicsHandler::UpdatePhysicsComponent(PhysicsComponent * componentPtr, flo
 	{
 		componentPtr->m_velocity = DirectX::XMVectorSet(0, 0, 0, 0);
 	}
-	componentPtr->m_velocity = DirectX::XMVectorScale(componentPtr->m_velocity, 0.9999);
+	//componentPtr->m_velocity = DirectX::XMVectorScale(componentPtr->m_velocity, 0.9999);
 	componentPtr->m_pos = DirectX::XMVectorAdd(componentPtr->m_pos, DirectX::XMVectorScale(componentPtr->m_velocity, dt));
 }
 
@@ -224,16 +224,30 @@ void PhysicsHandler::ApplyForceToComponent(PhysicsComponent * componentPtr, Dire
 			int error = 0;
 		}
 		float scale = (1.0 / componentPtr->m_mass);
-		componentPtr->m_velocity = DirectX::XMVectorAdd(componentPtr->m_velocity, DirectX::XMVectorScale(force, scale));
+		componentPtr->m_velocity = DirectX::XMVectorAdd(componentPtr->m_velocity, DirectX::XMVectorScale(force, (1.0 / componentPtr->m_mass)));
 	}
 
 }
 
 void PhysicsHandler::DoChainPhysics(PhysicsComponent* current, PhysicsComponent* next, float dt)
 { 
+	//DirectX::XMVECTOR diffVec = DirectX::XMVectorSubtract(current->m_pos, next->m_pos);
+	//float lenght = DirectX::XMVectorGetX(DirectX::XMVector3Length(diffVec));
+
+	//if (lenght >= this->m_chain.m_linkLenght)
+	//{
+	//	diffVec = DirectX::XMVector3Normalize(diffVec);
+
+	//	DirectX::XMVECTOR force = DirectX::XMVectorScale(DirectX::XMVectorScale(diffVec, lenght - this->m_chain.m_linkLenght), 1.0);
+	//	//force = DirectX::XMVectorAdd(force, DirectX::XMVectorScale(DirectX::XMVectorSubtract(current->m_velocity, next->m_velocity), 1.0));
+
+	//	this->ApplyForceToComponent(next, force, dt);
+	//	force = DirectX::XMVectorScale(force, -1.0);
+	//	this->ApplyForceToComponent(current, force, dt);
+	//}
 
 	this->ChainMomentumPhysics(current, next, dt);
-
+	//this->SpringJointPhysics(current, next, dt);
 
 }
 
@@ -294,8 +308,8 @@ void PhysicsHandler::SpringJointPhysics(PhysicsComponent * current, PhysicsCompo
 
 		diffVec = DirectX::XMVector3Normalize(diffVec);
 
-		DirectX::XMVECTOR force = DirectX::XMVectorScale(DirectX::XMVectorScale(diffVec, lenght - this->m_chain.m_linkLenght), 1.0);
-		//force = DirectX::XMVectorAdd(force, DirectX::XMVectorScale(DirectX::XMVectorSubtract(current->m_velocity, next->m_velocity), 1.0));
+		DirectX::XMVECTOR force = DirectX::XMVectorScale(DirectX::XMVectorScale(diffVec, (lenght - this->m_chain.m_linkLenght)), 0.02);
+		//force = DirectX::XMVectorAdd(force, DirectX::XMVectorScale(DirectX::XMVectorSubtract(next->m_velocity, current->m_velocity), 0.5));
 
 		this->ApplyForceToComponent(current, force, dt);
 		force = DirectX::XMVectorScale(force, -1.0);
@@ -313,7 +327,7 @@ void PhysicsHandler::ChainMomentumPhysics(PhysicsComponent * current, PhysicsCom
 
 		diffVec = DirectX::XMVector3Normalize(diffVec);
 
-		next->m_pos = DirectX::XMVectorAdd(current->m_pos, DirectX::XMVectorScale(diffVec, (this->m_chain.m_linkLenght * 1.0)));
+		next->m_pos = DirectX::XMVectorAdd(current->m_pos, DirectX::XMVectorScale(diffVec, (this->m_chain.m_linkLenght)));
 
 		float m1 = current->m_mass;
 		float m2 = next->m_mass;
@@ -321,28 +335,28 @@ void PhysicsHandler::ChainMomentumPhysics(PhysicsComponent * current, PhysicsCom
 		DirectX::XMVECTOR velocityVec1 = current->m_velocity;
 		DirectX::XMVECTOR velocityVec2 = next->m_velocity;
 
-		//DirectX::XMVECTOR parallelVelocityVec1;
-		//DirectX::XMVECTOR parallelVelocityVec2;
-		//DirectX::XMVECTOR perpendicularVelocityVec1;
-		//DirectX::XMVECTOR perpendicularVelocityVec2;
+		DirectX::XMVECTOR parallelVelocityVec1;
+		DirectX::XMVECTOR parallelVelocityVec2;
+		DirectX::XMVECTOR perpendicularVelocityVec1;
+		DirectX::XMVECTOR perpendicularVelocityVec2;
 
-		//DirectX::XMVector3ComponentsFromNormal(&parallelVelocityVec1, &perpendicularVelocityVec1, velocityVec1, diffVec);
-		//DirectX::XMVector3ComponentsFromNormal(&parallelVelocityVec2, &perpendicularVelocityVec2, velocityVec2, diffVec);
+		DirectX::XMVector3ComponentsFromNormal(&parallelVelocityVec1, &perpendicularVelocityVec1, velocityVec1, diffVec);
+		DirectX::XMVector3ComponentsFromNormal(&parallelVelocityVec2, &perpendicularVelocityVec2, velocityVec2, diffVec);
 
 		float v1_old = DirectX::XMVectorGetX(DirectX::XMVector3Length(velocityVec1));
 		float v2_old = DirectX::XMVectorGetX(DirectX::XMVector3Length(velocityVec2));
 
 
 		float v1_new = (((m1 - m2) / (m1 + m2)) * v1_old) + (((2 * m1) / (m1 + m2))* v2_old);
-
-		float forceMagnitude1 = ((current->m_mass * (v1_new - v1_old)) / 5.0);
+																		//50 is important
+		float forceMagnitude1 = ((current->m_mass * (v1_new - v1_old)) / 50.0);
 		DirectX::XMVECTOR forceVec1 = DirectX::XMVectorScale(diffVec, (forceMagnitude1));
 		this->ApplyForceToComponent(current, forceVec1, dt);
 
 
 		float v2_new = (((2 * m1) / (m1 + m2)) * v1_old) + (((m2 - m1) / (m1 + m2))* v2_old);
 
-		float forceMagnitude2 = ((next->m_mass * (v2_new - v2_old)) / 5.0);
+		float forceMagnitude2 = ((next->m_mass * (v2_new - v2_old)) / 50.0);
 		DirectX::XMVECTOR forceVec2 = DirectX::XMVectorScale(diffVec, (forceMagnitude2));
 
 		this->ApplyForceToComponent(next, forceVec2, dt);
