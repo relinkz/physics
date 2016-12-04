@@ -17,8 +17,8 @@
 #define VK_U 0x55
 #define VK_H 0x48
 
-UINT const CLIENT_WIDTH = 640;
-UINT const CLIENT_HEIGHT = 480;
+UINT const CLIENT_WIDTH = 1280;
+UINT const CLIENT_HEIGHT = 720;
 
 //const long float AU = (149.6e6 * 1000.0f);
 const long float AU = 149597870700;

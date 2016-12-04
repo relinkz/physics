@@ -9,8 +9,10 @@
 
 #include <DirectXMath.h>
 #include <vector>
+#include <d3d11.h>
+#include <d3dcompiler.h>
 
-__declspec(align(16)) struct PhysicsComponent
+struct PhysicsComponent
 {
 	DirectX::XMVECTOR m_pos;
 	DirectX::XMVECTOR m_velocity;
@@ -26,16 +28,32 @@ __declspec(align(16)) struct PhysicsComponent
 	//std::vector<int entityID, event EVENT> m_eventlist;
 
 };
+struct Chain
+{
+	float m_linkLenght;
+	float m_totalLenght;
+	std::vector<PhysicsComponent*> m_links;
+};
 
 class PHYSICSDLL_PHYSICS_PHYSICSLIBRARY_API PhysicsHandler
 {
 private:
-	
-	std::vector<PhysicsComponent*> m_dynamicComponents;
+	PhysicsComponent* m_ballPC;
+	PhysicsComponent* m_playerPC;
+	std::vector<PhysicsComponent> m_dynamicComponents;
+	Chain m_chain;
 
 	DirectX::XMVECTOR m_gravity;
 
-	const float m_offSet = 0.5f;
+	double m_old_time;
+	double m_current_time;
+
+
+	bool test;
+
+	void SpringJointPhysics(PhysicsComponent* current, PhysicsComponent* next, float dt);
+	void ChainMomentumPhysics(PhysicsComponent* current, PhysicsComponent* next, float dt);
+
 public:
 	PhysicsHandler();
 	~PhysicsHandler();
@@ -43,11 +61,19 @@ public:
 	bool Initialize();
 	void Update();
 
-	void SimpleCollition(float dt);
+	void SimpleCollition(PhysicsComponent* componentPtr, float dt);
 	void SimpleGravity(PhysicsComponent* componentPtr, const float &dt);
 
+	void UpdatePhysicsComponent(PhysicsComponent* componentPtr, float dt);
+	void ApplyForceToComponent(PhysicsComponent* componentPtr, DirectX::XMVECTOR force, float dt);
+
+	void DoChainPhysics(PhysicsComponent* current, PhysicsComponent* next, float dt);
+	void AdjustChainLinkPosition();
+
 	int getNrOfComponents()const;
-	PhysicsComponent* getDynamicComponents(int index)const;
+	PhysicsComponent* getDynamicComponent(int index);
+	PhysicsComponent* getPlayerComponent()const;
+	PhysicsComponent* getBallComponent()const;
 
 
 	//bool SpherePlaneIntersevtion(PhysicsComponent* pComponent, float radius, Plane plane, float dt);

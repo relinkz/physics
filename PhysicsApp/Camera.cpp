@@ -68,7 +68,7 @@ void Camera::Update(float dt)
 	
 	if (GetAsyncKeyState(VK_R))
 	{
-		ResetCamera();
+		//ResetCamera();
 	}
 
 	this->target = DirectX::XMVector3Transform(this->target, this->rotation);

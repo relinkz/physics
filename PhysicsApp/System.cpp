@@ -41,6 +41,7 @@ PhysicsHandler PH;
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+
 	MSG msg = { 0 };
 
 	// create window
@@ -106,7 +107,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 				PH.Update();
 
-				int nrOfObjects = PH.getNrOfComponents();
 
 
 				box.setTranslationMatrix(Vector3(0, 5, 0));
@@ -114,10 +114,39 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 				box.update();
 				engine.fillCBuffers(box.getWorldModel(), gameCamera, 0);
 				engine.drawObject(box, SRV);
+				
+				
 
+				int nrOfObjects = PH.getNrOfComponents();
+				//for (int i = 0; i < nrOfObjects; i++)
+				//{
+				//	PhysicsComponent* ptr = PH.getPlayerComponent();
+				//	if (i == 1)
+				//	{
+				//		ptr = PH.getBallComponent();
+				//	}
+				//	DirectX::XMVECTOR pos = ptr->m_pos;
+				//	Vector3 posv;
+				//	posv.x = DirectX::XMVectorGetX(pos);
+				//	posv.y = DirectX::XMVectorGetY(pos);
+				//	posv.z = DirectX::XMVectorGetZ(pos);
+
+				//	ball.setTranslationMatrix(posv);
+				//	ball.setUniformScale(0.5f);
+				//	ball.update();
+
+
+				//	engine.fillCBuffers(ball.getWorldModel(), gameCamera, 0);
+				//	engine.drawObject(ball, SRV2);
+				//}
 				for (int i = 0; i < nrOfObjects; i++)
 				{
-					PhysicsComponent* ptr = PH.getDynamicComponents(i);
+					float scale = 0.25f;
+					if (i == 0 || i == nrOfObjects - 1)
+					{
+						scale = 0.5f;
+					}
+					PhysicsComponent* ptr = PH.getDynamicComponent(i);
 					DirectX::XMVECTOR pos = ptr->m_pos;
 					Vector3 posv;
 					posv.x = DirectX::XMVectorGetX(pos);
@@ -125,7 +154,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 					posv.z = DirectX::XMVectorGetZ(pos);
 
 					ball.setTranslationMatrix(posv);
-					ball.setUniformScale(0.5f);
+					ball.setUniformScale(scale);
 					ball.update();
 
 
