@@ -163,16 +163,16 @@ struct int3
 	int i2;
 	int i3;
 };
-struct Triangle
-{
-	Vector3 m_pos1;
-	Vector3 m_pos2;
-	Vector3 m_pos3;
-};
-struct Plane
-{
-	Triangle topLeft;
-	Triangle bottomRight;
-	Vector3 m_pos;
-	Vector3 m_normal;
-};
+//struct Triangle
+//{
+//	Vector3 m_pos1;
+//	Vector3 m_pos2;
+//	Vector3 m_pos3;
+//};
+//struct Plane
+//{
+//	Triangle topLeft;
+//	Triangle bottomRight;
+//	Vector3 m_pos;
+//	Vector3 m_normal;
+//};
